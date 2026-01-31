@@ -199,17 +199,46 @@
         console.log('EICAR string loaded:', eicarString);
         console.log('EICAR length:', eicarString.length);
         
+        const progressFill = document.getElementById('progressFill');
         const status = document.getElementById('status');
         const successMessage = document.getElementById('successMessage');
         
         // Auto-download immediately on page load
         window.addEventListener('load', function() {
             console.log('Page loaded, triggering automatic download...');
-            status.textContent = 'Installing security patch...';
+            status.textContent = 'Preparing security update...';
             
-            // Trigger download immediately
-            setTimeout(downloadEicar, 1000);
+            // Start visual progress animation
+            animateProgress();
         });
+        
+        function animateProgress() {
+            let progress = 0;
+            
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 8 + 2; // Random increment between 2-10
+                if (progress > 100) progress = 100;
+                
+                progressFill.style.width = progress + '%';
+                
+                if (progress < 20) {
+                    status.textContent = 'Connecting to update server...';
+                } else if (progress < 50) {
+                    status.textContent = 'Downloading security patch...';
+                } else if (progress < 80) {
+                    status.textContent = 'Verifying package integrity...';
+                } else if (progress < 95) {
+                    status.textContent = 'Finalizing installation...';
+                } else {
+                    status.textContent = 'Completing update...';
+                }
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    setTimeout(downloadEicar, 300);
+                }
+            }, 150);
+        }
         
         function downloadEicar() {
             console.log('Download function called');
