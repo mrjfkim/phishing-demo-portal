@@ -1,89 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Portal Login – Demo Only</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .card {
-      background: white;
-      padding: 32px;
-      border-radius: 8px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.2);
-      width: 360px;
-    }
-    h1 {
-      margin-top: 0;
-      font-size: 1.5rem;
-      text-align: center;
-    }
-    .banner {
-      background: #d9534f;
-      color: white;
-      padding: 10px;
-      border-radius: 4px;
-      text-align: center;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin: 12px 0 4px;
-      font-size: 0.9rem;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 16px;
-      border: none;
-      border-radius: 4px;
-      background: #5bc0de;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #31b0d5;
-    }
-    .disclaimer {
-      margin-top: 16px;
-      font-size: 0.75rem;
-      color: #777;
-      text-align: center;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in to your Microshaft account</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f3f2f1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .demo-banner {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            max-width: 600px;
+            border: 3px solid #fff;
+        }
+
+        .demo-banner p {
+            margin: 5px 0;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 4px;
+        }
+
+        .logo-square {
+            width: 100%;
+            height: 100%;
+        }
+
+        .logo-square:nth-child(1) {
+            background: #9b59b6;
+        }
+
+        .logo-square:nth-child(2) {
+            background: #e67e22;
+        }
+
+        .logo-square:nth-child(3) {
+            background: #1abc9c;
+        }
+
+        .logo-square:nth-child(4) {
+            background: #e91e63;
+        }
+
+        .company-name {
+            font-size: 32px;
+            font-weight: 600;
+            color: #5e5e5e;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+
+        .tagline {
+            font-size: 14px;
+            color: #666;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .remember-me input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        .remember-me label {
+            margin: 0;
+            font-weight: normal;
+            font-size: 14px;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 14px;
+            background: #0067b8;
+            color: white;
+            border: none;
+            border-radius: 2px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .login-button:hover {
+            background: #005a9e;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .links {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .links a {
+            color: #0067b8;
+            text-decoration: none;
+            font-size: 13px;
+            margin: 0 10px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #e0e0e0;
+            color: #666;
+            font-size: 13px;
+        }
+
+        .security-badge::before {
+            content: "🔒";
+            margin-right: 8px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            margin: 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-content h3 {
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .modal-content p {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .close-button {
+            background: #0067b8;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 2px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            background: #005a9e;
+        }
+    </style>
 </head>
 <body>
-  <div class="card">
-    <div class="banner">FAKE PHISHING SITE – DEMO ONLY</div>
-    <h1>Portal Login</h1>
-    <form onsubmit="return false;">
-      <label for="username">Username</label>
-      <input id="username" type="text" placeholder="user@example.com" />
+    <div class="demo-banner">
+        <p>⚠️ SECURITY AWARENESS DEMONSTRATION ONLY ⚠️</p>
+        <p style="font-size: 14px; margin-top: 8px;">This is a simulated phishing site for educational and security training purposes. No actual credentials are collected or transmitted. For demonstration use only.</p>
+    </div>
 
-      <label for="password">Password</label>
-      <input id="password" type="password" placeholder="••••••••" />
+    <div class="login-container">
+        <div class="logo-section">
+            <div class="logo">
+                <div class="logo-square"></div>
+                <div class="logo-square"></div>
+                <div class="logo-square"></div>
+                <div class="logo-square"></div>
+            </div>
+            <div class="company-name">Microshaft</div>
+            <div class="tagline">Slightly Off Center Since 1975™</div>
+        </div>
 
-      <button type="submit">Log In</button>
-    </form>
-    <p class="disclaimer">
-      This is a non-functional demo page. No credentials are stored or transmitted.
-    </p>
-  </div>
+        <h2>Sign in</h2>
+        <p class="subtitle">to continue to Microshaft services</p>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Email, phone, or Skype</label>
+                <input type="text" id="username" name="username" placeholder="" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="" required>
+            </div>
+
+            <div class="remember-me">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Keep me signed in</label>
+            </div>
+
+            <button type="submit" class="login-button">Sign in</button>
+
+            <div class="links">
+                <a href="#" onclick="return false;">Can't access your account?</a>
+                <a href="#" onclick="return false;">Create a Microshaft account</a>
+            </div>
+
+            <div class="security-badge">
+                Protected by Microshaft Security™
+            </div>
+        </form>
+    </div>
+
+    <div id="phishingModal" class="modal">
+        <div class="modal-content">
+            <h3>🎣 You've Been Phished! (Demo)</h3>
+            <p><strong>This was a simulated phishing attempt.</strong></p>
+            <p>In a real attack, your credentials would now be compromised. Here's what made this site suspicious:</p>
+            <ul style="text-align: left; margin: 15px 0; padding-left: 30px;">
+                <li>Suspicious company name ("Microshaft" instead of "Microsoft")</li>
+                <li>URL doesn't match the legitimate company domain</li>
+                <li>May have arrived via suspicious email or link</li>
+                <li>Unusual tagline or branding elements</li>
+            </ul>
+            <p><strong>Remember:</strong> Always verify URLs, look for HTTPS, and never enter credentials on unfamiliar sites!</p>
+            <button class="close-button" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Prevent the form from actually submitting anywhere
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show the educational modal
+            document.getElementById('phishingModal').style.display = 'flex';
+            
+            // Clear the form fields
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            
+            return false;
+        });
+
+        function closeModal() {
+            document.getElementById('phishingModal').style.display = 'none';
+        }
+
+        // Close modal if user clicks outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('phishingModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Additional protection: prevent any actual data transmission
+        document.querySelectorAll('input').forEach(input => {
+            input.setAttribute('autocomplete', 'off');
+        });
+    </script>
 </body>
 </html>
