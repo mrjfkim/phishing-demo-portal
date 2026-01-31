@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microshaft Security Update</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f2f1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .demo-banner {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            max-width: 600px;
+            border: 3px solid #fff;
+        }
+
+        .demo-banner p {
+            margin: 5px 0;
+        }
+
+        .update-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .logo-section {
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 3px;
+        }
+
+        .logo-square {
+            width: 100%;
+            height: 100%;
+        }
+
+        .logo-square:nth-child(1) {
+            background: #9b59b6;
+        }
+
+        .logo-square:nth-child(2) {
+            background: #e67e22;
+        }
+
+        .logo-square:nth-child(3) {
+            background: #1abc9c;
+        }
+
+        .logo-square:nth-child(4) {
+            background: #e91e63;
+        }
+
+        .company-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: #5e5e5e;
+            letter-spacing: -0.3px;
+        }
+
+        h1 {
+            font-size: 22px;
+            color: #323130;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        p {
+            color: #605e5c;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            margin: 30px auto;
+            border: 4px solid #f3f2f1;
+            border-top: 4px solid #0067b8;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .status {
+            color: #0067b8;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #e1e1e1;
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #0067b8;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .success-message {
+            display: none;
+            color: #107c10;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .success-icon {
+            font-size: 48px;
+            color: #107c10;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-banner">
+        <p>⚠️ SECURITY DEMONSTRATION - EICAR TEST FILE ⚠️</p>
+        <p style="font-size: 14px; margin-top: 8px;">This page will download a harmless EICAR test file to demonstrate drive-by download attacks. For demo purposes only.</p>
+    </div>
+
+    <div class="update-container">
+        <div class="logo-section">
+            <div class="logo">
+                <div class="logo-square"></div>
+                <div class="logo-square"></div>
+                <div class="logo-square"></div>
+                <div class="logo-square"></div>
+            </div>
+            <div class="company-name">Microshaft</div>
+        </div>
+
+        <h1>Security Update Required</h1>
+        <p>Your system requires an important security update to protect against recent vulnerabilities.</p>
+        <p>The update is being downloaded automatically...</p>
+
+        <div class="spinner"></div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="status" id="status">Preparing download...</div>
+        
+        <div class="success-message" id="successMessage">
+            <div class="success-icon">✓</div>
+            <div>Security update downloaded successfully!</div>
+        </div>
+    </div>
+
+    <script>
+        // EICAR test file string (this is the standard antivirus test file)
+        const eicarString = 'X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*';
+        
+        console.log('EICAR string loaded:', eicarString);
+        console.log('EICAR length:', eicarString.length);
+        
+        const status = document.getElementById('status');
+        const successMessage = document.getElementById('successMessage');
+        
+        // Auto-download immediately on page load
+        window.addEventListener('load', function() {
+            console.log('Page loaded, triggering automatic download...');
+            status.textContent = 'Installing security patch...';
+            
+            // Trigger download immediately
+            setTimeout(downloadEicar, 1000);
+        });
+        
+        function downloadEicar() {
+            console.log('Download function called');
+            
+            // Create a blob with the EICAR test file content
+            const blob = new Blob([eicarString], { type: 'application/octet-stream' });
+            const url = window.URL.createObjectURL(blob);
+            
+            console.log('Blob created, URL:', url);
+            console.log('Attempting download...');
+            
+            // Create a temporary anchor element to trigger download
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'security-update.exe'; // .exe extension - Chrome blocks these more aggressively
+            document.body.appendChild(a);
+            a.click();
+            
+            console.log('Download triggered!');
+            
+            // Clean up
+            setTimeout(() => {
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                
+                // Show success message
+                document.querySelector('.spinner').style.display = 'none';
+                status.style.display = 'none';
+                successMessage.style.display = 'block';
+            }, 100);
+        }
+    </script>
+</body>
+</html>
