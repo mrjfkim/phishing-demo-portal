@@ -66,7 +66,9 @@
 
         /* Header */
         header {
-            background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary) 100%);
+            background: 
+                linear-gradient(180deg, rgba(154, 0, 7, 0.85) 0%, rgba(211, 47, 47, 0.85) 100%),
+                url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1600&q=80') center/cover;
             box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             position: sticky;
             top: 0;
@@ -421,7 +423,7 @@
             font-family: 'Courier New', monospace;
             font-size: 12px;
             color: #4caf50;
-            display: none;
+            display: block;
         }
 
         .output-box.active {
@@ -469,6 +471,7 @@
             z-index: 10000;
             font-family: 'Courier New', monospace;
             animation: glitch 0.3s infinite;
+            cursor: pointer;
         }
 
         @keyframes glitch {
@@ -760,6 +763,7 @@
             </div>
             <p>You have 48 hours before the decryption key is permanently deleted.</p>
             <p style="font-size: 12px; margin-top: 40px; color: #666;">(This is a demonstration only - no actual encryption has occurred)</p>
+            <p style="font-size: 14px; margin-top: 20px; color: #888; border: 1px solid #333; padding: 10px; border-radius: 4px;">Click anywhere to dismiss</p>
         </div>
     </div>
 
@@ -823,6 +827,11 @@
             output.scrollTop = output.scrollHeight;
         }
 
+        function clearOutput() {
+            const output = document.getElementById('outputBox');
+            output.innerHTML = '';
+        }
+
         function showLoader() {
             document.getElementById('loader').style.display = 'block';
         }
@@ -835,34 +844,45 @@
 
         // 1. Redirect Loop Attack
         function testRedirectLoop() {
+            clearOutput();
             showOutput('⚠️ MALICIOUS SCRIPT: Initiating redirect loop attack...');
-            showOutput('→ Attempting to trap browser in infinite redirect cycle');
+            showOutput('→ Attempting multiple redirects to simulate infinite loop behavior');
             showLoader();
             
             let counter = 0;
             const redirectInterval = setInterval(() => {
                 counter++;
-                showOutput(`→ Redirect attempt #${counter}: ${window.location.href}?loop=${Math.random()}`);
+                showOutput(`→ Redirect attempt #${counter}: ${window.location.href}#loop${Math.random()}`);
                 
                 if (counter >= 5) {
                     clearInterval(redirectInterval);
                     hideLoader();
-                    showOutput('✓ RBI Protection: Redirect loop blocked successfully');
+                    showOutput('✓ 5 redirects completed in isolated session');
+                    showOutput('✓ RBI Protection: Local browser never redirected');
+                    showOutput('✓ User can continue working - endpoint unaffected');
                 }
             }, 500);
 
-            // Actual redirect attempt (will be blocked by RBI)
+            // Actual redirect attempt using hash to avoid 404s
             setTimeout(() => {
                 try {
-                    window.location.replace(window.location.pathname + "?loop=" + Math.random());
+                    let redirectCount = 0;
+                    const actualRedirect = setInterval(() => {
+                        redirectCount++;
+                        window.location.hash = "loop" + Math.random();
+                        if (redirectCount >= 5) {
+                            clearInterval(actualRedirect);
+                        }
+                    }, 600);
                 } catch (e) {
                     showOutput(`✓ Browser security prevented redirect: ${e.message}`);
                 }
-            }, 3000);
+            }, 1000);
         }
 
         // 2. Forced Download Attack
         function testForceDownload() {
+            clearOutput();
             showOutput('⚠️ MALICIOUS SCRIPT: Attempting unauthorized file download...');
             showOutput('→ Creating malicious payload: "GameDay_Highlights_Player.exe"');
             showLoader();
@@ -872,19 +892,25 @@
                 const eicarString = 'X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*';
                 const blob = new Blob([eicarString], { type: 'application/octet-stream' });
                 const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'GameDay_Highlights_Player.exe';
-                a.style.display = 'none';
-                document.body.appendChild(a);
                 
                 showOutput('→ Triggering download of disguised EICAR test file...');
                 showOutput('→ File appears as: GameDay_Highlights_Player.exe');
-                a.click();
                 
-                // Clean up
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
+                // Use a more reliable download method that doesn't cause screen flash
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'GameDay_Highlights_Player.exe';
+                link.style.display = 'none';
+                
+                // Trigger download without navigation
+                document.body.appendChild(link);
+                setTimeout(() => {
+                    link.click();
+                    setTimeout(() => {
+                        document.body.removeChild(link);
+                        URL.revokeObjectURL(url);
+                    }, 100);
+                }, 10);
                 
                 setTimeout(() => {
                     hideLoader();
@@ -903,6 +929,7 @@
             const displayField = document.getElementById('keylogDisplay');
             
             if (!keyloggerActive) {
+                clearOutput();
                 showOutput('⚠️ MALICIOUS SCRIPT: Installing keylogger...');
                 showOutput('→ Attempting to capture all keyboard input');
                 showLoader();
@@ -954,9 +981,11 @@
         // 4. Crypto Mining Script
         let miningActive = false;
         let hashCount = 0;
+        let miningWorkers = [];
 
         function testCryptoMiner() {
             if (!miningActive) {
+                clearOutput();
                 showOutput('⚠️ MALICIOUS SCRIPT: Cryptocurrency mining script loaded');
                 showOutput('→ Hijacking CPU resources for mining...');
                 showLoader();
@@ -965,38 +994,65 @@
                     miningActive = true;
                     hideLoader();
                     showOutput('✓ Mining simulation started');
-                    showOutput('→ CPU usage artificially inflated');
+                    showOutput('→ Spawning multiple mining threads...');
+                    
+                    // Create multiple intensive computation loops (simulating multi-threaded mining)
+                    const numWorkers = 4;
+                    for (let w = 0; w < numWorkers; w++) {
+                        showOutput(`→ Worker ${w + 1} started`);
+                        const workerInterval = setInterval(() => {
+                            if (!miningActive) {
+                                clearInterval(workerInterval);
+                                return;
+                            }
 
-                    const miningInterval = setInterval(() => {
+                            // VERY intensive computation - multiple nested loops
+                            let hash = 0;
+                            for (let i = 0; i < 5000000; i++) {
+                                hash += Math.sqrt(i) * Math.sin(i) * Math.cos(i);
+                                hash = hash % 1000000;
+                                // Add more operations to increase CPU load
+                                for (let j = 0; j < 10; j++) {
+                                    hash += Math.pow(i + j, 2) / (j + 1);
+                                }
+                            }
+                        }, 100);
+                        
+                        miningWorkers.push(workerInterval);
+                    }
+
+                    // Status update interval
+                    const statusInterval = setInterval(() => {
                         if (!miningActive) {
-                            clearInterval(miningInterval);
+                            clearInterval(statusInterval);
+                            miningWorkers.forEach(w => clearInterval(w));
+                            miningWorkers = [];
                             return;
                         }
 
                         hashCount++;
-                        const hashRate = (hashCount * 2.3).toFixed(2);
-                        showOutput(`→ Mining: ${hashCount} hashes | ${hashRate} H/s | CPU: ${Math.min(95, 60 + hashCount)}%`);
+                        const hashRate = (hashCount * 127.5).toFixed(2);
+                        const cpuUsage = Math.min(98, 75 + hashCount * 2);
+                        showOutput(`→ Mining: ${hashCount} blocks | ${hashRate} H/s | CPU: ${cpuUsage}% | ${numWorkers} threads`);
 
-                        // Simulate intensive computation
-                        let dummy = 0;
-                        for (let i = 0; i < 1000000; i++) {
-                            dummy += Math.sqrt(i);
-                        }
-
-                        if (hashCount >= 15) {
+                        if (hashCount >= 20) {
                             miningActive = false;
-                            clearInterval(miningInterval);
+                            clearInterval(statusInterval);
+                            miningWorkers.forEach(w => clearInterval(w));
+                            miningWorkers = [];
                             showOutput('✓ RBI Protection: Excessive resource usage detected and limited');
                             showOutput('✓ Mining script isolated and terminated');
+                            showOutput('→ CPU returned to normal levels');
                             hashCount = 0;
                         }
-                    }, 800);
+                    }, 500);
                 }, 1500);
             }
         }
 
         // 5. Ransomware Display
         function testRansomware() {
+            clearOutput();
             showOutput('⚠️ MALICIOUS SCRIPT: Ransomware attack initiated');
             showOutput('→ Attempting full-screen takeover...');
             showOutput('→ Simulating file encryption process...');
@@ -1020,14 +1076,18 @@
                     showOutput('⚠️ Displaying ransomware message...');
                     
                     setTimeout(() => {
-                        document.getElementById('ransomOverlay').style.display = 'flex';
+                        const overlay = document.getElementById('ransomOverlay');
+                        overlay.style.display = 'flex';
                         showOutput('✓ RBI Protection: Full-screen content isolated');
                         showOutput('✓ User system remains unaffected');
+                        showOutput('→ Click anywhere on the screen to dismiss');
                         
-                        setTimeout(() => {
-                            document.getElementById('ransomOverlay').style.display = 'none';
-                            showOutput('✓ Threat demonstration complete - window restored');
-                        }, 5000);
+                        // Add click handler to dismiss
+                        overlay.onclick = function() {
+                            overlay.style.display = 'none';
+                            showOutput('✓ Threat demonstration dismissed - session restored');
+                            overlay.onclick = null; // Remove handler
+                        };
                     }, 1000);
                 }
             }, 400);
@@ -1035,6 +1095,7 @@
 
         // 6. Data Exfiltration Attempt
         function testDataExfiltration() {
+            clearOutput();
             showOutput('⚠️ MALICIOUS SCRIPT: Data exfiltration attempt');
             showOutput('→ Scanning for sensitive information...');
             showLoader();
