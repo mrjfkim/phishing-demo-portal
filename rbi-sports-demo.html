@@ -845,34 +845,54 @@
             clearOutput();
             showOutput('⚠️ MALICIOUS SCRIPT: Initiating redirect loop attack...');
             showOutput('→ Executing multiple redirects in rapid succession');
+            showOutput('→ Page will reload repeatedly for 10 seconds');
             showLoader();
             
-            let counter = 0;
-            const redirectInterval = setInterval(() => {
-                counter++;
-                showOutput(`→ Redirect attempt #${counter}: ${window.location.href}?loop=${Math.random()}`);
-                
-                if (counter >= 5) {
-                    clearInterval(redirectInterval);
-                    hideLoader();
-                    showOutput('✓ 5 redirects completed');
-                }
-            }, 500);
-
-            // Actually perform the redirects - this will cause the page to reload repeatedly
+            // Set a flag in sessionStorage to track we're in attack mode
+            sessionStorage.setItem('redirectAttack', 'active');
+            sessionStorage.setItem('redirectCount', '0');
+            sessionStorage.setItem('redirectStart', Date.now().toString());
+            
+            // Trigger first redirect
             setTimeout(() => {
-                let redirectCount = 0;
-                const actualRedirect = setInterval(() => {
-                    redirectCount++;
-                    // Use window.location to actually redirect
-                    window.location.href = window.location.pathname + window.location.search + (window.location.search ? '&' : '?') + 'loop=' + Math.random();
-                    
-                    if (redirectCount >= 5) {
-                        clearInterval(actualRedirect);
-                    }
-                }, 1000);
+                window.location.href = window.location.pathname + '?loop=' + Math.random();
             }, 1000);
         }
+
+        // Check on page load if we're in redirect attack mode
+        window.addEventListener('load', () => {
+            const attackActive = sessionStorage.getItem('redirectAttack');
+            const redirectCount = parseInt(sessionStorage.getItem('redirectCount') || '0');
+            const startTime = parseInt(sessionStorage.getItem('redirectStart') || '0');
+            const elapsed = Date.now() - startTime;
+            
+            if (attackActive === 'active' && elapsed < 10000) { // Run for 10 seconds
+                // Increment counter
+                const newCount = redirectCount + 1;
+                sessionStorage.setItem('redirectCount', newCount.toString());
+                
+                // Show we're in the loop
+                setTimeout(() => {
+                    clearOutput();
+                    showOutput('⚠️ REDIRECT LOOP ACTIVE');
+                    showOutput(`→ Redirect #${newCount} - Page reloading...`);
+                    showOutput(`→ Attack will continue for ${Math.ceil((10000 - elapsed) / 1000)} more seconds`);
+                    
+                    // Trigger next redirect
+                    setTimeout(() => {
+                        window.location.href = window.location.pathname + '?loop=' + Math.random();
+                    }, 500);
+                }, 100);
+            } else if (attackActive === 'active') {
+                // Attack time expired, clean up
+                sessionStorage.removeItem('redirectAttack');
+                sessionStorage.removeItem('redirectCount');
+                sessionStorage.removeItem('redirectStart');
+                clearOutput();
+                showOutput('✓ Redirect loop completed');
+                showOutput(`→ Total redirects: ${redirectCount}`);
+            }
+        });
 
         // 2. Forced Download Attack
         function testForceDownload() {
@@ -986,10 +1006,10 @@
                     miningActive = true;
                     hideLoader();
                     showOutput('✓ Mining started');
-                    showOutput('→ Spawning multiple mining threads...');
+                    showOutput('→ Spawning maximum mining threads...');
                     
-                    // Create MORE intensive computation loops with more workers
-                    const numWorkers = 8; // Doubled from 4
+                    // MAXIMUM workers - one per logical CPU core (usually 8-16 on modern machines)
+                    const numWorkers = 16; // Doubled again
                     for (let w = 0; w < numWorkers; w++) {
                         showOutput(`→ Worker ${w + 1} started`);
                         const workerInterval = setInterval(() => {
@@ -998,18 +1018,20 @@
                                 return;
                             }
 
-                            // EXTREMELY intensive computation - much larger loops
+                            // MAXIMUM intensity computation
                             let hash = 0;
-                            for (let i = 0; i < 10000000; i++) { // Doubled to 10 million
+                            // Outer loop - 20 million operations
+                            for (let i = 0; i < 20000000; i++) {
                                 hash += Math.sqrt(i) * Math.sin(i) * Math.cos(i);
                                 hash = hash % 1000000;
-                                // More nested operations
-                                for (let j = 0; j < 20; j++) { // Doubled to 20
+                                // Heavy nested operations
+                                for (let j = 0; j < 30; j++) {
                                     hash += Math.pow(i + j, 2) / (j + 1);
-                                    hash *= Math.tan(i * 0.001);
+                                    hash *= Math.tan(i * 0.001) * Math.log(i + 1);
+                                    hash += Math.exp(j * 0.01);
                                 }
                             }
-                        }, 50); // Faster cycle - 50ms instead of 100ms
+                        }, 10); // Run every 10ms - VERY aggressive
                         
                         miningWorkers.push(workerInterval);
                     }
@@ -1024,8 +1046,8 @@
                         }
 
                         hashCount++;
-                        const hashRate = (hashCount * 255.0).toFixed(2); // Higher hash rate display
-                        const cpuUsage = Math.min(99, 88 + hashCount * 1); // Start at 88%, go to 99%
+                        const hashRate = (hashCount * 510.0).toFixed(2);
+                        const cpuUsage = Math.min(99, 92 + hashCount * 0.5);
                         showOutput(`→ Mining: ${hashCount} blocks | ${hashRate} H/s | CPU: ${cpuUsage}% | ${numWorkers} threads`);
 
                         if (hashCount >= 20) {
