@@ -467,6 +467,12 @@
             }
         }
 
+        @keyframes shake {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            25% { transform: translate(-50%, -50%) rotate(-2deg); }
+            75% { transform: translate(-50%, -50%) rotate(2deg); }
+        }
+
         /* Ransomware Overlay */
         .ransom-overlay {
             position: fixed;
@@ -886,6 +892,11 @@
                     showOutput(`→ Redirect #${newCount} - Page reloading...`);
                     showOutput('→ Close this tab to stop the attack');
                     
+                    // Show fake security warning popup after a few redirects
+                    if (newCount >= 3) {
+                        showFakeSecurityWarning();
+                    }
+                    
                     // Trigger next redirect
                     setTimeout(() => {
                         window.location.href = window.location.pathname + '?loop=' + Math.random();
@@ -893,6 +904,107 @@
                 }, 100);
             }
         });
+
+        function showFakeSecurityWarning() {
+            // Create persistent overlay that stays during redirects
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                border: 3px solid #d32f2f;
+                border-radius: 8px;
+                padding: 30px;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+                z-index: 999999;
+                max-width: 500px;
+                text-align: center;
+                animation: shake 0.5s infinite;
+            `;
+            
+            overlay.innerHTML = `
+                <div style="color: #d32f2f; font-size: 48px; margin-bottom: 15px;">⚠️</div>
+                <h2 style="color: #d32f2f; font-family: 'Poppins', sans-serif; margin-bottom: 15px; font-size: 24px;">
+                    CRITICAL SECURITY ALERT
+                </h2>
+                <p style="color: #333; margin-bottom: 10px; font-size: 16px; line-height: 1.6;">
+                    Your browser has been compromised!<br>
+                    Multiple redirect attempts detected.
+                </p>
+                <p style="color: #666; margin-bottom: 20px; font-size: 14px;">
+                    Click below to run emergency security scan and fix this issue immediately.
+                </p>
+                <button onclick="fakeSecurityFix()" style="
+                    background: linear-gradient(135deg, #4caf50, #2e7d32);
+                    color: white;
+                    border: none;
+                    padding: 15px 40px;
+                    font-size: 18px;
+                    font-weight: bold;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    width: 100%;
+                    margin-bottom: 10px;
+                    box-shadow: 0 4px 12px rgba(76,175,80,0.4);
+                    font-family: 'Poppins', sans-serif;
+                ">
+                    🛡️ FIX NOW - Free Security Scan
+                </button>
+                <p style="color: #999; font-size: 11px; margin-top: 15px;">
+                    GameDay Security Services - Trusted by millions
+                </p>
+            `;
+            
+            document.body.appendChild(overlay);
+        }
+
+        function fakeSecurityFix() {
+            showOutput('⚠️ User clicked fake security button - downloading "security_fix.exe"');
+            
+            // Create a benign text file disguised as an executable
+            const benignContent = `This is a demonstration file.
+
+In a real attack, this would be:
+- Zero-day malware
+- Ransomware payload
+- Credential stealer
+- Remote access trojan
+
+This file is completely harmless and for demo purposes only.
+
+RBI PROTECTION:
+- In RBI: This download happens in isolation and never reaches your local machine
+- Outside RBI: This file downloads to your actual computer
+- Even if antivirus doesn't detect it (zero-day), RBI blocks it from your endpoint
+
+GameDay Central Security Fix v1.0
+Generated: ${new Date().toISOString()}
+`;
+            
+            const blob = new Blob([benignContent], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'GameDay_Security_Fix.exe';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            
+            showOutput('→ Downloading: GameDay_Security_Fix.exe');
+            showOutput('→ ZERO-DAY: Not detected by antivirus (benign demo file)');
+            
+            setTimeout(() => {
+                a.click();
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    showOutput('✓ Download complete - file saved to system');
+                    showOutput('⚠️ In real attack: User would execute it, infecting their machine');
+                    showOutput('✓ In RBI: Download isolated, never reaches actual endpoint');
+                }, 100);
+            }, 10);
+        }
 
         // 2. Forced Download Attack
         function testForceDownload() {
