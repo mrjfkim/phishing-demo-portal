@@ -961,32 +961,32 @@
 
         function fakeSecurityFix() {
             showOutput('⚠️ User clicked fake security button');
-            showOutput('→ Downloading: GameDay_Security_Fix.exe');
+            showOutput('→ Downloading: GameDay_Security_Fix.zip');
             showOutput('→ ZERO-DAY: Not detected by antivirus');
             
-            // Create benign portable executable content
+            // Create benign zip file content (note: this is just text, not a real zip)
             const benignContent = `GAMEDAY SECURITY FIX v1.0
 ========================================
 
-This is a demonstration file simulating a malicious portable executable.
+This is a demonstration file simulating a malicious payload.
 
 WHAT THIS REPRESENTS:
-- Zero-day malware (undetected by antivirus)
-- Trojan disguised as legitimate software
+- Zero-day malware disguised as security software
+- Compressed archive containing malicious executables
 - Downloaded via social engineering attack
-- Portable executable that requires no installation
+- User would extract and run the contents
 
-IN A REAL ATTACK THIS WOULD:
-- Install ransomware
-- Steal credentials and browser data
-- Create backdoor access
-- Keylog all activity
-- Exfiltrate sensitive files
+IN A REAL ATTACK THIS ZIP WOULD CONTAIN:
+- Ransomware executable
+- Credential stealing trojans
+- Backdoor access tools
+- Keyloggers and spyware
+- Data exfiltration scripts
 
 RBI PROTECTION DEMO:
 - Non-RBI: This file downloads to your actual computer
 - RBI: Download blocked/sandboxed at isolation boundary
-- Even zero-day threats stay isolated
+- Even zero-day threats that evade detection stay isolated
 
 This is a HARMLESS text file for demonstration purposes only.
 No actual malware is present.
@@ -995,11 +995,11 @@ Generated: ${new Date().toISOString()}
 Demo Purpose: RBI Security Training
 `;
             
-            const blob = new Blob([benignContent], { type: 'application/octet-stream' });
+            const blob = new Blob([benignContent], { type: 'application/zip' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'GameDay_Security_Fix.exe';
+            a.download = 'GameDay_Security_Fix.zip';
             a.style.display = 'none';
             document.body.appendChild(a);
             
@@ -1008,8 +1008,8 @@ Demo Purpose: RBI Security Training
                 setTimeout(() => {
                     document.body.removeChild(a);
                     URL.revokeObjectURL(url);
-                    showOutput('⚠️ Portable executable download attempted');
-                    showOutput('→ Non-RBI: File on local system - user could execute it');
+                    showOutput('⚠️ Archive file download attempted');
+                    showOutput('→ Non-RBI: ZIP file on local system - user could extract and run');
                     showOutput('→ RBI: Download blocked - never reaches endpoint');
                 }, 100);
             }, 10);
