@@ -456,6 +456,17 @@
             50% { opacity: 0.3; }
         }
 
+        @keyframes pulse-red {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 4px 12px rgba(211,47,47,0.4);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 0 6px 20px rgba(211,47,47,0.8);
+            }
+        }
+
         /* Ransomware Overlay */
         .ransom-overlay {
             position: fixed;
@@ -844,14 +855,13 @@
         function testRedirectLoop() {
             clearOutput();
             showOutput('⚠️ MALICIOUS SCRIPT: Initiating redirect loop attack...');
-            showOutput('→ Executing multiple redirects in rapid succession');
-            showOutput('→ Page will reload repeatedly for 10 seconds');
+            showOutput('→ Infinite redirect loop starting...');
+            showOutput('→ Page will reload continuously - close tab to stop');
             showLoader();
             
             // Set a flag in sessionStorage to track we're in attack mode
             sessionStorage.setItem('redirectAttack', 'active');
             sessionStorage.setItem('redirectCount', '0');
-            sessionStorage.setItem('redirectStart', Date.now().toString());
             
             // Trigger first redirect
             setTimeout(() => {
@@ -863,10 +873,8 @@
         window.addEventListener('load', () => {
             const attackActive = sessionStorage.getItem('redirectAttack');
             const redirectCount = parseInt(sessionStorage.getItem('redirectCount') || '0');
-            const startTime = parseInt(sessionStorage.getItem('redirectStart') || '0');
-            const elapsed = Date.now() - startTime;
             
-            if (attackActive === 'active' && elapsed < 10000) { // Run for 10 seconds
+            if (attackActive === 'active') {
                 // Increment counter
                 const newCount = redirectCount + 1;
                 sessionStorage.setItem('redirectCount', newCount.toString());
@@ -874,23 +882,15 @@
                 // Show we're in the loop
                 setTimeout(() => {
                     clearOutput();
-                    showOutput('⚠️ REDIRECT LOOP ACTIVE');
+                    showOutput('⚠️ REDIRECT LOOP ACTIVE - INFINITE');
                     showOutput(`→ Redirect #${newCount} - Page reloading...`);
-                    showOutput(`→ Attack will continue for ${Math.ceil((10000 - elapsed) / 1000)} more seconds`);
+                    showOutput('→ Close this tab to stop the attack');
                     
                     // Trigger next redirect
                     setTimeout(() => {
                         window.location.href = window.location.pathname + '?loop=' + Math.random();
                     }, 500);
                 }, 100);
-            } else if (attackActive === 'active') {
-                // Attack time expired, clean up
-                sessionStorage.removeItem('redirectAttack');
-                sessionStorage.removeItem('redirectCount');
-                sessionStorage.removeItem('redirectStart');
-                clearOutput();
-                showOutput('✓ Redirect loop completed');
-                showOutput(`→ Total redirects: ${redirectCount}`);
             }
         });
 
