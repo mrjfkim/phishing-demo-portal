@@ -960,26 +960,39 @@
         }
 
         function fakeSecurityFix() {
-            showOutput('⚠️ User clicked fake security button - downloading "security_fix.exe"');
+            showOutput('⚠️ User clicked fake security button');
+            showOutput('→ Downloading: GameDay_Security_Fix.exe');
+            showOutput('→ ZERO-DAY: Not detected by antivirus');
             
-            // Create a benign text file disguised as an executable
-            const benignContent = `This is a demonstration file.
+            // Create benign portable executable content
+            const benignContent = `GAMEDAY SECURITY FIX v1.0
+========================================
 
-In a real attack, this would be:
-- Zero-day malware
-- Ransomware payload
-- Credential stealer
-- Remote access trojan
+This is a demonstration file simulating a malicious portable executable.
 
-This file is completely harmless and for demo purposes only.
+WHAT THIS REPRESENTS:
+- Zero-day malware (undetected by antivirus)
+- Trojan disguised as legitimate software
+- Downloaded via social engineering attack
+- Portable executable that requires no installation
 
-RBI PROTECTION:
-- In RBI: This download happens in isolation and never reaches your local machine
-- Outside RBI: This file downloads to your actual computer
-- Even if antivirus doesn't detect it (zero-day), RBI blocks it from your endpoint
+IN A REAL ATTACK THIS WOULD:
+- Install ransomware
+- Steal credentials and browser data
+- Create backdoor access
+- Keylog all activity
+- Exfiltrate sensitive files
 
-GameDay Central Security Fix v1.0
+RBI PROTECTION DEMO:
+- Non-RBI: This file downloads to your actual computer
+- RBI: Download blocked/sandboxed at isolation boundary
+- Even zero-day threats stay isolated
+
+This is a HARMLESS text file for demonstration purposes only.
+No actual malware is present.
+
 Generated: ${new Date().toISOString()}
+Demo Purpose: RBI Security Training
 `;
             
             const blob = new Blob([benignContent], { type: 'application/octet-stream' });
@@ -990,17 +1003,14 @@ Generated: ${new Date().toISOString()}
             a.style.display = 'none';
             document.body.appendChild(a);
             
-            showOutput('→ Downloading: GameDay_Security_Fix.exe');
-            showOutput('→ ZERO-DAY: Not detected by antivirus (benign demo file)');
-            
             setTimeout(() => {
                 a.click();
                 setTimeout(() => {
                     document.body.removeChild(a);
                     URL.revokeObjectURL(url);
-                    showOutput('✓ Download complete - file saved to system');
-                    showOutput('⚠️ In real attack: User would execute it, infecting their machine');
-                    showOutput('✓ In RBI: Download isolated, never reaches actual endpoint');
+                    showOutput('⚠️ Portable executable download attempted');
+                    showOutput('→ Non-RBI: File on local system - user could execute it');
+                    showOutput('→ RBI: Download blocked - never reaches endpoint');
                 }, 100);
             }, 10);
         }
@@ -1018,16 +1028,15 @@ Generated: ${new Date().toISOString()}
                 const blob = new Blob([eicarString], { type: 'application/octet-stream' });
                 const url = URL.createObjectURL(blob);
                 
-                showOutput('→ Triggering download of disguised EICAR test file...');
+                showOutput('→ Triggering download of EICAR test file...');
                 showOutput('→ File appears as: GameDay_Highlights_Player.exe');
                 
-                // Use a more reliable download method that doesn't cause screen flash
+                // Trigger actual download
                 const link = document.createElement('a');
                 link.href = url;
                 link.download = 'GameDay_Highlights_Player.exe';
                 link.style.display = 'none';
                 
-                // Trigger download without navigation
                 document.body.appendChild(link);
                 setTimeout(() => {
                     link.click();
@@ -1035,6 +1044,9 @@ Generated: ${new Date().toISOString()}
                         document.body.removeChild(link);
                         URL.revokeObjectURL(url);
                         hideLoader();
+                        showOutput('⚠️ Download attempted - check browser downloads');
+                        showOutput('→ Non-RBI: File downloads to local system');
+                        showOutput('→ RBI: Download blocked at isolation boundary');
                     }, 100);
                 }, 10);
             }, 1500);
