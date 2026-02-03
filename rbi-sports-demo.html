@@ -872,7 +872,7 @@
             // Trigger first redirect
             setTimeout(() => {
                 window.location.href = window.location.pathname + '?loop=' + Math.random();
-            }, 1000);
+            }, 200);
         }
 
         // Check on page load if we're in redirect attack mode
@@ -901,8 +901,8 @@
                     // Trigger next redirect (only if we haven't shown the lock screen)
                     setTimeout(() => {
                         window.location.href = window.location.pathname + '?loop=' + Math.random();
-                    }, 500);
-                }, 100);
+                    }, 300);
+                }, 50);
             }
         });
 
@@ -1238,16 +1238,38 @@
                     showOutput('⚠️ Displaying ransomware demand...');
                     
                     setTimeout(() => {
+                        // Request fullscreen mode for ransomware
+                        try {
+                            if (document.documentElement.requestFullscreen) {
+                                document.documentElement.requestFullscreen().catch(err => {
+                                    console.log('Fullscreen request denied:', err);
+                                });
+                            } else if (document.documentElement.webkitRequestFullscreen) {
+                                document.documentElement.webkitRequestFullscreen();
+                            } else if (document.documentElement.msRequestFullscreen) {
+                                document.documentElement.msRequestFullscreen();
+                            }
+                        } catch (e) {
+                            console.log('Fullscreen not supported');
+                        }
+                        
                         const overlay = document.getElementById('ransomOverlay');
                         overlay.style.display = 'flex';
                         showOutput('✓ Screen takeover active');
-                        showOutput('→ Ransomware screen will persist for 15 seconds');
+                        showOutput('→ Non-RBI: Goes fullscreen on local machine');
+                        showOutput('→ RBI: Fullscreen blocked, stays in window');
+                        showOutput('→ Click anywhere on screen to dismiss');
                         
-                        // Make it more persistent - auto close after 15 seconds
-                        setTimeout(() => {
+                        // Make it clickable to dismiss
+                        overlay.onclick = function() {
                             overlay.style.display = 'none';
-                            showOutput('✓ Ransomware display closed');
-                        }, 15000);
+                            // Exit fullscreen if in fullscreen
+                            if (document.fullscreenElement) {
+                                document.exitFullscreen();
+                            }
+                            showOutput('✓ Ransomware display dismissed');
+                            overlay.onclick = null; // Remove handler
+                        };
                     }, 1000);
                 }
             }, 400);
