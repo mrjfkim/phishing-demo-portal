@@ -906,118 +906,134 @@
         });
 
         function showFakeSecurityWarning() {
-            // Create persistent overlay that stays during redirects
+            // Instead of showing a popup, immediately show the FBI lock screen after a few redirects
+            setTimeout(() => {
+                showFBILockScreen();
+            }, 200);
+        }
+
+        function showFBILockScreen() {
+            // Request fullscreen mode
+            try {
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen().catch(err => {
+                        console.log('Fullscreen request denied:', err);
+                    });
+                } else if (document.documentElement.webkitRequestFullscreen) {
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.msRequestFullscreen) {
+                    document.documentElement.msRequestFullscreen();
+                }
+            } catch (e) {
+                console.log('Fullscreen not supported');
+            }
+
+            // Create full-screen SE Labs IT lock overlay
             const overlay = document.createElement('div');
+            overlay.id = 'fbiLockScreen';
             overlay.style.cssText = `
                 position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: white;
-                border: 3px solid #d32f2f;
-                border-radius: 8px;
-                padding: 30px;
-                box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(180deg, #2c3e50 0%, #1a252f 100%);
                 z-index: 999999;
-                max-width: 500px;
-                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-family: 'Segoe UI', Arial, sans-serif;
+                overflow-y: auto;
+                padding: 20px;
             `;
             
             overlay.innerHTML = `
-                <div style="color: #d32f2f; font-size: 48px; margin-bottom: 15px;">⚠️</div>
-                <h2 style="color: #d32f2f; font-family: 'Poppins', sans-serif; margin-bottom: 15px; font-size: 24px;">
-                    CRITICAL SECURITY ALERT
-                </h2>
-                <p style="color: #333; margin-bottom: 10px; font-size: 16px; line-height: 1.6;">
-                    Your browser has been compromised!<br>
-                    Multiple redirect attempts detected.
-                </p>
-                <p style="color: #666; margin-bottom: 20px; font-size: 14px;">
-                    Click below to run emergency security scan and fix this issue immediately.
-                </p>
-                <button onclick="fakeSecurityFix()" style="
-                    background: linear-gradient(135deg, #4caf50, #2e7d32);
-                    color: white;
-                    border: none;
-                    padding: 15px 40px;
-                    font-size: 18px;
-                    font-weight: bold;
-                    border-radius: 6px;
-                    cursor: pointer;
-                    width: 100%;
-                    margin-bottom: 10px;
-                    box-shadow: 0 4px 12px rgba(76,175,80,0.4);
-                    font-family: 'Poppins', sans-serif;
-                ">
-                    🛡️ FIX NOW - Free Security Scan
-                </button>
-                <p style="color: #999; font-size: 11px; margin-top: 15px;">
-                    GameDay Security Services - Trusted by millions
-                </p>
+                <div style="max-width: 900px; text-align: center;">
+                    <!-- Company Header -->
+                    <div style="background: #34495e; padding: 25px; border-bottom: 4px solid #e74c3c; margin-bottom: 30px; border-radius: 8px 8px 0 0;">
+                        <div style="font-size: 64px; margin-bottom: 15px;">🔒</div>
+                        <h1 style="margin: 0; font-size: 38px; font-weight: bold;">
+                            SE LABS
+                        </h1>
+                        <p style="margin: 10px 0 0 0; font-size: 20px; color: #ecf0f1; letter-spacing: 1px;">
+                            Information Technology Security
+                        </p>
+                    </div>
+
+                    <!-- Warning Message -->
+                    <div style="background: #e74c3c; padding: 18px; margin-bottom: 30px; border-radius: 6px; box-shadow: 0 4px 12px rgba(231,76,60,0.4);">
+                        <h2 style="margin: 0; font-size: 30px; font-weight: bold;">
+                            ⚠️ SECURITY ALERT: SYSTEM LOCKED ⚠️
+                        </h2>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div style="background: rgba(255,255,255,0.08); padding: 35px; border-radius: 8px; text-align: left; line-height: 1.9; border: 2px solid rgba(255,255,255,0.1);">
+                        <p style="font-size: 19px; margin-bottom: 20px; font-weight: bold; color: #e74c3c;">
+                            Your workstation has been locked by SE Labs IT Security due to detected policy violations.
+                        </p>
+                        
+                        <p style="font-size: 16px; margin-bottom: 15px; color: #ecf0f1;">
+                            The following security incidents have been detected from your computer:
+                        </p>
+                        
+                        <ul style="font-size: 15px; margin: 20px 0; padding-left: 40px; color: #f39c12;">
+                            <li style="margin-bottom: 10px;">Suspicious website access detected (GameDay Central)</li>
+                            <li style="margin-bottom: 10px;">Multiple redirect loops triggered by malicious script</li>
+                            <li style="margin-bottom: 10px;">Potential phishing attack in progress</li>
+                            <li style="margin-bottom: 10px;">Unauthorized external site interaction</li>
+                        </ul>
+
+                        <div style="background: #1a252f; border: 3px solid #e74c3c; padding: 25px; margin: 30px 0; border-radius: 6px;">
+                            <p style="font-size: 22px; font-weight: bold; color: #e74c3c; margin-bottom: 15px; text-transform: uppercase;">
+                                ⚡ IMMEDIATE ACTION REQUIRED
+                            </p>
+                            <p style="font-size: 19px; margin: 15px 0; color: #ecf0f1;">
+                                Contact SE Labs IT Support immediately to unlock your workstation:
+                            </p>
+                            <p style="font-size: 28px; margin: 20px 0; color: #3498db; font-weight: bold; letter-spacing: 1px;">
+                                📞 1-855-SELABS-1
+                            </p>
+                            <p style="font-size: 16px; color: #ecf0f1; margin: 10px 0;">
+                                Available 24/7 • Internal Extension: x5500
+                            </p>
+                            <p style="font-size: 13px; color: #95a5a6; margin-top: 20px; font-style: italic;">
+                                Incident ID: SELAB-${Date.now().toString().slice(-8)}<br>
+                                Workstation: ${navigator.userAgent.includes('Windows') ? 'SELABS-WKS' : 'SELABS-MAC'}-${Math.floor(Math.random() * 9999).toString().padStart(4, '0')}<br>
+                                Time: ${new Date().toLocaleString()}
+                            </p>
+                        </div>
+
+                        <p style="font-size: 15px; color: #f39c12; margin-top: 25px; font-weight: bold;">
+                            ⚠️ Do not attempt to close this window or restart your computer. This incident has been logged and your manager has been notified.
+                        </p>
+                        
+                        <p style="font-size: 14px; color: #95a5a6; margin-top: 20px;">
+                            Failure to contact IT Support within 30 minutes may result in automatic account suspension and mandatory security training.
+                        </p>
+                    </div>
+
+                    <!-- Footer -->
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid rgba(255,255,255,0.1); font-size: 13px; color: #7f8c8d;">
+                        <p style="margin: 5px 0; font-weight: bold;">SE Labs Information Technology Department</p>
+                        <p style="margin: 5px 0;">Protecting Your Work • Securing Our Future</p>
+                        <p style="margin: 15px 0 5px 0; font-style: italic; color: #95a5a6; font-size: 11px;">
+                            This is a demonstration of a corporate IT scam attack
+                        </p>
+                        <p style="margin: 5px 0; font-style: italic; color: #95a5a6; font-size: 11px;">
+                            Press ESC or close tab to exit
+                        </p>
+                    </div>
+                </div>
             `;
             
             document.body.appendChild(overlay);
-        }
-
-        function fakeSecurityFix() {
-            showOutput('⚠️ User clicked fake security button');
-            showOutput('→ Downloading: Security_Fix_Instructions.txt');
-            showOutput('→ File appears harmless but contains malicious instructions');
-            
-            // Create benign text file
-            const benignContent = `GAMEDAY SECURITY FIX - CRITICAL INSTRUCTIONS
-========================================
-
-Your browser has been compromised. Follow these steps immediately:
-
-STEP 1: Download the security patch
-Visit: hxxps://gameday-security[.]com/patch/download.exe
-(Link defanged for demo - would be active in real attack)
-
-STEP 2: Run the security scanner
-Execute the downloaded file with administrator privileges
-This will remove the malicious redirect scripts
-
-STEP 3: Restart your browser
-Close all browser windows and restart
-
----
-
-IN A REAL ATTACK THIS FILE WOULD:
-- Contain links to actual malware downloads
-- Include PowerShell commands to execute
-- Provide fake "support" phone numbers
-- Direct users to credential phishing sites
-
-RBI PROTECTION DEMO:
-- Non-RBI: This file downloads to your actual computer
-- User follows malicious instructions → system compromised
-- RBI: Download blocked/sandboxed at isolation boundary
-- Even if user downloads and follows instructions, isolated from endpoint
-
-This is a HARMLESS demonstration file.
-Generated: ${new Date().toISOString()}
-Demo Purpose: RBI Security Training
-`;
-            
-            const blob = new Blob([benignContent], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Security_Fix_Instructions.txt';
-            a.style.display = 'none';
-            document.body.appendChild(a);
-            
-            setTimeout(() => {
-                a.click();
-                setTimeout(() => {
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    showOutput('⚠️ Instruction file download completed');
-                    showOutput('→ Non-RBI: File on local system - user could follow malicious instructions');
-                    showOutput('→ RBI: Download blocked - never reaches endpoint');
-                }, 100);
-            }, 10);
+            showOutput('⚠️ SE LABS IT LOCK SCREEN DISPLAYED - Full browser takeover');
+            showOutput('→ Employee sees company IT security alert');
+            showOutput('→ Panic + company branding = high trust');
+            showOutput('→ Calling the number connects to scammers posing as IT');
         }
 
         // 2. Forced Download Attack
