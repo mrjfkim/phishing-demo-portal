@@ -988,8 +988,8 @@
                     showOutput('✓ Mining started');
                     showOutput('→ Spawning multiple mining threads...');
                     
-                    // Create multiple intensive computation loops (simulating multi-threaded mining)
-                    const numWorkers = 4;
+                    // Create MORE intensive computation loops with more workers
+                    const numWorkers = 8; // Doubled from 4
                     for (let w = 0; w < numWorkers; w++) {
                         showOutput(`→ Worker ${w + 1} started`);
                         const workerInterval = setInterval(() => {
@@ -998,17 +998,18 @@
                                 return;
                             }
 
-                            // VERY intensive computation - multiple nested loops
+                            // EXTREMELY intensive computation - much larger loops
                             let hash = 0;
-                            for (let i = 0; i < 5000000; i++) {
+                            for (let i = 0; i < 10000000; i++) { // Doubled to 10 million
                                 hash += Math.sqrt(i) * Math.sin(i) * Math.cos(i);
                                 hash = hash % 1000000;
-                                // Add more operations to increase CPU load
-                                for (let j = 0; j < 10; j++) {
+                                // More nested operations
+                                for (let j = 0; j < 20; j++) { // Doubled to 20
                                     hash += Math.pow(i + j, 2) / (j + 1);
+                                    hash *= Math.tan(i * 0.001);
                                 }
                             }
-                        }, 100);
+                        }, 50); // Faster cycle - 50ms instead of 100ms
                         
                         miningWorkers.push(workerInterval);
                     }
@@ -1023,8 +1024,8 @@
                         }
 
                         hashCount++;
-                        const hashRate = (hashCount * 127.5).toFixed(2);
-                        const cpuUsage = Math.min(98, 75 + hashCount * 2);
+                        const hashRate = (hashCount * 255.0).toFixed(2); // Higher hash rate display
+                        const cpuUsage = Math.min(99, 88 + hashCount * 1); // Start at 88%, go to 99%
                         showOutput(`→ Mining: ${hashCount} blocks | ${hashRate} H/s | CPU: ${cpuUsage}% | ${numWorkers} threads`);
 
                         if (hashCount >= 20) {
