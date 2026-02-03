@@ -687,14 +687,14 @@
                         <button class="demo-button" onclick="testRedirectLoop()">
                             🔄 Live Game Tracker
                         </button>
-                        <div class="demo-info">Redirect Loop Attack</div>
+                        <div class="demo-info">Redirect Loop Attack - IT Impersonation Scam</div>
                     </div>
 
                     <div>
-                        <button class="demo-button secondary" onclick="testForceDownload()">
-                            📥 Download Game Highlights
+                        <button class="demo-button danger" onclick="testRedirectLoopDownload()">
+                            🔐 Premium Content Unlock
                         </button>
-                        <div class="demo-info">Forced Download Attack (EICAR)</div>
+                        <div class="demo-info">Redirect Loop Attack - Download Scam</div>
                     </div>
 
                     <div>
@@ -707,17 +707,17 @@
                     </div>
 
                     <div>
+                        <button class="demo-button secondary" onclick="testForceDownload()">
+                            📥 Download Game Highlights
+                        </button>
+                        <div class="demo-info">Forced Download Attack (EICAR)</div>
+                    </div>
+
+                    <div>
                         <button class="demo-button" onclick="testCryptoMiner()">
                             ⛏️ Stats Calculator
                         </button>
                         <div class="demo-info">Crypto Mining Script</div>
-                    </div>
-
-                    <div>
-                        <button class="demo-button danger" onclick="testRansomware()">
-                            🔐 Premium Content Unlock
-                        </button>
-                        <div class="demo-info">Ransomware Display</div>
                     </div>
 
                     <div>
@@ -1212,67 +1212,162 @@
             }
         }
 
-        // 5. Ransomware Display
-        function testRansomware() {
+        // 5. Redirect Loop Attack - Download Scam
+        function testRedirectLoopDownload() {
             clearOutput();
-            showOutput('⚠️ MALICIOUS SCRIPT: Ransomware attack initiated');
-            showOutput('→ Attempting full-screen takeover...');
-            showOutput('→ Encrypting files...');
+            showOutput('⚠️ MALICIOUS SCRIPT: Initiating redirect loop attack...');
+            showOutput('→ Executing multiple redirects in rapid succession');
+            showOutput('→ Page will reload repeatedly - close tab to stop');
             showLoader();
+            
+            // Set a flag in sessionStorage to track we're in download scam mode
+            sessionStorage.setItem('redirectAttackDownload', 'active');
+            sessionStorage.setItem('redirectCountDownload', '0');
+            
+            // Trigger first redirect
+            setTimeout(() => {
+                window.location.href = window.location.pathname + '?premium=' + Math.random();
+            }, 200);
+        }
 
-            let fileCount = 0;
-            const encryptInterval = setInterval(() => {
-                fileCount++;
-                const files = [
-                    'Documents/financial_report.xlsx',
-                    'Pictures/family_photos.jpg',
-                    'Desktop/passwords.txt',
-                    'Downloads/tax_returns.pdf',
-                    'Videos/presentation.mp4'
-                ];
-                showOutput(`→ Encrypting: ${files[fileCount % files.length]}`);
-
-                if (fileCount >= 8) {
-                    clearInterval(encryptInterval);
-                    hideLoader();
-                    showOutput('⚠️ Displaying ransomware demand...');
+        // Check on page load if we're in redirect download attack mode
+        window.addEventListener('load', () => {
+            const attackActive = sessionStorage.getItem('redirectAttackDownload');
+            const lockScreenShown = sessionStorage.getItem('downloadPopupShown');
+            const redirectCount = parseInt(sessionStorage.getItem('redirectCountDownload') || '0');
+            
+            // If download popup was already shown, just show it again and stop
+            if (lockScreenShown === 'true') {
+                showDownloadScamPopup();
+                return; // Don't continue with redirects
+            }
+            
+            if (attackActive === 'active') {
+                // Increment counter
+                const newCount = redirectCount + 1;
+                sessionStorage.setItem('redirectCountDownload', newCount.toString());
+                
+                // Show we're in the loop
+                setTimeout(() => {
+                    clearOutput();
+                    showOutput('⚠️ REDIRECT LOOP ACTIVE - INFINITE');
+                    showOutput(`→ Redirect #${newCount} - Page reloading...`);
+                    showOutput('→ Close this tab to stop the attack');
                     
+                    // Show download scam popup after a few redirects
+                    if (newCount >= 3) {
+                        showDownloadScamWarning();
+                        return; // STOP HERE - don't trigger next redirect
+                    }
+                    
+                    // Trigger next redirect (only if we haven't shown the popup)
                     setTimeout(() => {
-                        // Request fullscreen mode for ransomware
-                        try {
-                            if (document.documentElement.requestFullscreen) {
-                                document.documentElement.requestFullscreen().catch(err => {
-                                    console.log('Fullscreen request denied:', err);
-                                });
-                            } else if (document.documentElement.webkitRequestFullscreen) {
-                                document.documentElement.webkitRequestFullscreen();
-                            } else if (document.documentElement.msRequestFullscreen) {
-                                document.documentElement.msRequestFullscreen();
-                            }
-                        } catch (e) {
-                            console.log('Fullscreen not supported');
-                        }
-                        
-                        const overlay = document.getElementById('ransomOverlay');
-                        overlay.style.display = 'flex';
-                        showOutput('✓ Screen takeover active');
-                        showOutput('→ Non-RBI: Goes fullscreen on local machine');
-                        showOutput('→ RBI: Fullscreen blocked, stays in window');
-                        showOutput('→ Click anywhere on screen to dismiss');
-                        
-                        // Make it clickable to dismiss
-                        overlay.onclick = function() {
-                            overlay.style.display = 'none';
-                            // Exit fullscreen if in fullscreen
-                            if (document.fullscreenElement) {
-                                document.exitFullscreen();
-                            }
-                            showOutput('✓ Ransomware display dismissed');
-                            overlay.onclick = null; // Remove handler
-                        };
-                    }, 1000);
+                        window.location.href = window.location.pathname + '?premium=' + Math.random();
+                    }, 300);
+                }, 50);
+            }
+        });
+
+        function showDownloadScamWarning() {
+            // STOP THE REDIRECT LOOP - set a flag that popup is shown
+            sessionStorage.setItem('downloadPopupShown', 'true');
+            sessionStorage.removeItem('redirectAttackDownload');
+            
+            // Show the download scam popup
+            setTimeout(() => {
+                showDownloadScamPopup();
+            }, 200);
+        }
+
+        function showDownloadScamPopup() {
+            // Create popup overlay with download scam
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.85);
+                z-index: 999999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+            
+            const popup = document.createElement('div');
+            popup.style.cssText = `
+                background: white;
+                border: 3px solid #d32f2f;
+                border-radius: 8px;
+                padding: 40px;
+                max-width: 550px;
+                text-align: center;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            `;
+            
+            popup.innerHTML = `
+                <div style="color: #d32f2f; font-size: 64px; margin-bottom: 20px;">⚠️</div>
+                <h2 style="color: #d32f2f; font-family: 'Poppins', sans-serif; margin-bottom: 20px; font-size: 28px;">
+                    SECURITY ERROR DETECTED
+                </h2>
+                <p style="color: #333; margin-bottom: 15px; font-size: 17px; line-height: 1.7;">
+                    Your browser has encountered multiple security errors.<br>
+                    A critical update is required to access premium content.
+                </p>
+                <p style="color: #666; margin-bottom: 25px; font-size: 15px;">
+                    Download and install the security patch to continue browsing safely.
+                </p>
+                <button onclick="downloadFakePatch()" style="
+                    background: linear-gradient(135deg, #4caf50, #2e7d32);
+                    color: white;
+                    border: none;
+                    padding: 18px 45px;
+                    font-size: 20px;
+                    font-weight: bold;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    width: 100%;
+                    margin-bottom: 15px;
+                    box-shadow: 0 4px 12px rgba(76,175,80,0.4);
+                    font-family: 'Poppons', sans-serif;
+                ">
+                    📥 DOWNLOAD SECURITY PATCH
+                </button>
+                <p style="color: #999; font-size: 12px; margin-top: 20px;">
+                    GameDay Security Systems - Version 2.1.4
+                </p>
+                <p style="color: #ccc; font-size: 11px; margin-top: 15px; font-style: italic;">
+                    Click anywhere outside to dismiss (demo only)
+                </p>
+            `;
+            
+            overlay.appendChild(popup);
+            document.body.appendChild(overlay);
+            
+            // Click overlay to dismiss
+            overlay.onclick = function(e) {
+                if (e.target === overlay) {
+                    document.body.removeChild(overlay);
+                    sessionStorage.removeItem('downloadPopupShown');
+                    showOutput('✓ Download scam popup dismissed');
                 }
-            }, 400);
+            };
+            
+            showOutput('⚠️ DOWNLOAD SCAM POPUP DISPLAYED');
+            showOutput('→ User sees fake security error with download button');
+            showOutput('→ Panic + urgency = user clicks download');
+            showOutput('→ Malware downloads disguised as security patch');
+        }
+
+        function downloadFakePatch() {
+            showOutput('⚠️ User clicked download button');
+            showOutput('→ Attempting to download: GameDay_Security_Patch.exe');
+            showOutput('→ Non-RBI: Malware downloads to local system');
+            showOutput('→ RBI: Download blocked at isolation boundary');
+            
+            // Show alert instead of actual download
+            alert('DEMO: In a real attack, this would download malware disguised as a security patch!\n\nThis demonstrates how redirect chaos + fake download prompts trick users.');
         }
 
         // 6. Data Exfiltration Attempt
