@@ -961,45 +961,50 @@
 
         function fakeSecurityFix() {
             showOutput('⚠️ User clicked fake security button');
-            showOutput('→ Downloading: GameDay_Security_Fix.zip');
-            showOutput('→ ZERO-DAY: Not detected by antivirus');
+            showOutput('→ Downloading: Security_Fix_Instructions.txt');
+            showOutput('→ File appears harmless but contains malicious instructions');
             
-            // Create benign zip file content (note: this is just text, not a real zip)
-            const benignContent = `GAMEDAY SECURITY FIX v1.0
+            // Create benign text file
+            const benignContent = `GAMEDAY SECURITY FIX - CRITICAL INSTRUCTIONS
 ========================================
 
-This is a demonstration file simulating a malicious payload.
+Your browser has been compromised. Follow these steps immediately:
 
-WHAT THIS REPRESENTS:
-- Zero-day malware disguised as security software
-- Compressed archive containing malicious executables
-- Downloaded via social engineering attack
-- User would extract and run the contents
+STEP 1: Download the security patch
+Visit: hxxps://gameday-security[.]com/patch/download.exe
+(Link defanged for demo - would be active in real attack)
 
-IN A REAL ATTACK THIS ZIP WOULD CONTAIN:
-- Ransomware executable
-- Credential stealing trojans
-- Backdoor access tools
-- Keyloggers and spyware
-- Data exfiltration scripts
+STEP 2: Run the security scanner
+Execute the downloaded file with administrator privileges
+This will remove the malicious redirect scripts
+
+STEP 3: Restart your browser
+Close all browser windows and restart
+
+---
+
+IN A REAL ATTACK THIS FILE WOULD:
+- Contain links to actual malware downloads
+- Include PowerShell commands to execute
+- Provide fake "support" phone numbers
+- Direct users to credential phishing sites
 
 RBI PROTECTION DEMO:
 - Non-RBI: This file downloads to your actual computer
+- User follows malicious instructions → system compromised
 - RBI: Download blocked/sandboxed at isolation boundary
-- Even zero-day threats that evade detection stay isolated
+- Even if user downloads and follows instructions, isolated from endpoint
 
-This is a HARMLESS text file for demonstration purposes only.
-No actual malware is present.
-
+This is a HARMLESS demonstration file.
 Generated: ${new Date().toISOString()}
 Demo Purpose: RBI Security Training
 `;
             
-            const blob = new Blob([benignContent], { type: 'application/zip' });
+            const blob = new Blob([benignContent], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'GameDay_Security_Fix.zip';
+            a.download = 'Security_Fix_Instructions.txt';
             a.style.display = 'none';
             document.body.appendChild(a);
             
@@ -1008,8 +1013,8 @@ Demo Purpose: RBI Security Training
                 setTimeout(() => {
                     document.body.removeChild(a);
                     URL.revokeObjectURL(url);
-                    showOutput('⚠️ Archive file download attempted');
-                    showOutput('→ Non-RBI: ZIP file on local system - user could extract and run');
+                    showOutput('⚠️ Instruction file download completed');
+                    showOutput('→ Non-RBI: File on local system - user could follow malicious instructions');
                     showOutput('→ RBI: Download blocked - never reaches endpoint');
                 }, 100);
             }, 10);
