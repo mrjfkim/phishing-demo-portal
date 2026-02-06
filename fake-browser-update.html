@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Browser Update Demo - Social Engineering</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Demo Page Container */
+        .demo-container {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .demo-header h1 {
+            color: #202124;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .demo-header p {
+            color: #5f6368;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .trigger-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .trigger-button {
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-align: left;
+        }
+
+        .trigger-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .trigger-button .icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .trigger-button .title {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .trigger-button .desc {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .demo-info {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .demo-info h3 {
+            color: #1565c0;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .demo-info p {
+            color: #1976d2;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 4px 0;
+        }
+
+        /* Fake Update Overlay */
+        .update-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Chrome-style Update */
+        .chrome-update {
+            background: white;
+            width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            overflow: hidden;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .chrome-header {
+            background: #1a73e8;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .chrome-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 15px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+
+        .chrome-header h2 {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .chrome-header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 14px;
+        }
+
+        .chrome-body {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .chrome-body p {
+            color: #5f6368;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .warning-box p {
+            color: #856404;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .update-button {
+            width: 100%;
+            padding: 15px;
+            background: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 10px;
+        }
+
+        .update-button:hover {
+            background: #1765cc;
+        }
+
+        .update-button.secondary {
+            background: #f1f3f4;
+            color: #5f6368;
+        }
+
+        .update-button.secondary:hover {
+            background: #e8eaed;
+        }
+
+        /* Firefox-style Update */
+        .firefox-update {
+            background: white;
+            width: 520px;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            overflow: hidden;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .firefox-header {
+            background: linear-gradient(135deg, #ff6611 0%, #ff3366 100%);
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+
+        .firefox-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 15px;
+        }
+
+        .firefox-header h2 {
+            color: white;
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+
+        .firefox-header p {
+            color: rgba(255,255,255,0.95);
+            font-size: 15px;
+        }
+
+        .firefox-body {
+            padding: 35px;
+        }
+
+        .firefox-body h3 {
+            color: #20123a;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .firefox-body p {
+            color: #4a5568;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+
+        .security-badge .icon {
+            font-size: 28px;
+        }
+
+        .security-badge .text {
+            flex: 1;
+        }
+
+        .security-badge .text strong {
+            color: #166534;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .security-badge .text p {
+            color: #16a34a;
+            font-size: 13px;
+            margin: 0;
+        }
+
+        /* Windows-style Update */
+        .windows-update {
+            background: #0078d4;
+            width: 600px;
+            min-height: 400px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            text-align: center;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .windows-update .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 30px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .windows-update h2 {
+            color: white;
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .windows-update p {
+            color: rgba(255,255,255,0.9);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .windows-update .progress {
+            width: 100%;
+            max-width: 400px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .windows-update .progress-bar {
+            height: 100%;
+            background: white;
+            width: 0%;
+            animation: progress 3s ease-in-out infinite;
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 0%; }
+        }
+
+        .close-demo {
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .close-demo:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .captured-notice {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .captured-notice h3 {
+            color: #856404;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .captured-notice p {
+            color: #856404;
+            font-size: 14px;
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>💻 Fake Browser Update Attack</h1>
+            <p>These social engineering attacks trick users into downloading malware by pretending to be legitimate browser updates. Choose a style to see how convincing they are:</p>
+        </div>
+
+        <div class="demo-info">
+            <h3>🎯 MITRE ATT&CK: T1204 (User Execution)</h3>
+            <p><strong>Why it works:</strong> Users are trained to update their browsers for security. They see "update required" and immediately trust it.</p>
+            <p><strong>Attack vector:</strong> Malicious site displays fake update → User downloads → Executes malware → System compromised</p>
+            <p><strong>RBI Protection:</strong> Download happens in isolated session, never reaches local endpoint</p>
+        </div>
+
+        <div class="trigger-buttons">
+            <button class="trigger-button" onclick="showChromeUpdate()">
+                <span class="icon">🌐</span>
+                <div class="title">Chrome Update</div>
+                <div class="desc">Google Chrome style - most common</div>
+            </button>
+
+            <button class="trigger-button" onclick="showFirefoxUpdate()">
+                <span class="icon">🦊</span>
+                <div class="title">Firefox Update</div>
+                <div class="desc">Mozilla Firefox style with security badge</div>
+            </button>
+
+            <button class="trigger-button" onclick="showWindowsUpdate()">
+                <span class="icon">🪟</span>
+                <div class="title">Windows Update</div>
+                <div class="desc">Full-screen Windows 10/11 style</div>
+            </button>
+
+            <button class="trigger-button" onclick="showCriticalUpdate()">
+                <span class="icon">⚠️</span>
+                <div class="title">Critical Security</div>
+                <div class="desc">Urgent security vulnerability style</div>
+            </button>
+        </div>
+
+        <div class="captured-notice" id="capturedNotice">
+            <h3>⚠️ MALWARE DOWNLOAD ATTEMPTED (DEMO)</h3>
+            <p><strong>File:</strong> <span id="downloadedFile"></span></p>
+            <p><strong>Action:</strong> User clicked download thinking it was a legitimate browser update</p>
+            <p><strong>Non-RBI:</strong> File downloads to local system, user executes it, malware infects computer</p>
+            <p><strong>With RBI:</strong> Download blocked at isolation boundary, file never reaches endpoint</p>
+        </div>
+    </div>
+
+    <!-- Chrome Update Overlay -->
+    <div class="update-overlay" id="chromeOverlay">
+        <div class="chrome-update">
+            <div class="chrome-header">
+                <div class="chrome-icon">🌐</div>
+                <h2>Update Available</h2>
+                <p>Chrome version 132.0.6834.0</p>
+            </div>
+            <div class="chrome-body">
+                <p>A new version of Google Chrome is available and ready to install. This update includes important security fixes and performance improvements.</p>
+                
+                <div class="warning-box">
+                    <p><strong>⚠️ Security Notice:</strong> Your current browser version has known vulnerabilities. Update now to stay protected.</p>
+                </div>
+
+                <button class="update-button" onclick="attemptDownload('Chrome_Update_v132.exe')">
+                    Download and Install Update
+                </button>
+                <button class="update-button secondary" onclick="closeOverlay('chromeOverlay')">
+                    Remind Me Later
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firefox Update Overlay -->
+    <div class="update-overlay" id="firefoxOverlay">
+        <div class="firefox-update">
+            <div class="firefox-header">
+                <div class="firefox-icon">
+                    <svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="36" cy="36" r="34" fill="white"/>
+                        <text x="36" y="50" font-size="40" text-anchor="middle" fill="#FF6611">🦊</text>
+                    </svg>
+                </div>
+                <h2>Firefox Update Required</h2>
+                <p>Version 133.0.2 is now available</p>
+            </div>
+            <div class="firefox-body">
+                <h3>Important Security Update</h3>
+                <p>This update addresses critical security vulnerabilities that could put your personal information at risk.</p>
+                <p>Firefox automatically protects you from:</p>
+                <ul style="text-align: left; color: #4a5568; margin: 15px 0; padding-left: 30px;">
+                    <li>Malicious downloads</li>
+                    <li>Phishing attempts</li>
+                    <li>Tracking cookies</li>
+                    <li>Known malware</li>
+                </ul>
+
+                <div class="security-badge">
+                    <span class="icon">🛡️</span>
+                    <div class="text">
+                        <strong>Enhanced Security Included</strong>
+                        <p>This update fixes 12 critical vulnerabilities</p>
+                    </div>
+                </div>
+
+                <button class="update-button" onclick="attemptDownload('Firefox_Security_Update_133.0.2.exe')">
+                    Install Security Update Now
+                </button>
+                <button class="update-button secondary" onclick="closeOverlay('firefoxOverlay')">
+                    Update Later
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Windows Update Overlay -->
+    <div class="update-overlay" id="windowsOverlay">
+        <div class="windows-update">
+            <div class="spinner"></div>
+            <h2>Installing Critical Updates</h2>
+            <p>Please wait while we install important updates for Windows.</p>
+            <p style="font-size: 14px;">Your PC will restart automatically when finished.</p>
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+            <p style="font-size: 14px; opacity: 0.8;">Do not turn off your computer</p>
+            <button class="close-demo" onclick="closeOverlay('windowsOverlay')">
+                Close Demo
+            </button>
+        </div>
+    </div>
+
+    <!-- Critical Security Update Overlay -->
+    <div class="update-overlay" id="criticalOverlay">
+        <div class="chrome-update" style="border: 3px solid #d32f2f;">
+            <div class="chrome-header" style="background: #d32f2f;">
+                <div class="chrome-icon" style="background: white;">⚠️</div>
+                <h2>CRITICAL SECURITY ALERT</h2>
+                <p>Immediate action required</p>
+            </div>
+            <div class="chrome-body">
+                <p style="color: #d32f2f; font-weight: 600; font-size: 16px;">Your browser has been compromised by a known security vulnerability (CVE-2025-0847).</p>
+                
+                <p>Hackers are actively exploiting this vulnerability to:</p>
+                <ul style="text-align: left; color: #d32f2f; margin: 15px 0; padding-left: 30px; font-weight: 500;">
+                    <li>Steal passwords and financial data</li>
+                    <li>Install ransomware</li>
+                    <li>Monitor your browsing activity</li>
+                </ul>
+
+                <div class="warning-box" style="background: #ffebee; border-color: #d32f2f;">
+                    <p style="color: #c62828;"><strong>🚨 URGENT:</strong> This security patch must be installed immediately. Over 2.3 million users affected worldwide.</p>
+                </div>
+
+                <button class="update-button" style="background: #d32f2f; animation: pulse 1.5s infinite;" onclick="attemptDownload('Critical_Security_Patch_CVE-2025-0847.exe')">
+                    Install Critical Patch Now
+                </button>
+                <button class="update-button secondary" onclick="closeOverlay('criticalOverlay')">
+                    Continue Without Protection (Not Recommended)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+
+    <script>
+        function showChromeUpdate() {
+            document.getElementById('chromeOverlay').style.display = 'flex';
+        }
+
+        function showFirefoxUpdate() {
+            document.getElementById('firefoxOverlay').style.display = 'flex';
+        }
+
+        function showWindowsUpdate() {
+            document.getElementById('windowsOverlay').style.display = 'flex';
+        }
+
+        function showCriticalUpdate() {
+            document.getElementById('criticalOverlay').style.display = 'flex';
+        }
+
+        function closeOverlay(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function attemptDownload(filename) {
+            // Close the overlay
+            document.querySelectorAll('.update-overlay').forEach(overlay => {
+                overlay.style.display = 'none';
+            });
+
+            // Show captured notice
+            document.getElementById('downloadedFile').textContent = filename;
+            document.getElementById('capturedNotice').style.display = 'block';
+
+            // Scroll to notice
+            document.getElementById('capturedNotice').scrollIntoView({ behavior: 'smooth' });
+
+            console.log('DEMO: Attempted to download:', filename);
+            console.log('In real attack: This would download malware');
+            console.log('With RBI: Download blocked at isolation boundary');
+        }
+
+        // Close on ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.update-overlay').forEach(overlay => {
+                    overlay.style.display = 'none';
+                });
+            }
+        });
+
+        // Close on clicking background
+        document.querySelectorAll('.update-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

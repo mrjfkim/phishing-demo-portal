@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser-in-the-Browser Demo - Fake Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .demo-trigger {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .demo-trigger h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .demo-trigger p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .trigger-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .trigger-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Browser Window Container */
+        .browser-window {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Fake Browser Chrome */
+        .fake-browser {
+            width: 550px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            overflow: hidden;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Browser Title Bar */
+        .browser-titlebar {
+            background: #f0f0f0;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #d0d0d0;
+        }
+
+        .browser-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .dot.close { background: #ff5f57; }
+        .dot.minimize { background: #ffbd2e; }
+        .dot.maximize { background: #28ca42; }
+
+        .browser-title {
+            flex: 1;
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Address Bar */
+        .browser-addressbar {
+            background: white;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .nav-button {
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            border: 1px solid #d0d0d0;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .nav-button:hover {
+            background: #f5f5f5;
+        }
+
+        .url-bar {
+            flex: 1;
+            background: #f5f5f5;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .lock-icon {
+            color: #5f6368;
+            font-size: 14px;
+        }
+
+        .url-text {
+            flex: 1;
+            font-size: 13px;
+            color: #202124;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .url-domain {
+            color: #202124;
+            font-weight: 600;
+        }
+
+        .menu-button {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            color: #666;
+        }
+
+        /* Login Page Content */
+        .login-content {
+            background: white;
+            padding: 48px 44px;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .microshaft-logo {
+            width: 180px;
+            margin-bottom: 24px;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1b1b1b;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .login-subtitle {
+            font-size: 15px;
+            color: #605e5c;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .login-form {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            color: #323130;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 15px;
+            border: 1px solid #8a8886;
+            border-radius: 2px;
+            font-family: 'Segoe UI', sans-serif;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #0078d4;
+            border-width: 2px;
+            padding: 11px;
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .form-checkbox input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .form-checkbox label {
+            font-size: 14px;
+            color: #323130;
+            cursor: pointer;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 12px;
+            background: #0067b8;
+            color: white;
+            border: none;
+            border-radius: 2px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .login-button:hover {
+            background: #005a9e;
+        }
+
+        .login-links {
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .login-link {
+            color: #0067b8;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-block;
+            margin: 0 8px;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+        .credentials-captured {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 16px;
+            border-radius: 6px;
+            margin-top: 24px;
+            display: none;
+        }
+
+        .credentials-captured h3 {
+            color: #856404;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .credentials-captured p {
+            color: #856404;
+            font-size: 14px;
+            margin: 4px 0;
+            word-break: break-all;
+        }
+
+        .demo-note {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 16px;
+            margin-top: 24px;
+            border-radius: 4px;
+        }
+
+        .demo-note p {
+            color: #1565c0;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Demo Trigger Button -->
+    <div class="demo-trigger" id="demoTrigger">
+        <h1>🎭 Browser-in-the-Browser Attack Demo</h1>
+        <p>
+            This demonstrates a BitB (Browser-in-the-Browser) attack targeting corporate credentials. 
+            After the redirect loop chaos and SE Labs IT warning, users are asked to "verify" their 
+            corporate identity - and they enter their real work credentials!
+        </p>
+        <button class="trigger-button" onclick="showFakeLogin()">
+            🔐 Verify SE Labs Corporate Access
+        </button>
+        <div class="demo-note">
+            <p>
+                <strong>Attack Chain:</strong> User clicks phishing link → Redirect chaos → 
+                SE Labs IT warning → Now asking for corporate credentials seems legitimate. 
+                This is the perfect follow-up to the redirect loop attack!
+            </p>
+        </div>
+    </div>
+
+    <!-- Fake Browser Window -->
+    <div class="browser-window" id="browserWindow">
+        <div class="fake-browser">
+            <!-- Browser Title Bar -->
+            <div class="browser-titlebar">
+                <div class="browser-dots">
+                    <div class="dot close" onclick="closeFakeLogin()"></div>
+                    <div class="dot minimize"></div>
+                    <div class="dot maximize"></div>
+                </div>
+                <div class="browser-title">Sign in to your account - Microshaft</div>
+            </div>
+
+            <!-- Address Bar -->
+            <div class="browser-addressbar">
+                <div class="nav-buttons">
+                    <div class="nav-button">←</div>
+                    <div class="nav-button">→</div>
+                    <div class="nav-button">↻</div>
+                </div>
+                <div class="url-bar">
+                    <span class="lock-icon">🔒</span>
+                    <span class="url-text">
+                        <span class="url-domain">login.microshaft.com</span>/oauth2/authorize?client_id=ac7d4...
+                    </span>
+                </div>
+                <div class="menu-button">⋮</div>
+            </div>
+
+            <!-- Login Content -->
+            <div class="login-content">
+                <!-- Microshaft Logo (using SVG) -->
+                <svg class="microshaft-logo" viewBox="0 0 180 40" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Four colored squares -->
+                    <rect x="0" y="0" width="18" height="18" fill="#F25022"/>
+                    <rect x="20" y="0" width="18" height="18" fill="#7FBA00"/>
+                    <rect x="0" y="20" width="18" height="18" fill="#00A4EF"/>
+                    <rect x="20" y="20" width="18" height="18" fill="#FFB900"/>
+                    <!-- Text -->
+                    <text x="48" y="28" font-family="Segoe UI, sans-serif" font-size="24" font-weight="600" fill="#5E5E5E">Microshaft</text>
+                </svg>
+
+                <h1 class="login-title">Corporate Authentication Required</h1>
+                <p class="login-subtitle">Verify your SE Labs identity to continue</p>
+
+                <div style="background: #fff4e5; border-left: 4px solid #ff9800; padding: 12px; margin-bottom: 24px; border-radius: 4px;">
+                    <p style="color: #e65100; font-size: 13px; line-height: 1.6; margin: 0;">
+                        <strong>⚠️ IT Security Notice:</strong> Your SE Labs administrator requires corporate authentication to access this content. Please sign in with your work email address.
+                    </p>
+                </div>
+
+                <form class="login-form" onsubmit="captureCredentials(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="email">SE Labs Email Address</label>
+                        <input 
+                            type="text" 
+                            id="email" 
+                            class="form-input" 
+                            placeholder="firstname.lastname@selabs.com"
+                            autocomplete="username"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="password">Corporate Password</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            class="form-input" 
+                            placeholder="Enter your SE Labs password"
+                            autocomplete="current-password"
+                        >
+                    </div>
+
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Trust this device for 30 days</label>
+                    </div>
+
+                    <button type="submit" class="login-button">Verify Corporate Identity</button>
+                </form>
+
+                <div class="login-links">
+                    <a href="#" class="login-link">Forgot password?</a>
+                    <a href="#" class="login-link">Contact IT Support: x5500</a>
+                </div>
+
+                <div class="credentials-captured" id="credentialsBox">
+                    <h3>⚠️ CREDENTIALS CAPTURED (DEMO)</h3>
+                    <p><strong>Email:</strong> <span id="capturedEmail"></span></p>
+                    <p><strong>Password:</strong> <span id="capturedPassword"></span></p>
+                    <p style="margin-top: 12px; font-size: 12px;">
+                        In a real attack, these would be sent to the attacker's server.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showFakeLogin() {
+            const browserWindow = document.getElementById('browserWindow');
+            browserWindow.style.display = 'flex';
+        }
+
+        function closeFakeLogin() {
+            const browserWindow = document.getElementById('browserWindow');
+            browserWindow.style.display = 'none';
+            // Clear form
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('credentialsBox').style.display = 'none';
+        }
+
+        function captureCredentials(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                alert('Please enter both email and password');
+                return;
+            }
+            
+            // Display captured credentials
+            document.getElementById('capturedEmail').textContent = email;
+            document.getElementById('capturedPassword').textContent = password;
+            document.getElementById('credentialsBox').style.display = 'block';
+            
+            console.log('DEMO: Credentials captured!');
+            console.log('Email:', email);
+            console.log('Password:', password);
+        }
+
+        // Close on clicking outside the fake browser
+        document.getElementById('browserWindow').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeFakeLogin();
+            }
+        });
+
+        // Close on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeFakeLogin();
+            }
+        });
+    </script>
+</body>
+</html>
