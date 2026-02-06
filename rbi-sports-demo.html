@@ -67,8 +67,8 @@
         /* Header */
         header {
             background: 
-                linear-gradient(180deg, rgba(154, 0, 7, 0.85) 0%, rgba(211, 47, 47, 0.85) 100%),
-                url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1600&q=80') center/cover;
+                linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(26, 26, 26, 0.85) 100%),
+                url('https://images.unsplash.com/photo-1556056504-5c7696c4c28d?w=1600&q=80') center/cover;
             box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             position: sticky;
             top: 0;
@@ -1088,7 +1088,7 @@
         <div style="max-width: 1400px; margin: 0 auto;">
             <span style="color: #4a90e2; font-size: 11px; font-weight: 600;">🔐 Sign In Button:</span>
             <span style="color: #999; font-size: 11px; margin-left: 8px;">
-                Browser-in-the-Browser (BitB) fake login window - captures credentials
+                T1185 (Browser Session Hijacking), T1056.003 (Web Portal Capture) - Browser-in-the-Browser (BitB) fake login
             </span>
         </div>
     </div>
@@ -1121,7 +1121,7 @@
         <div style="max-width: 1400px; margin: 0 auto;">
             <span style="color: #ff9800; font-size: 12px; font-weight: 600;">⚠️ Fake Browser Update Attack</span>
             <span style="color: #999; font-size: 12px; margin-left: 10px;">
-                This drive-by attack displays a fake Chrome update popup to trick users into downloading malware
+                T1204 (User Execution) - Drive-by attack displaying fake Chrome update popup
             </span>
         </div>
     </div>
@@ -1143,7 +1143,7 @@
         <main class="main-content">
             <!-- RBI Testing Tools -->
             <div class="sidebar-section" style="max-width: 100%; margin-bottom: 30px;">
-                <h3 style="font-size: 32px; margin-bottom: 20px;">🎮 Interactive Features</h3>
+                <h3 style="font-size: 32px; margin-bottom: 20px;">Interactive Features</h3>
                 <p style="font-size: 16px; margin-bottom: 30px;">Enhance your sports experience with our exclusive fan tools and premium content.</p>
                 
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 30px;">
@@ -1151,49 +1151,56 @@
                         <button class="demo-button danger" onclick="testRedirectLoop()">
                             🔄 Live Game Tracker
                         </button>
-                        <div class="demo-info">Redirect Loop - IT Impersonation Scam</div>
+                        <div class="demo-info">Redirect Loop - IT Impersonation<br>T1656 (Impersonation), T1102 (Web Service)</div>
                     </div>
 
                     <div>
                         <button class="demo-button danger" onclick="testRedirectLoopDownload()">
                             🔐 Premium Content Unlock
                         </button>
-                        <div class="demo-info">Redirect Loop Attack - Download Scam</div>
+                        <div class="demo-info">Redirect Loop - Download Scam<br>T1204.001 (Malicious Link), T1566.002 (Spearphishing Link)</div>
                     </div>
 
                     <div>
                         <button class="demo-button danger" onclick="testForceDownload()">
                             📥 Download Game Highlights
                         </button>
-                        <div class="demo-info">Forced Download Attack (EICAR)</div>
+                        <div class="demo-info">Forced Download (EICAR)<br>T1204.002 (Malicious File), T1105 (Ingress Tool Transfer)</div>
                     </div>
 
                     <div>
                         <button class="demo-button danger" onclick="testHTMLSmuggling()">
                             📦 Exclusive Content Package
                         </button>
-                        <div class="demo-info">HTML Smuggling - Client-Side Malware</div>
+                        <div class="demo-info">HTML Smuggling<br>T1027 (Obfuscated Files), T1105 (Ingress Tool Transfer)</div>
                     </div>
 
                     <div>
                         <button class="demo-button danger" onclick="testQRCodePhishing()">
                             📱 Mobile Ticket Access
                         </button>
-                        <div class="demo-info">QR Code Phishing (Quishing)</div>
+                        <div class="demo-info">QR Code Phishing (Quishing)<br>T1566.002 (Spearphishing Link), T1598 (Phishing for Information)</div>
+                    </div>
+
+                    <div>
+                        <button class="demo-button danger" onclick="testFakeChromeExtension()">
+                            🧩 Install GameDay Enhancer
+                        </button>
+                        <div class="demo-info">Malicious Chrome Extension<br>T1176 (Browser Extensions), T1539 (Steal Web Session Cookie)</div>
                     </div>
 
                     <div>
                         <button class="demo-button warning" onclick="testCryptoMiner()">
                             ⛏️ Stats Calculator
                         </button>
-                        <div class="demo-info">Crypto Mining Script</div>
+                        <div class="demo-info">Crypto Mining Script<br>T1496 (Resource Hijacking)</div>
                     </div>
 
                     <div>
                         <button class="demo-button warning" onclick="testKeylogger()">
                             ⌨️ Fan Chat Room
                         </button>
-                        <div class="demo-info">Keylogger</div>
+                        <div class="demo-info">Keylogger<br>T1056.001 (Input Capture: Keylogging)</div>
                         <input type="text" id="keylogInput" placeholder="Type here to join the conversation..." style="display: none; width: 100%; padding: 12px; margin-top: 10px; background: var(--mid-gray); border: 1px solid #444; border-radius: 4px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px;" />
                         <div id="keylogDisplay" style="display: none; margin-top: 10px; padding: 12px; background: var(--mid-gray); border: 1px solid #ff9800; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 12px; color: #ff9800; min-height: 60px;">Captured keystrokes will appear here...</div>
                     </div>
@@ -1202,7 +1209,14 @@
                         <button class="demo-button secondary" onclick="testDataExfiltration()">
                             📤 Share Your Predictions
                         </button>
-                        <div class="demo-info">Data Exfiltration Attempt</div>
+                        <div class="demo-info">Data Exfiltration<br>T1005 (Data from Local System), T1567 (Exfiltration Over Web Service)</div>
+                    </div>
+
+                    <div>
+                        <button class="demo-button secondary" onclick="testGamblingSiteBlock()" style="background: linear-gradient(135deg, #53d337, #3db82a); border: 2px solid #2d8a1e;">
+                            🎰 DraftKings Sportsbook
+                        </button>
+                        <div class="demo-info" style="color: #53d337;">⭐ Official GameDay Partner - Place Your Bets Now!</div>
                     </div>
                 </div>
 
@@ -1237,14 +1251,28 @@
                 <h3>🔥 Featured Stories</h3>
                 <div style="font-size: 13px;">
                     <div style="margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px;">
-                        <img src="harden-clippers.png" alt="James Harden" style="width: 100%; height: 120px; object-fit: cover; border-radius: 6px; margin-bottom: 10px;">
+                        <div style="position: relative; width: 100%; height: 140px; border-radius: 6px; overflow: hidden; margin-bottom: 10px;">
+                            <img src="harden-clippers.png" alt="James Harden" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 10px;">
+                                <div style="color: white; font-size: 11px; font-weight: 600; line-height: 1.3;">
+                                    'It's over. Guys are gone': What James Harden and the Clippers realized before the shocking trade
+                                </div>
+                            </div>
+                        </div>
                         <div style="font-weight: 600; line-height: 1.4; margin-bottom: 5px; color: var(--text);">
                             Harden and Clippers part ways after shocking trade
                         </div>
                         <div style="color: var(--text-muted); font-size: 11px;">4h ago</div>
                     </div>
                     <div style="margin-bottom: 15px;">
-                        <img src="super-bowl.png" alt="Super Bowl" style="width: 100%; height: 120px; object-fit: cover; border-radius: 6px; margin-bottom: 10px;">
+                        <div style="position: relative; width: 100%; height: 140px; border-radius: 6px; overflow: hidden; margin-bottom: 10px;">
+                            <img src="super-bowl.png" alt="Super Bowl" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 10px;">
+                                <div style="color: white; font-size: 11px; font-weight: 600; line-height: 1.3;">
+                                    One-stop Super Bowl cheat sheet: Everything you need to know about Seahawks-Patriots
+                                </div>
+                            </div>
+                        </div>
                         <div style="font-weight: 600; line-height: 1.4; margin-bottom: 5px; color: var(--text);">
                             Super Bowl preview: Seahawks vs Patriots
                         </div>
@@ -1570,9 +1598,9 @@
                         document.body.removeChild(link);
                         URL.revokeObjectURL(url);
                         hideLoader();
-                        showOutput('⚠️ Download attempted - check browser downloads');
-                        showOutput('→ Non-RBI: File downloads to local system');
-                        showOutput('→ RBI: Download blocked at isolation boundary');
+                        showOutput('✓ Download initiated');
+                        showOutput('→ File: GameDay_Highlights_Player.exe');
+                        showOutput('→ Contains EICAR test signature');
                     }, 100);
                 }, 10);
             }, 1500);
@@ -1653,11 +1681,11 @@ WHY IT'S EFFECTIVE:
 
 RBI PROTECTION:
 ========================================
-✗ Non-RBI: File downloads to local system
+✗ File downloads to local system
   → User executes → Malware runs on endpoint
   → Credential theft, ransomware, data exfiltration
 
-✓ With RBI: Download happens in isolated cloud browser
+✓ Download happens in isolated cloud browser
   → File never reaches local endpoint
   → Even if "downloaded", stays in isolation
   → Session destroyed → malware contained
@@ -1691,9 +1719,9 @@ MITRE: T1027, T1105
                             setTimeout(() => {
                                 a.click();
                                 showOutput('✓ File downloaded: GameDay_Exclusive_Content.zip');
-                                showOutput('→ Non-RBI: Malware on local system - ready to execute');
-                                showOutput('→ With RBI: Download blocked/isolated - never reaches endpoint');
-                                showOutput('→ Network security never saw malicious file transfer!');
+                                showOutput('→ File constructed client-side via JavaScript');
+                                showOutput('→ Contains EICAR test signature');
+                                showOutput('→ No file transfer detected by network security');
                                 
                                 setTimeout(() => {
                                     document.body.removeChild(a);
@@ -1858,8 +1886,7 @@ MITRE: T1027, T1105
                 
                 showOutput('→ QR code displayed - targets mobile devices');
                 showOutput('→ Bypasses desktop security controls');
-                showOutput('→ Non-RBI: User scans → redirects to phishing site on mobile');
-                showOutput('→ With RBI: Even if displayed, phishing site runs in isolation');
+                showOutput('→ Users who scan will be redirected to phishing site');
             }, 1000);
         }
 
@@ -1869,6 +1896,165 @@ MITRE: T1027, T1105
                 document.body.removeChild(overlay);
                 showOutput('✓ QR code phishing demo closed');
             }
+        }
+
+        // Fake Chrome Extension Install
+        function testFakeChromeExtension() {
+            clearOutput();
+            showOutput('⚠️ MALICIOUS SCRIPT: Fake Chrome Extension attack');
+            showOutput('→ MITRE ATT&CK: T1176 (Browser Extensions), T1539 (Steal Web Session Cookie)');
+            showOutput('→ Displaying fake extension install prompt');
+            showOutput('→ Extensions have full browser permissions');
+            showLoader();
+
+            setTimeout(() => {
+                hideLoader();
+                showOutput('✓ Malicious extension prompt displayed');
+                showOutput('→ Extension requests: Read/change all site data');
+                showOutput('→ Extension requests: Manage downloads');
+                showOutput('→ Extension requests: Access cookies');
+                
+                // Create fake Chrome extension install overlay
+                const overlay = document.createElement('div');
+                overlay.id = 'chromeExtensionOverlay';
+                overlay.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.85);
+                    z-index: 99999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    animation: fadeIn 0.3s;
+                `;
+                
+                overlay.innerHTML = `
+                    <div style="background: white; border-radius: 12px; max-width: 480px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); overflow: hidden;">
+                        <!-- Chrome Extension Header -->
+                        <div style="background: #1a73e8; padding: 20px; text-align: center;">
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
+                                <div style="background: white; width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 32px;">
+                                    🎮
+                                </div>
+                                <div style="text-align: left;">
+                                    <h2 style="color: white; font-size: 22px; margin: 0 0 5px 0; font-weight: 600;">
+                                        GameDay Enhancer
+                                    </h2>
+                                    <div style="color: rgba(255,255,255,0.9); font-size: 14px;">
+                                        Enhanced sports streaming experience
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Extension Details -->
+                        <div style="padding: 25px;">
+                            <p style="color: #333; font-size: 15px; line-height: 1.7; margin-bottom: 20px;">
+                                Get the best GameDay experience with enhanced video streaming, real-time stats, 
+                                and exclusive premium features. Install now for free!
+                            </p>
+                            
+                            <div style="background: #f8f9fa; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                                <div style="color: #d32f2f; font-size: 14px; font-weight: 600; margin-bottom: 12px;">
+                                    ⚠️ This extension can:
+                                </div>
+                                <ul style="margin: 0; padding-left: 20px; color: #666; font-size: 13px; line-height: 1.9;">
+                                    <li>Read and change all your data on all websites</li>
+                                    <li>Access your browser tabs and browsing activity</li>
+                                    <li>Manage your downloads</li>
+                                    <li>Access your cookies and sessions</li>
+                                    <li>Communicate with cooperating websites</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                                <div style="color: #666; font-size: 13px;">
+                                    ⭐⭐⭐⭐⭐ <strong>4.8</strong> (12,459 reviews)
+                                </div>
+                                <div style="color: #999; font-size: 13px;">
+                                    • 500,000+ users
+                                </div>
+                            </div>
+                            
+                            <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 12px; margin-bottom: 20px;">
+                                <p style="color: #856404; font-size: 12px; margin: 0; line-height: 1.6;">
+                                    <strong>🔥 Limited Time:</strong> Premium features free for first 1,000 users today! 
+                                    Install now to unlock exclusive content.
+                                </p>
+                            </div>
+                            
+                            <div style="display: flex; gap: 10px;">
+                                <button onclick="installFakeExtension()" style="
+                                    flex: 1;
+                                    background: #1a73e8;
+                                    color: white;
+                                    border: none;
+                                    padding: 14px;
+                                    border-radius: 6px;
+                                    font-size: 15px;
+                                    font-weight: 600;
+                                    cursor: pointer;
+                                    transition: all 0.2s;
+                                " onmouseover="this.style.background='#1557b0'" onmouseout="this.style.background='#1a73e8'">
+                                    Add to Chrome
+                                </button>
+                                <button onclick="closeFakeChromeExtension()" style="
+                                    background: #f1f3f4;
+                                    color: #666;
+                                    border: none;
+                                    padding: 14px 20px;
+                                    border-radius: 6px;
+                                    font-size: 15px;
+                                    font-weight: 600;
+                                    cursor: pointer;
+                                ">
+                                    Cancel
+                                </button>
+                            </div>
+                            
+                            <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+                                <p style="color: #999; font-size: 10px; font-style: italic; line-height: 1.6; margin: 0;">
+                                    DEMO NOTE: In a real attack, installing this extension would give attackers complete access 
+                                    to all your browsing data, passwords, cookies, and online activity across all websites.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(overlay);
+                
+                showOutput('→ Extension prompt displayed - looks legitimate');
+                showOutput('→ Requests dangerous permissions');
+            }, 1000);
+        }
+
+        function closeFakeChromeExtension() {
+            const overlay = document.getElementById('chromeExtensionOverlay');
+            if (overlay) {
+                document.body.removeChild(overlay);
+                showOutput('✓ User cancelled extension install (smart move!)');
+            }
+        }
+
+        function installFakeExtension() {
+            showOutput('⚠️ USER CLICKED "ADD TO CHROME"!');
+            showOutput('→ Extension installation initiated');
+            showOutput('→ PERMISSIONS GRANTED:');
+            showOutput('   • Read/change all data on all websites');
+            showOutput('   • Access tabs and browsing history');
+            showOutput('   • Manage downloads');
+            showOutput('   • Access cookies and sessions');
+            showOutput('✓ Extension installed successfully');
+            showOutput('→ Attacker now has full browser access');
+            showOutput('   • Can steal passwords from all sites');
+            showOutput('   • Can inject code into banking sites');
+            showOutput('   • Can exfiltrate session cookies');
+            showOutput('   • Can monitor all browsing activity');
+            closeFakeChromeExtension();
         }
 
         // 5. Keylogger Simulation
@@ -2160,7 +2346,7 @@ MITRE: T1027, T1105
         function downloadFakePatch() {
             showOutput('⚠️ User clicked download button');
             showOutput('→ Attempting to download: GameDay_Security_Patch.exe');
-            showOutput('→ Non-RBI: Malware downloads to local system');
+            showOutput('→ Malware downloads to local system');
             showOutput('→ RBI: Download blocked at isolation boundary');
             
             // Show alert instead of actual download
@@ -2229,6 +2415,148 @@ MITRE: T1027, T1105
                     showOutput(`→ Network error: ${e.message}`);
                 }
             }, 1000);
+        }
+
+        // Gambling Site Category Blocking
+        function testGamblingSiteBlock() {
+            clearOutput();
+            showOutput('⚠️ USER ACTION: Clicking DraftKings partnership link');
+            showOutput('→ Target: DraftKings.com (Sports Betting Platform)');
+            showOutput('→ Attempting to redirect to gambling site...');
+            showLoader();
+
+            setTimeout(() => {
+                hideLoader();
+                showOutput('🚫 REDIRECT BLOCKED BY CATEGORY POLICY');
+                showOutput('→ Site category: Gambling / Sports Betting');
+                showOutput('→ Organization policy: Block gambling sites');
+                showOutput('→ Security solution intercepts and blocks navigation');
+                
+                // In a non-RBI environment, this would redirect
+                // window.location.href = 'https://www.draftkings.com';
+                
+                // Instead, show blocked page
+                const overlay = document.createElement('div');
+                overlay.id = 'blockedSiteOverlay';
+                overlay.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: #f5f5f5;
+                    z-index: 99999;
+                    overflow-y: auto;
+                    animation: fadeIn 0.3s;
+                `;
+                
+                overlay.innerHTML = `
+                    <div style="max-width: 700px; margin: 100px auto; padding: 40px; background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                        <div style="text-align: center; margin-bottom: 30px;">
+                            <div style="font-size: 80px; margin-bottom: 20px;">🚫</div>
+                            <h1 style="color: #d32f2f; font-size: 36px; margin-bottom: 15px; font-weight: 700;">
+                                Access Blocked
+                            </h1>
+                            <p style="color: #666; font-size: 18px; line-height: 1.6;">
+                                This website has been blocked by your organization's security policy
+                            </p>
+                        </div>
+                        
+                        <div style="background: #ffebee; border-left: 4px solid #d32f2f; padding: 20px; border-radius: 4px; margin-bottom: 25px;">
+                            <h3 style="color: #c62828; font-size: 18px; margin-bottom: 12px; font-weight: 600;">
+                                Blocked Site Information
+                            </h3>
+                            <div style="color: #666; font-size: 15px; line-height: 2;">
+                                <strong>URL:</strong> https://www.draftkings.com<br>
+                                <strong>Category:</strong> Gambling / Sports Betting<br>
+                                <strong>Risk Level:</strong> High<br>
+                                <strong>Policy:</strong> Corporate Web Access Policy<br>
+                                <strong>Referrer:</strong> GameDay Sports (Partnership Link)
+                            </div>
+                        </div>
+                        
+                        <div style="background: #e3f2fd; border-left: 4px solid #1976d2; padding: 20px; border-radius: 4px; margin-bottom: 25px;">
+                            <h3 style="color: #1565c0; font-size: 18px; margin-bottom: 12px; font-weight: 600;">
+                                Why was this blocked?
+                            </h3>
+                            <ul style="color: #666; font-size: 14px; line-height: 2; margin: 0; padding-left: 20px;">
+                                <li>Gambling websites pose security and productivity risks</li>
+                                <li>Access to betting platforms violates company policy</li>
+                                <li>RBI blocks gambling sites even when linked from legitimate partners</li>
+                                <li>Category-based filtering protects organizational assets</li>
+                                <li>Policy enforcement is consistent regardless of source</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #fff9c4; border: 2px solid #fbc02d; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                            <h3 style="color: #f57f17; font-size: 16px; margin-bottom: 12px; font-weight: 600;">
+                                ⚠️ Important Note:
+                            </h3>
+                            <p style="color: #666; font-size: 14px; line-height: 1.8; margin: 0;">
+                                Even though GameDay has a legitimate partnership with DraftKings, your organization's 
+                                security policy blocks all gambling sites. RBI enforces this policy consistently, 
+                                protecting you from accessing gambling content during work hours.
+                            </p>
+                        </div>
+                        
+                        <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                            <h3 style="color: #555; font-size: 16px; margin-bottom: 12px; font-weight: 600;">
+                                📋 Additional Categories Blocked:
+                            </h3>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; color: #666; font-size: 13px;">
+                                <div>• Adult Content</div>
+                                <div>• Malware Sites</div>
+                                <div>• Gambling / Gaming</div>
+                                <div>• Phishing Sites</div>
+                                <div>• Illegal Downloads</div>
+                                <div>• Proxy Avoidance</div>
+                                <div>• Social Media (Optional)</div>
+                                <div>• Streaming Services (Optional)</div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+                            <button onclick="closeBlockedSite()" style="
+                                background: #1976d2;
+                                color: white;
+                                border: none;
+                                padding: 14px 40px;
+                                border-radius: 6px;
+                                font-size: 16px;
+                                font-weight: 600;
+                                cursor: pointer;
+                                margin-right: 10px;
+                            ">
+                                Return to GameDay
+                            </button>
+                        </div>
+                        
+                        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: center;">
+                            <p style="color: #999; font-size: 11px; font-style: italic; line-height: 1.6;">
+                                DEMO NOTE: This demonstrates RBI's category-based web filtering. Even though GameDay 
+                                legitimately partners with DraftKings, RBI blocks the gambling site based on category, 
+                                not reputation. This protects users from accessing gambling content even when accessed 
+                                through trusted sites. In a real scenario without RBI, clicking this link would take 
+                                users directly to DraftKings.com.
+                            </p>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(overlay);
+                
+                showOutput('→ Navigation blocked by category policy');
+                showOutput('→ Category policy enforced');
+            }, 1000);
+        }
+
+        function closeBlockedSite() {
+            const overlay = document.getElementById('blockedSiteOverlay');
+            if (overlay) {
+                document.body.removeChild(overlay);
+                showOutput('✓ User returned to safe browsing');
+                showOutput('→ Category-based protection active');
+            }
         }
 
         // Simulate article navigation
@@ -2541,9 +2869,7 @@ MITRE: T1027, T1105
             showOutput('⚠️ USER CLICKED DOWNLOAD BUTTON!');
             showOutput('→ Attempting download: Chrome_Update_v132.exe');
             showOutput('→ File contains: Malware/Ransomware/Trojan');
-            showOutput('→ Non-RBI: File downloads to local system → User executes → Infected');
-            showOutput('→ With RBI: Download blocked at isolation boundary');
-            showOutput('✓ Attack demonstrates why users fall for fake updates daily');
+            showOutput('→ Download initiated...');
             
             // Create malicious file download
             const malwareContent = `CRITICAL CHROME UPDATE INSTALLER
