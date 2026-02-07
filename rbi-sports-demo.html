@@ -2700,7 +2700,7 @@ MITRE: T1027, T1105
                         margin-top: 20px;
                         box-shadow: 0 4px 12px rgba(211,47,47,0.3);
                     ">
-                        Close
+                        ← Try Again
                     </button>
                 </div>
             </div>
@@ -2796,8 +2796,8 @@ MITRE: T1027, T1105
         }
 
         function resetBitBDemo() {
-            // Close the BitB window
-            closeBitBLogin();
+            // DON'T close the BitB window - keep it open
+            // closeBitBLogin();
             
             // Reset the form
             document.querySelector('.bitb-form').style.display = 'block';
@@ -2808,7 +2808,11 @@ MITRE: T1027, T1105
             document.querySelector('.login-content > div').style.display = 'block'; // Show logo
             document.getElementById('phishingReveal').style.display = 'none';
             
-            showOutput('✓ BitB demo reset - user educated about phishing');
+            // Clear the form fields
+            document.getElementById('bitbEmail').value = '';
+            document.getElementById('bitbPassword').value = '';
+            
+            showOutput('✓ BitB demo reset - returning to login form');
         }
 
         // Close BitB on clicking outside the fake browser
