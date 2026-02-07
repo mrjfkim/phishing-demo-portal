@@ -2502,22 +2502,23 @@ MITRE: T1027, T1105
             clearOutput();
             showOutput('⚠️ USER ACTION: Clicking free streaming link');
             showOutput('→ Target: watchsportsfree-hd.xyz (Illegal Streaming Site)');
-            showOutput('→ Attempting to redirect to high-risk domain...');
+            showOutput('→ Attempting to navigate to high-risk domain...');
+            showOutput('→ Domain risk score: CRITICAL');
+            showOutput('→ Threat categories: Malware Distribution, Piracy, Phishing');
             showLoader();
 
             setTimeout(() => {
                 hideLoader();
-                showOutput('🚫 NAVIGATION BLOCKED BY RISK SCORE');
-                showOutput('→ Domain risk score: CRITICAL');
-                showOutput('→ Threat categories: Malware Distribution, Piracy, Phishing');
-                showOutput('→ Domain age: 3 days (newly registered)');
+                showOutput('→ Redirecting to https://watchsportsfree-hd.xyz');
+                showOutput('→ Your security solution should block this...');
                 
-                // In a non-RBI environment, this would redirect
-                // window.location.href = 'https://watchsportsfree-hd.xyz';
-                
-                // Instead, show blocked page
-                const overlay = document.createElement('div');
-                overlay.id = 'highRiskOverlay';
+                // Actually navigate to the high-risk URL
+                // Security solution will block it
+                setTimeout(() => {
+                    window.location.href = 'https://watchsportsfree-hd.xyz';
+                }, 1000);
+            }, 1000);
+        }
                 overlay.style.cssText = `
                     position: fixed;
                     top: 0;
