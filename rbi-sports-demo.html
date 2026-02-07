@@ -628,6 +628,75 @@
             .footer-content {
                 grid-template-columns: 1fr;
             }
+
+            /* Mobile: Make Interactive Features buttons stack vertically */
+            .sidebar-section > div[style*="grid-template-columns"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Mobile: Adjust GameDay Premium ad */
+            div[style*="linear-gradient(135deg, #4a90e2"] > div[style*="display: flex"] {
+                flex-direction: column !important;
+                text-align: center !important;
+            }
+
+            /* Mobile: Make BitB window fullscreen */
+            .bitb-window {
+                padding: 0 !important;
+            }
+
+            .fake-browser {
+                max-width: 100% !important;
+                width: 100% !important;
+                height: 100vh !important;
+                max-height: 100vh !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+            }
+
+            /* Mobile: Adjust font sizes */
+            .demo-button {
+                font-size: 14px !important;
+                padding: 12px 20px !important;
+            }
+
+            .demo-info {
+                font-size: 11px !important;
+            }
+
+            /* Mobile: Make QR code larger */
+            #qrPhishingOverlay img {
+                width: 250px !important;
+                height: 250px !important;
+            }
+
+            /* Mobile: Adjust security banner spacing */
+            div[style*="Security Trust Banner"] {
+                padding: 10px !important;
+                gap: 15px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Small mobile phones */
+            .logo {
+                font-size: 24px;
+            }
+
+            h1 {
+                font-size: 28px !important;
+            }
+
+            .demo-button {
+                font-size: 13px !important;
+                padding: 10px 16px !important;
+            }
+
+            /* Mobile: Stack security badges vertically */
+            div[style*="Copyright & Trust Badges"] {
+                flex-direction: column !important;
+                text-align: center !important;
+            }
         }
         /* Sign-in Button */
         .signin-button {
@@ -2675,6 +2744,13 @@ MITRE: T1027, T1105
                         This was a simulated attack demonstration.
                     </p>
 
+                    <!-- Privacy Disclaimer -->
+                    <div style="background: #e8f5e9; border: 2px solid #4caf50; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                        <p style="color: #2e7d32; font-size: 15px; font-weight: 600; margin: 0;">
+                            🔒 <strong>PRIVACY NOTICE:</strong> Your credentials were NOT stored, transmitted, or saved anywhere. This is purely a client-side demonstration. All data stays in your browser only.
+                        </p>
+                    </div>
+
                     <div style="background: #ffebee; border: 2px solid #d32f2f; padding: 25px; border-radius: 8px; margin-bottom: 30px; text-align: left;">
                         <h3 style="color: #c62828; font-size: 20px; margin-bottom: 15px;">
                             What Just Happened:
@@ -2683,8 +2759,8 @@ MITRE: T1027, T1105
                             <li>You entered credentials on a fake login window</li>
                             <li>The "browser window" was HTML/CSS (Browser-in-the-Browser attack)</li>
                             <li>Your email: <strong id="revealEmail"></strong></li>
-                            <li>Your password was captured</li>
-                            <li>In a real attack, hackers now control your account</li>
+                            <li>Your password was displayed locally (demo only)</li>
+                            <li>In a real attack, hackers would control your account</li>
                         </ul>
                     </div>
 
