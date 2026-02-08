@@ -1504,6 +1504,38 @@
     </footer>
 
     <script>
+        // Tab Title Notification System (Phishing Tactic)
+        let originalTitle = document.title;
+        let titleInterval = null;
+        let titleIndex = 0;
+        
+        function startTabNotification(messages) {
+            // Stop any existing notification
+            stopTabNotification();
+            
+            // Array of messages to cycle through
+            const titles = messages || [
+                '🔥 EXCLUSIVE OFFER!',
+                '(1) New Message!',
+                '⚠️ ACTION REQUIRED',
+                originalTitle
+            ];
+            
+            titleInterval = setInterval(() => {
+                document.title = titles[titleIndex];
+                titleIndex = (titleIndex + 1) % titles.length;
+            }, 2000); // Switch every 2 seconds
+        }
+        
+        function stopTabNotification() {
+            if (titleInterval) {
+                clearInterval(titleInterval);
+                titleInterval = null;
+            }
+            document.title = originalTitle;
+            titleIndex = 0;
+        }
+        
         // Utility functions
         function showOutput(message) {
             const output = document.getElementById('outputBox');
@@ -1538,6 +1570,9 @@
             showOutput('→ Infinite redirect loop starting...');
             showOutput('→ Page will reload continuously - close tab to stop');
             showLoader();
+            
+            // Start tab notification
+            startTabNotification(['🔄 Redirecting...', '⚠️ LOADING...', originalTitle]);
             
             // Set a flag in sessionStorage to track we're in attack mode
             sessionStorage.setItem('redirectAttack', 'active');
@@ -1918,6 +1953,9 @@ MITRE: T1027, T1105
             showOutput('→ Displaying fake MFA verification QR code');
             showOutput('→ Bypasses email security - targets mobile users');
             showLoader();
+            
+            // Start tab notification
+            startTabNotification(['📱 SCAN TO VERIFY', '⚠️ Security Check Required', '(1) Action Needed!', originalTitle]);
 
             setTimeout(() => {
                 hideLoader();
@@ -2015,6 +2053,9 @@ MITRE: T1027, T1105
             showOutput('→ Displaying fake extension install prompt');
             showOutput('→ Extensions have full browser permissions');
             showLoader();
+            
+            // Start tab notification
+            startTabNotification(['🧩 Install GameDay Enhancer', '⭐ #1 Sports Extension!', '(1) New Feature Available!', originalTitle]);
 
             setTimeout(() => {
                 hideLoader();
@@ -2311,6 +2352,9 @@ MITRE: T1027, T1105
             showOutput('→ Executing multiple redirects in rapid succession');
             showOutput('→ Page will reload repeatedly - close tab to stop');
             showLoader();
+            
+            // Start tab notification
+            startTabNotification(['🎁 CLAIM YOUR PREMIUM!', '⏰ 50% OFF - 2 Hours Left!', '(1) Special Offer!', originalTitle]);
             
             // Set a flag in sessionStorage to track we're in download scam mode
             sessionStorage.setItem('redirectAttackDownload', 'active');
