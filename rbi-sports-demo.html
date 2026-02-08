@@ -1564,6 +1564,9 @@
 
         // 1. Redirect Loop Attack
         function testRedirectLoop() {
+            // Start tab notification FIRST with threat messages
+            startTabNotification(['⚠️ THREAT DETECTED!', '🔒 Security Alert', '☠️ Trojan:Win32/Wacatac', originalTitle]);
+            
             clearOutput();
             showOutput('⚠️ MALICIOUS SCRIPT: Initiating redirect loop attack...');
             showOutput('→ MITRE ATT&CK: T1656 (Impersonation), T1102 (Web Service)');
@@ -1571,23 +1574,25 @@
             showOutput('→ Page will reload continuously - close tab to stop');
             showLoader();
             
-            // Start tab notification
-            startTabNotification(['🔄 Redirecting...', '⚠️ LOADING...', originalTitle]);
-            
             // Set a flag in sessionStorage to track we're in attack mode
             sessionStorage.setItem('redirectAttack', 'active');
             sessionStorage.setItem('redirectCount', '0');
             
-            // Trigger first redirect
+            // Trigger first redirect with longer delay so notification is visible
             setTimeout(() => {
                 window.location.href = window.location.pathname + '?loop=' + Math.random();
-            }, 200);
+            }, 1500);
         }
 
         // Check on page load if we're in redirect attack mode
         window.addEventListener('load', () => {
             const attackActive = sessionStorage.getItem('redirectAttack');
             const redirectCount = parseInt(sessionStorage.getItem('redirectCount') || '0');
+            
+            // Restart tab notification if attack is active
+            if (attackActive === 'active') {
+                startTabNotification(['⚠️ THREAT DETECTED!', '🔒 Security Alert', '☠️ Trojan:Win32/Wacatac', originalTitle]);
+            }
             
             if (attackActive === 'active') {
                 // Increment counter
@@ -1678,6 +1683,8 @@
                             <div style="color: #1f1f1f; font-size: 14px; font-weight: 600;">Microshaft Windows Defender Security</div>
                             <div style="color: #605e5c; font-size: 12px;">Virus & threat protection</div>
                         </div>
+                        <!-- Close Button -->
+                        <button onclick="this.closest('div[style*=\\'z-index: 999999\\']').remove(); stopTabNotification();" style="background: transparent; border: none; color: #605e5c; font-size: 24px; cursor: pointer; padding: 0 8px; line-height: 1; transition: color 0.2s;" onmouseover="this.style.color='#e81123'" onmouseout="this.style.color='#605e5c'">×</button>
                     </div>
 
                     <!-- Main Content Area -->
@@ -2346,6 +2353,9 @@ MITRE: T1027, T1105
 
         // 5. Redirect Loop Attack - Download Scam
         function testRedirectLoopDownload() {
+            // Start tab notification FIRST (before anything else)
+            startTabNotification(['🎁 CLAIM YOUR PREMIUM!', '⏰ 50% OFF - 2 Hours Left!', '(1) Special Offer!', originalTitle]);
+            
             clearOutput();
             showOutput('⚠️ MALICIOUS SCRIPT: Initiating redirect loop attack...');
             showOutput('→ MITRE ATT&CK: T1204.001 (Malicious Link), T1566.002 (Spearphishing Link)');
@@ -2353,17 +2363,14 @@ MITRE: T1027, T1105
             showOutput('→ Page will reload repeatedly - close tab to stop');
             showLoader();
             
-            // Start tab notification
-            startTabNotification(['🎁 CLAIM YOUR PREMIUM!', '⏰ 50% OFF - 2 Hours Left!', '(1) Special Offer!', originalTitle]);
-            
             // Set a flag in sessionStorage to track we're in download scam mode
             sessionStorage.setItem('redirectAttackDownload', 'active');
             sessionStorage.setItem('redirectCountDownload', '0');
             
-            // Trigger first redirect
+            // Trigger first redirect with longer delay so user sees tab notification
             setTimeout(() => {
                 window.location.href = window.location.pathname + '?premium=' + Math.random();
-            }, 200);
+            }, 1500);
         }
 
         // Check on page load if we're in redirect download attack mode
@@ -2371,6 +2378,11 @@ MITRE: T1027, T1105
             const attackActive = sessionStorage.getItem('redirectAttackDownload');
             const lockScreenShown = sessionStorage.getItem('downloadPopupShown');
             const redirectCount = parseInt(sessionStorage.getItem('redirectCountDownload') || '0');
+            
+            // Restart tab notification if attack is active
+            if (attackActive === 'active' && lockScreenShown !== 'true') {
+                startTabNotification(['🎁 CLAIM YOUR PREMIUM!', '⏰ 50% OFF - 2 Hours Left!', '(1) Special Offer!', originalTitle]);
+            }
             
             // If download popup was already shown, just show it again and stop
             if (lockScreenShown === 'true') {
