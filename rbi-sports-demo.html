@@ -1117,6 +1117,19 @@
                 <a href="#">Trending: NBA Trade Deadline</a>
             </div>
             <div class="top-bar-right">
+                <button onclick="resetDemo()" style="
+                    background: #d32f2f;
+                    color: white;
+                    border: none;
+                    padding: 6px 16px;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                " onmouseover="this.style.background='#c62828'" onmouseout="this.style.background='#d32f2f'">
+                    🔄 Reset Demo
+                </button>
             </div>
         </div>
     </div>
@@ -1504,6 +1517,59 @@
     </footer>
 
     <script>
+        // Global variables for tracking attack states
+        let miningActive = false;
+        let miningWorkers = [];
+        let hashCount = 0;
+        
+        // Reset Demo Function - Stops all attacks and clears state
+        function resetDemo() {
+            // 1. Stop crypto mining
+            miningActive = false;
+            if (miningWorkers && miningWorkers.length > 0) {
+                miningWorkers.forEach(w => clearInterval(w));
+                miningWorkers = [];
+            }
+            hashCount = 0;
+            
+            // 2. Stop tab notifications
+            stopTabNotification();
+            
+            // 3. Clear session storage (stops redirect attacks)
+            sessionStorage.clear();
+            
+            // 4. Remove all overlays and popups
+            const overlays = [
+                'bitbLoginOverlay',
+                'qrCodeOverlay', 
+                'chromeExtensionOverlay',
+                'downloadScamOverlay'
+            ];
+            overlays.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.remove();
+            });
+            
+            // Also remove any elements with overlay-like styles
+            document.querySelectorAll('[style*="z-index: 999"]').forEach(el => el.remove());
+            document.querySelectorAll('[style*="z-index: 99999"]').forEach(el => el.remove());
+            
+            // 5. Clear output log
+            clearOutput();
+            
+            // 6. Hide loader
+            hideLoader();
+            
+            // 7. Show confirmation
+            showOutput('✅ Demo reset complete - All attacks stopped');
+            showOutput('→ Ready for next demonstration');
+            
+            // Auto-clear the reset message after 3 seconds
+            setTimeout(() => {
+                clearOutput();
+            }, 3000);
+        }
+        
         // Tab Title Notification System (Phishing Tactic)
         let originalTitle = document.title;
         let titleInterval = null;
@@ -2280,9 +2346,7 @@ MITRE: T1027, T1105
         }
 
         // 4. Crypto Mining Script
-        let miningActive = false;
-        let hashCount = 0;
-        let miningWorkers = [];
+        // Variables declared at top of script
 
         function testCryptoMiner() {
             if (!miningActive) {
