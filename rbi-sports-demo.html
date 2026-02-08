@@ -1538,7 +1538,23 @@
             // 3. Clear session storage (stops redirect attacks)
             sessionStorage.clear();
             
-            // 4. Remove all overlays and popups
+            // 4. Hide keylogger (Fan Chat Room)
+            const keylogInput = document.getElementById('keylogInput');
+            const keylogDisplay = document.getElementById('keylogDisplay');
+            if (keylogInput) {
+                keylogInput.style.display = 'none';
+                keylogInput.value = '';
+            }
+            if (keylogDisplay) {
+                keylogDisplay.style.display = 'none';
+                keylogDisplay.innerHTML = 'Captured keystrokes will appear here...';
+            }
+            // Reset keylogger state (will be defined later in script)
+            if (typeof keyloggerActive !== 'undefined') {
+                keyloggerActive = false;
+            }
+            
+            // 5. Remove all overlays and popups
             const overlays = [
                 'bitbLoginOverlay',
                 'qrCodeOverlay', 
@@ -1554,13 +1570,13 @@
             document.querySelectorAll('[style*="z-index: 999"]').forEach(el => el.remove());
             document.querySelectorAll('[style*="z-index: 99999"]').forEach(el => el.remove());
             
-            // 5. Clear output log
+            // 6. Clear output log
             clearOutput();
             
-            // 6. Hide loader
+            // 7. Hide loader
             hideLoader();
             
-            // 7. Show confirmation
+            // 8. Show confirmation
             showOutput('✅ Demo reset complete - All attacks stopped');
             showOutput('→ Ready for next demonstration');
             
