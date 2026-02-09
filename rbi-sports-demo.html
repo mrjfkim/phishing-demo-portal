@@ -1552,7 +1552,7 @@
                 
                 <!-- Sponsored Label -->
                 <div style="font-size: 9px; color: #666; text-transform: uppercase; letter-spacing: 1px; padding: 8px 12px; border-bottom: 1px solid #222;">
-                    Sponsored
+                    Sponsored Malvertising
                 </div>
                 
                 <!-- Ad Content -->
@@ -3430,13 +3430,45 @@ EICAR Test String: PRESENT
             <!-- Official Partners -->
             <div style="text-align: center; padding-bottom: 30px; border-bottom: 1px solid #222;">
                 <div style="color: #999; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;">Official Partners</div>
-                <div style="display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; opacity: 0.6;">
-                    <a href="https://www.draftkings.com" target="_blank" rel="noopener noreferrer" style="color: #53d337; font-size: 18px; font-weight: 700; text-decoration: none; transition: opacity 0.2s;">DraftKings</a>
-                    <a href="https://www.fanduel.com" target="_blank" rel="noopener noreferrer" style="color: #666; font-size: 18px; font-weight: 700; text-decoration: none; transition: opacity 0.2s;">FanDuel</a>
-                    <a href="https://www.betmgm.com" target="_blank" rel="noopener noreferrer" style="color: #666; font-size: 18px; font-weight: 700; text-decoration: none; transition: opacity 0.2s;">BetMGM</a>
-                    <a href="https://www.caesars.com/sportsbook" target="_blank" rel="noopener noreferrer" style="color: #666; font-size: 18px; font-weight: 700; text-decoration: none; transition: opacity 0.2s;">Caesars</a>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap;">
+                    <a href="https://www.draftkings.com" target="_blank" rel="noopener noreferrer" class="partner-link">DraftKings</a>
+                    <a href="https://www.fanduel.com" target="_blank" rel="noopener noreferrer" class="partner-link">FanDuel</a>
+                    <a href="https://www.betmgm.com" target="_blank" rel="noopener noreferrer" class="partner-link">BetMGM</a>
+                    <a href="https://www.caesars.com/sportsbook" target="_blank" rel="noopener noreferrer" class="partner-link">Caesars</a>
                 </div>
             </div>
+            
+            <style>
+                .partner-link {
+                    color: #53d337;
+                    font-size: 18px;
+                    font-weight: 700;
+                    text-decoration: none;
+                    position: relative;
+                    transition: all 0.3s ease;
+                }
+                
+                .partner-link::after {
+                    content: '';
+                    position: absolute;
+                    width: 0;
+                    height: 2px;
+                    bottom: -4px;
+                    left: 50%;
+                    background: linear-gradient(90deg, transparent, #53d337, transparent);
+                    transition: all 0.3s ease;
+                    transform: translateX(-50%);
+                }
+                
+                .partner-link:hover {
+                    color: #6ef04e;
+                    transform: translateY(-2px);
+                }
+                
+                .partner-link:hover::after {
+                    width: 100%;
+                }
+            </style>
             
             <!-- Security Trust Banner -->
             <div style="background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%); border: 1px solid #3d6f4d; border-radius: 8px; padding: 15px; margin-top: 30px; margin-bottom: 25px;">
