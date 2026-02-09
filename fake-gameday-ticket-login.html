@@ -24,7 +24,7 @@
         .login-container {
             background: white;
             width: 100%;
-            max-width: 460px;
+            max-width: 500px;
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
@@ -265,72 +265,6 @@
             font-weight: 600;
             text-align: center;
         }
-
-        .captured-data {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-
-        .captured-data h3 {
-            color: #856404;
-            font-size: 16px;
-            margin-bottom: 16px;
-        }
-
-        .captured-data .data-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #ffc107;
-            font-size: 14px;
-        }
-
-        .captured-data .data-row:last-child {
-            border-bottom: none;
-        }
-
-        .captured-data .label {
-            font-weight: 700;
-            color: #856404;
-        }
-
-        .captured-data .value {
-            color: #333;
-            font-family: 'Courier New', monospace;
-        }
-
-        .protection-info {
-            background: #e3f2fd;
-            border: 2px solid #2196f3;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            font-size: 13px;
-            line-height: 1.8;
-        }
-
-        .protection-info h4 {
-            color: #1976d2;
-            font-size: 15px;
-            margin-bottom: 12px;
-        }
-
-        .protection-info ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .protection-info li {
-            padding: 6px 0;
-            color: #333;
-        }
-
-        .protection-info li strong {
-            color: #1976d2;
-        }
     </style>
 </head>
 <body>
@@ -416,7 +350,7 @@
             </form>
         </div>
 
-        <!-- Step 3: Success - Ticket Access (Realistic) -->
+        <!-- Step 3: Success Page with Tickets AND Demo Explanation (ALL ON SAME PAGE) -->
         <div id="step3" class="mfa-step">
             <div class="success-box">
                 ✓ Welcome back! You're now signed in.
@@ -451,7 +385,7 @@
                     </div>
                 </div>
 
-                <button class="btn-primary" onclick="showDemoExplanation()" style="width: 100%; margin-top: 16px; padding: 16px; font-size: 16px;">
+                <button class="btn-primary" style="width: 100%; margin-top: 16px; padding: 16px; font-size: 16px;">
                     Show QR Code for Entry
                 </button>
             </div>
@@ -467,55 +401,49 @@
                 </ul>
             </div>
 
-            <div style="text-align: center; padding: 20px 0;">
-                <a href="#" onclick="showDemoExplanation(); return false;" style="color: #d32f2f; text-decoration: none; font-weight: 600; font-size: 14px;">View All Your Tickets →</a>
-            </div>
-        </div>
-
-        <!-- Step 4: DEMO EXPLANATION (What Actually Happened) -->
-        <div id="step4" class="mfa-step">
-            <div style="background: linear-gradient(135deg, #d32f2f, #b71c1c); color: white; padding: 20px; border-radius: 8px; margin-bottom: 24px; text-align: center;">
-                <div style="font-size: 48px; margin-bottom: 12px;">⚠️</div>
-                <h2 style="color: white; margin-bottom: 8px;">QR Code Phishing Attack Complete</h2>
-                <div style="font-size: 14px; opacity: 0.95;">DEMO SIMULATION - No data was stored or transmitted</div>
+            <!-- DEMO EXPLANATION - ON SAME PAGE AS TICKETS -->
+            <div style="background: linear-gradient(135deg, #d32f2f, #b71c1c); color: white; padding: 20px; border-radius: 8px; margin: 30px 0 20px 0; text-align: center;">
+                <div style="font-size: 36px; margin-bottom: 12px;">⚠️</div>
+                <h3 style="color: white; margin-bottom: 8px; font-size: 20px;">QR Code Phishing Attack Complete</h3>
+                <div style="font-size: 13px; opacity: 0.95;">DEMO SIMULATION - No data was stored or transmitted</div>
             </div>
 
-            <div style="background: #fff3cd; border: 2px solid #ffc107; padding: 20px; border-radius: 8px; margin-bottom: 24px;">
-                <h3 style="color: #856404; font-size: 18px; margin-bottom: 16px;">🎣 What Just Happened:</h3>
-                <div style="color: #333; font-size: 14px; line-height: 1.8;">
-                    <p style="margin-bottom: 12px;"><strong>1. QR Code Scanned:</strong> User scanned what appeared to be a legitimate GameDay mobile ticket access QR code</p>
-                    <p style="margin-bottom: 12px;"><strong>2. Credentials Entered:</strong> User entered their corporate email address and password</p>
-                    <p style="margin-bottom: 12px;"><strong>3. MFA Code Submitted:</strong> User entered a 6-digit verification code</p>
-                    <p style="margin-bottom: 12px;"><strong>4. Phishing Success:</strong> All credentials were "captured" by the fake site</p>
+            <div style="background: #fff3cd; border: 2px solid #ffc107; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h4 style="color: #856404; font-size: 16px; margin-bottom: 14px;">🎣 What Just Happened:</h4>
+                <div style="color: #333; font-size: 13px; line-height: 1.8;">
+                    <p style="margin-bottom: 10px;"><strong>1. QR Code Scanned:</strong> User scanned what appeared to be a legitimate GameDay mobile ticket access QR code</p>
+                    <p style="margin-bottom: 10px;"><strong>2. Credentials Entered:</strong> User entered their corporate email address and password</p>
+                    <p style="margin-bottom: 10px;"><strong>3. MFA Code Submitted:</strong> User entered a 6-digit verification code</p>
+                    <p style="margin-bottom: 10px;"><strong>4. Phishing Success:</strong> All credentials were "captured" by the fake site</p>
                     <p style="margin: 0;"><strong>5. User Deceived:</strong> Realistic ticket page made user believe login was successful</p>
                 </div>
             </div>
 
-            <div style="background: #ffebee; border: 2px solid #d32f2f; padding: 20px; border-radius: 8px; margin-bottom: 24px;">
-                <h3 style="color: #c62828; font-size: 18px; margin-bottom: 16px;">💀 Attack Capabilities Demonstrated:</h3>
-                <div style="color: #333; font-size: 14px; line-height: 1.8;">
-                    <p style="margin-bottom: 10px;">✓ <strong>Bypass Email Security:</strong> QR codes bypass traditional email filters</p>
-                    <p style="margin-bottom: 10px;">✓ <strong>Mobile Device Targeting:</strong> Attacks mobile users who scan with phones</p>
-                    <p style="margin-bottom: 10px;">✓ <strong>Credential Theft:</strong> Captures corporate email + password + MFA code</p>
-                    <p style="margin-bottom: 10px;">✓ <strong>Social Engineering:</strong> Uses urgency and corporate branding</p>
+            <div style="background: #ffebee; border: 2px solid #d32f2f; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h4 style="color: #c62828; font-size: 16px; margin-bottom: 14px;">💀 Attack Capabilities Demonstrated:</h4>
+                <div style="color: #333; font-size: 13px; line-height: 1.8;">
+                    <p style="margin-bottom: 8px;">✓ <strong>Bypass Email Security:</strong> QR codes bypass traditional email filters</p>
+                    <p style="margin-bottom: 8px;">✓ <strong>Mobile Device Targeting:</strong> Attacks mobile users who scan with phones</p>
+                    <p style="margin-bottom: 8px;">✓ <strong>Credential Theft:</strong> Captures corporate email + password + MFA code</p>
+                    <p style="margin-bottom: 8px;">✓ <strong>Social Engineering:</strong> Uses urgency and corporate branding</p>
                     <p style="margin: 0;">✓ <strong>MFA Bypass:</strong> Real-time MFA code theft enables immediate account access</p>
                 </div>
             </div>
 
-            <div style="background: #e3f2fd; border: 2px solid #2196f3; padding: 20px; border-radius: 8px; margin-bottom: 24px;">
-                <h3 style="color: #1976d2; font-size: 18px; margin-bottom: 16px;">🛡️ How Island RBI Prevents This:</h3>
-                <div style="color: #333; font-size: 14px; line-height: 1.8;">
-                    <p style="margin-bottom: 10px;"><strong>1. QR Code Analysis:</strong> Scans and blocks malicious QR code destinations</p>
-                    <p style="margin-bottom: 10px;"><strong>2. Domain Reputation:</strong> Blocks access to known/suspected phishing domains</p>
-                    <p style="margin-bottom: 10px;"><strong>3. Credential Protection:</strong> Prevents password entry on untrusted sites</p>
-                    <p style="margin-bottom: 10px;"><strong>4. Form Injection Detection:</strong> Identifies fake login forms and warns users</p>
-                    <p style="margin-bottom: 10px;"><strong>5. DLP Controls:</strong> Blocks corporate email domains from being submitted to untrusted sites</p>
+            <div style="background: #e3f2fd; border: 2px solid #2196f3; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h4 style="color: #1976d2; font-size: 16px; margin-bottom: 14px;">🛡️ How Island RBI Prevents This:</h4>
+                <div style="color: #333; font-size: 13px; line-height: 1.8;">
+                    <p style="margin-bottom: 8px;"><strong>1. QR Code Analysis:</strong> Scans and blocks malicious QR code destinations</p>
+                    <p style="margin-bottom: 8px;"><strong>2. Domain Reputation:</strong> Blocks access to known/suspected phishing domains</p>
+                    <p style="margin-bottom: 8px;"><strong>3. Credential Protection:</strong> Prevents password entry on untrusted sites</p>
+                    <p style="margin-bottom: 8px;"><strong>4. Form Injection Detection:</strong> Identifies fake login forms and warns users</p>
+                    <p style="margin-bottom: 8px;"><strong>5. DLP Controls:</strong> Blocks corporate email domains from being submitted to untrusted sites</p>
                     <p style="margin: 0;"><strong>6. Real-time Blocking:</strong> Stops the attack at ANY step before credentials are stolen</p>
                 </div>
             </div>
 
             <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; text-align: center; border: 2px solid #ddd;">
-                <div style="font-size: 13px; color: #666; margin-bottom: 16px; line-height: 1.6;">
+                <div style="font-size: 12px; color: #666; margin-bottom: 16px; line-height: 1.6;">
                     <strong>DEMO DISCLAIMER:</strong> This was a controlled simulation. No credentials were stored, logged, or transmitted. All data entered was processed locally in your browser only.
                 </div>
                 <button class="btn-primary" onclick="resetDemo()" style="padding: 14px 32px; font-size: 15px;">
@@ -534,7 +462,6 @@
 
         // Email validation function
         function isValidEmail(email) {
-            // Check for valid email format with proper domain
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailRegex.test(email);
         }
@@ -546,19 +473,16 @@
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
 
-            // Reset error messages
             document.getElementById('emailError').classList.remove('show');
             document.getElementById('passwordError').classList.remove('show');
 
             let hasError = false;
 
-            // Validate email
             if (!email || !isValidEmail(email)) {
                 document.getElementById('emailError').classList.add('show');
                 hasError = true;
             }
 
-            // Validate password
             if (!password) {
                 document.getElementById('passwordError').classList.add('show');
                 hasError = true;
@@ -566,15 +490,12 @@
 
             if (hasError) return;
 
-            // Capture credentials
             capturedData.email = email;
             capturedData.password = password;
 
-            // Move to verification step
             document.getElementById('step1').classList.remove('active');
             document.getElementById('step2').classList.add('active');
 
-            // Generate random verification code
             const randomCode = Math.floor(100000 + Math.random() * 900000);
             document.getElementById('displayCode').textContent = randomCode;
         });
@@ -590,24 +511,12 @@
                 return;
             }
 
-            // Capture verification code
             capturedData.code = code;
 
-            // Show realistic success page (tickets!)
+            // Show success page with tickets AND demo explanation (all on same page)
             document.getElementById('step2').classList.remove('active');
             document.getElementById('step3').classList.add('active');
-
-            // Auto-show demo explanation after 3 seconds (or user can click button)
-            setTimeout(function() {
-                showDemoExplanation();
-            }, 3000);
         });
-
-        function showDemoExplanation() {
-            // Move from realistic ticket page to demo explanation
-            document.getElementById('step3').classList.remove('active');
-            document.getElementById('step4').classList.add('active');
-        }
 
         function goBackToStep1() {
             document.getElementById('step2').classList.remove('active');
@@ -616,9 +525,7 @@
 
         function resetDemo() {
             capturedData = { email: '', password: '', code: '' };
-            document.getElementById('step4').classList.remove('active');
             document.getElementById('step3').classList.remove('active');
-            document.getElementById('step2').classList.remove('active');
             document.getElementById('step1').classList.add('active');
             document.getElementById('loginForm').reset();
             document.getElementById('verificationForm').reset();
