@@ -293,7 +293,7 @@
                 <div class="form-group">
                     <label for="email">Corporate Email Address</label>
                     <input type="email" id="email" name="email" placeholder="your.name@company.com" required>
-                    <div class="error-message" id="emailError">Please enter a valid corporate email address (e.g., name@company.com).</div>
+                    <div class="error-message" id="emailError">Please enter a valid corporate email address (e.g., <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8ee0efe3ebceede1e3feefe0f7a0ede1e3">[email&#160;protected]</a>).</div>
                 </div>
 
                 <div class="form-group">
@@ -430,18 +430,6 @@
                 </div>
             </div>
 
-            <div style="background: #e3f2fd; border: 2px solid #2196f3; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                <h4 style="color: #1976d2; font-size: 16px; margin-bottom: 14px;">🛡️ How Island RBI Prevents This:</h4>
-                <div style="color: #333; font-size: 13px; line-height: 1.8;">
-                    <p style="margin-bottom: 8px;"><strong>1. QR Code Analysis:</strong> Scans and blocks malicious QR code destinations</p>
-                    <p style="margin-bottom: 8px;"><strong>2. Domain Reputation:</strong> Blocks access to known/suspected phishing domains</p>
-                    <p style="margin-bottom: 8px;"><strong>3. Credential Protection:</strong> Prevents password entry on untrusted sites</p>
-                    <p style="margin-bottom: 8px;"><strong>4. Form Injection Detection:</strong> Identifies fake login forms and warns users</p>
-                    <p style="margin-bottom: 8px;"><strong>5. DLP Controls:</strong> Blocks corporate email domains from being submitted to untrusted sites</p>
-                    <p style="margin: 0;"><strong>6. Real-time Blocking:</strong> Stops the attack at ANY step before credentials are stolen</p>
-                </div>
-            </div>
-
             <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; text-align: center; border: 2px solid #ddd;">
                 <div style="font-size: 12px; color: #666; margin-bottom: 16px; line-height: 1.6;">
                     <strong>DEMO DISCLAIMER:</strong> This was a controlled simulation. No credentials were stored, logged, or transmitted. All data entered was processed locally in your browser only.
@@ -453,7 +441,7 @@
         </div>
     </div>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         let capturedData = {
             email: '',
             password: '',
@@ -537,11 +525,4 @@
             document.getElementById('emailError').classList.remove('show');
         });
         document.getElementById('password').addEventListener('input', function() {
-            document.getElementById('passwordError').classList.remove('show');
-        });
-        document.getElementById('verificationCode').addEventListener('input', function() {
-            document.getElementById('codeError').classList.remove('show');
-        });
-    </script>
-</body>
-</html>
+            document.getElementById('passwordError').classList.remove('s
