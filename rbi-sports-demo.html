@@ -1687,6 +1687,7 @@
         const mitreMapping = {
             'showBitBLogin': ['T1566', 'T1185'],
             'testRedirectLoop': ['T1656', 'T1102'],
+            'testMalvertisingAttack': ['T1656', 'T1204'],
             'testForceDownload': ['T1204'],
             'testHTMLSmuggling': ['T1204'],
             'testQRCodePhishing': ['T1598'],
@@ -2100,7 +2101,7 @@
 
         // 2. Malvertising Attack (Nikey Ad → Fake Browser Update)
         function testMalvertisingAttack() {
-            activateMitreTechnique('testRedirectLoop'); // Uses same techniques as redirect
+            activateMitreTechnique('testMalvertisingAttack'); // Use correct mapping
             clearOutput();
             showOutput('⚠️ MALICIOUS AD: Malvertising attack initiated');
             showOutput('→ MITRE ATT&CK: T1656 (Impersonation), T1204 (User Execution)');
