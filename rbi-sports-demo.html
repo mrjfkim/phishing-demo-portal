@@ -36,6 +36,9 @@
             background: var(--dark-gray);
             padding: 8px 0;
             border-bottom: 1px solid var(--mid-gray);
+            position: sticky;
+            top: 0;
+            z-index: 1001;
         }
 
         .top-bar-content {
@@ -71,8 +74,8 @@
                 url('https://images.unsplash.com/photo-1556056504-5c7696c4c28d?w=1600&q=80') center/cover;
             box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             position: sticky;
-            top: 0;
-            z-index: 1000;
+            top: 37px;
+            z-index: 999;
         }
 
         .header-content {
@@ -1272,6 +1275,112 @@
 
             <!-- RBI Testing Tools -->
             <div class="sidebar-section" style="max-width: 100%; margin-bottom: 30px;">
+                
+                <!-- MITRE ATT&CK Matrix (NO SHIELD ICON) -->
+                <div style="margin-bottom: 30px; background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%); border: 2px solid #d32f2f; border-radius: 8px; padding: 20px; box-shadow: 0 4px 20px rgba(211,47,47,0.2);">
+                    <div style="text-align: center; margin-bottom: 15px;">
+                        <h3 style="color: #fff; font-size: 18px; font-weight: 700; margin-bottom: 10px;">MITRE ATT&CK® Framework Coverage</h3>
+                        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 12px;">
+                            <div style="color: #ff5252;"><span style="font-weight: 700;">●</span> Demonstrated</div>
+                            <div style="color: #666;"><span style="font-weight: 700;">●</span> Not Demonstrated</div>
+                            <div style="background: rgba(211,47,47,0.2); padding: 4px 12px; border-radius: 12px; color: #ff5252; font-weight: 700;">
+                                <span id="mitreCounter">0/10</span> Techniques
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <div style="min-width: 800px;">
+                            <!-- Tactics Header -->
+                            <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: #0a0a0a; margin-bottom: 1px;">
+                                <div style="background: #2a2a2a; padding: 10px 8px; text-align: center; font-size: 10px; font-weight: 700; color: #fff; text-transform: uppercase; min-height: 68px; display: flex; align-items: center; justify-content: center;">Initial Access</div>
+                                <div style="background: #2a2a2a; padding: 10px 8px; text-align: center; font-size: 10px; font-weight: 700; color: #fff; text-transform: uppercase; min-height: 68px; display: flex; align-items: center; justify-content: center;">Execution</div>
+                                <div style="background: #2a2a2a; padding: 10px 8px; text-align: center; font-size: 10px; font-weight: 700; color: #fff; text-transform: uppercase; min-height: 68px; display: flex; align-items: center; justify-content: center;">Persistence</div>
+                                <div style="background: #2a2a2a; padding: 10px 8px; text-align: center; font-size: 10px; font-weight: 700; color: #fff; text-transform: uppercase; min-height: 68px; display: flex; align-items: center; justify-content: center;">Credential Access</div>
+                                <div style="background: #2a2a2a; padding: 10px 8px; text-align: center; font-size: 10px; font-weight: 700; color: #fff; text-transform: uppercase; min-height: 68px; display: flex; align-items: center; justify-content: center;">Collection</div>
+                                <div style="background: #2a2a2a; padding: 10px 8px; text-align: center; font-size: 10px; font-weight: 700; color: #fff; text-transform: uppercase; min-height: 68px; display: flex; align-items: center; justify-content: center;">Command & Control</div>
+                                <div style="background: #2a2a2a; padding: 10px 8px; text-align: center; font-size: 10px; font-weight: 700; color: #fff; text-transform: uppercase; min-height: 68px; display: flex; align-items: center; justify-content: center;">Impact</div>
+                            </div>
+
+                            <!-- Row 1 -->
+                            <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: #0a0a0a; margin-bottom: 1px;">
+                                <a href="https://attack.mitre.org/techniques/T1566/" target="_blank" style="text-decoration: none;">
+                                    <div class="mitre-technique highlighted" data-technique="T1566" style="background: linear-gradient(135deg, #d32f2f, #b71c1c); padding: 10px 6px; cursor: pointer; transition: all 0.2s; min-height: 68px; display: flex; flex-direction: column; justify-content: center;">
+                                        <div style="color: #fff; font-size: 9px; font-weight: 700; font-family: 'Courier New', monospace; margin-bottom: 3px;">T1566</div>
+                                        <div style="color: rgba(255,255,255,0.95); font-size: 10px; font-weight: 600; line-height: 1.2;">Phishing</div>
+                                    </div>
+                                </a>
+                                <a href="https://attack.mitre.org/techniques/T1204/" target="_blank" style="text-decoration: none;">
+                                    <div class="mitre-technique highlighted" data-technique="T1204" style="background: linear-gradient(135deg, #d32f2f, #b71c1c); padding: 10px 6px; cursor: pointer; transition: all 0.2s; min-height: 68px; display: flex; flex-direction: column; justify-content: center;">
+                                        <div style="color: #fff; font-size: 9px; font-weight: 700; font-family: 'Courier New', monospace; margin-bottom: 3px;">T1204</div>
+                                        <div style="color: rgba(255,255,255,0.95); font-size: 10px; font-weight: 600; line-height: 1.2;">User Execution</div>
+                                    </div>
+                                </a>
+                                <a href="https://attack.mitre.org/techniques/T1176/" target="_blank" style="text-decoration: none;">
+                                    <div class="mitre-technique highlighted" data-technique="T1176" style="background: linear-gradient(135deg, #d32f2f, #b71c1c); padding: 10px 6px; cursor: pointer; transition: all 0.2s; min-height: 68px; display: flex; flex-direction: column; justify-content: center;">
+                                        <div style="color: #fff; font-size: 9px; font-weight: 700; font-family: 'Courier New', monospace; margin-bottom: 3px;">T1176</div>
+                                        <div style="color: rgba(255,255,255,0.95); font-size: 10px; font-weight: 600; line-height: 1.2;">Browser Extensions</div>
+                                    </div>
+                                </a>
+                                <a href="https://attack.mitre.org/techniques/T1056/001/" target="_blank" style="text-decoration: none;">
+                                    <div class="mitre-technique highlighted" data-technique="T1056.001" style="background: linear-gradient(135deg, #d32f2f, #b71c1c); padding: 10px 6px; cursor: pointer; transition: all 0.2s; min-height: 68px; display: flex; flex-direction: column; justify-content: center;">
+                                        <div style="color: #fff; font-size: 9px; font-weight: 700; font-family: 'Courier New', monospace; margin-bottom: 3px;">T1056.001</div>
+                                        <div style="color: rgba(255,255,255,0.95); font-size: 10px; font-weight: 600; line-height: 1.2;">Keylogging</div>
+                                    </div>
+                                </a>
+                                <a href="https://attack.mitre.org/techniques/T1185/" target="_blank" style="text-decoration: none;">
+                                    <div class="mitre-technique highlighted" data-technique="T1185" style="background: linear-gradient(135deg, #d32f2f, #b71c1c); padding: 10px 6px; cursor: pointer; transition: all 0.2s; min-height: 68px; display: flex; flex-direction: column; justify-content: center;">
+                                        <div style="color: #fff; font-size: 9px; font-weight: 700; font-family: 'Courier New', monospace; margin-bottom: 3px;">T1185</div>
+                                        <div style="color: rgba(255,255,255,0.95); font-size: 10px; font-weight: 600; line-height: 1.2;">Browser Session Hijacking</div>
+                                    </div>
+                                </a>
+                                <a href="https://attack.mitre.org/techniques/T1102/" target="_blank" style="text-decoration: none;">
+                                    <div class="mitre-technique highlighted" data-technique="T1102" style="background: linear-gradient(135deg, #d32f2f, #b71c1c); padding: 10px 6px; cursor: pointer; transition: all 0.2s; min-height: 68px; display: flex; flex-direction: column; justify-content: center;">
+                                        <div style="color: #fff; font-size: 9px; font-weight: 700; font-family: 'Courier New', monospace; margin-bottom: 3px;">T1102</div>
+                                        <div style="color: rgba(255,255,255,0.95); font-size: 10px; font-weight: 600; line-height: 1.2;">Web Service</div>
+                                    </div>
+                                </a>
+                                <a href="https://attack.mitre.org/techniques/T1496/" target="_blank" style="text-decoration: none;">
+                                    <div class="mitre-technique highlighted" data-technique="T1496" style="background: linear-gradient(135deg, #d32f2f, #b71c1c); padding: 10px 6px; cursor: pointer; transition: all 0.2s; min-height: 68px; display: flex; flex-direction: column; justify-content: center;">
+                                        <div style="color: #fff; font-size: 9px; font-weight: 700; font-family: 'Courier New', monospace; margin-bottom: 3px;">T1496</div>
+                                        <div style="color: rgba(255,255,255,0.95); font-size: 10px; font-weight: 600; line-height: 1.2;">Resource Hijacking</div>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <!-- Row 2 -->
+                            <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: #0a0a0a;">
+                                <a href="https://attack.mitre.org/techniques/T1598/" target="_blank" style="text-decoration: none;">
+                                    <div class="mitre-technique highlighted" data-technique="T1598" style="background: linear-gradient(135deg, #d32f2f, #b71c1c); padding: 10px 6px; cursor: pointer; transition: all 0.2s; min-height: 68px; display: flex; flex-direction: column; justify-content: center;">
+                                        <div style="color: #fff; font-size: 9px; font-weight: 700; font-family: 'Courier New', monospace; margin-bottom: 3px;">T1598</div>
+                                        <div style="color: rgba(255,255,255,0.95); font-size: 10px; font-weight: 600; line-height: 1.2;">Phishing for Info</div>
+                                    </div>
+                                </a>
+                                <div style="background: #2a2a2a; padding: 10px 6px; min-height: 68px;"></div>
+                                <div style="background: #2a2a2a; padding: 10px 6px; min-height: 68px;"></div>
+                                <a href="https://attack.mitre.org/techniques/T1539/" target="_blank" style="text-decoration: none;">
+                                    <div class="mitre-technique highlighted" data-technique="T1539" style="background: linear-gradient(135deg, #d32f2f, #b71c1c); padding: 10px 6px; cursor: pointer; transition: all 0.2s; min-height: 68px; display: flex; flex-direction: column; justify-content: center;">
+                                        <div style="color: #fff; font-size: 9px; font-weight: 700; font-family: 'Courier New', monospace; margin-bottom: 3px;">T1539</div>
+                                        <div style="color: rgba(255,255,255,0.95); font-size: 10px; font-weight: 600; line-height: 1.2;">Steal Web Cookie</div>
+                                    </div>
+                                </a>
+                                <div style="background: #2a2a2a; padding: 10px 6px; min-height: 68px;"></div>
+                                <div style="background: #2a2a2a; padding: 10px 6px; min-height: 68px;"></div>
+                                <a href="https://attack.mitre.org/techniques/T1656/" target="_blank" style="text-decoration: none;">
+                                    <div class="mitre-technique highlighted" data-technique="T1656" style="background: linear-gradient(135deg, #d32f2f, #b71c1c); padding: 10px 6px; cursor: pointer; transition: all 0.2s; min-height: 68px; display: flex; flex-direction: column; justify-content: center;">
+                                        <div style="color: #fff; font-size: 9px; font-weight: 700; font-family: 'Courier New', monospace; margin-bottom: 3px;">T1656</div>
+                                        <div style="color: rgba(255,255,255,0.95); font-size: 10px; font-weight: 600; line-height: 1.2;">Impersonation</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 12px; text-align: center; font-size: 11px; color: #999;">
+                        <a href="https://attack.mitre.org/" target="_blank" style="color: #ff5252; text-decoration: none; font-weight: 600;">Learn More at attack.mitre.org →</a>
+                    </div>
+                </div>
+
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
                     <div>
                         <h3 style="font-size: 32px; margin-bottom: 8px;">Interactive Features</h3>
@@ -1522,6 +1631,62 @@
         let miningWorkers = [];
         let hashCount = 0;
         
+        // MITRE ATT&CK tracking
+        let mitreActivated = new Set();
+        const mitreMapping = {
+            'showBitBLogin': ['T1566', 'T1185'],
+            'testRedirectLoop': ['T1656', 'T1102'],
+            'testForceDownload': ['T1204'],
+            'testHTMLSmuggling': ['T1204'],
+            'testQRCodePhishing': ['T1598'],
+            'testFakeChromeExtension': ['T1176', 'T1539'],
+            'testCryptoMiner': ['T1496'],
+            'testKeylogger': ['T1056.001'],
+            'testDataExfiltration': ['T1539'],
+            'showFakeBrowserUpdate': ['T1204']
+        };
+        
+        // Function to activate MITRE technique
+        function activateMitreTechnique(functionName) {
+            console.log('Activating MITRE for:', functionName);
+            
+            // CLEAR all previous highlights first
+            document.querySelectorAll('.mitre-technique').forEach(cell => {
+                cell.style.boxShadow = '';
+                cell.style.border = '';
+                cell.style.transform = '';
+                cell.style.zIndex = '';
+            });
+            mitreActivated.clear();
+            
+            // Now activate only the current attack's techniques
+            if (mitreMapping[functionName]) {
+                console.log('Techniques to activate:', mitreMapping[functionName]);
+                mitreMapping[functionName].forEach(technique => {
+                    mitreActivated.add(technique);
+                    // Add glow animation to the technique cell
+                    const cell = document.querySelector(`[data-technique="${technique}"]`);
+                    console.log('Found cell for', technique, ':', cell);
+                    if (cell) {
+                        // Make the glow SUPER visible
+                        cell.style.boxShadow = '0 0 30px 8px rgba(255, 255, 255, 0.9), inset 0 0 20px rgba(255, 255, 255, 0.3)';
+                        cell.style.border = '3px solid rgba(255, 255, 255, 0.8)';
+                        cell.style.transform = 'scale(1.05)';
+                        cell.style.zIndex = '10';
+                        console.log('Applied glow to', technique);
+                    }
+                });
+                // Update counter
+                const counter = document.getElementById('mitreCounter');
+                if (counter) {
+                    counter.textContent = `${mitreActivated.size}/10`;
+                    console.log('Updated counter to:', mitreActivated.size);
+                }
+            } else {
+                console.log('No mapping found for:', functionName);
+            }
+        }
+        
         // Reset Demo Function - Stops all attacks and clears state
         function resetDemo() {
             // 1. Stop crypto mining
@@ -1576,7 +1741,20 @@
             // 7. Hide loader
             hideLoader();
             
-            // 8. Show confirmation
+            // 8. Reset MITRE counter and highlighting
+            mitreActivated.clear();
+            const counter = document.getElementById('mitreCounter');
+            if (counter) {
+                counter.textContent = '0/10';
+            }
+            document.querySelectorAll('.mitre-technique').forEach(cell => {
+                cell.style.boxShadow = '';
+                cell.style.border = '';
+                cell.style.transform = '';
+                cell.style.zIndex = '';
+            });
+            
+            // 9. Show confirmation
             showOutput('✅ Demo reset complete - All attacks stopped');
             showOutput('→ Ready for next demonstration');
             
@@ -1646,6 +1824,7 @@
 
         // 1. Redirect Loop Attack
         function testRedirectLoop() {
+            activateMitreTechnique('testRedirectLoop');
             // Start tab notification FIRST with threat messages
             startTabNotification(['⚠️ THREAT DETECTED!', '🔒 Security Alert', '☠️ Trojan:Win32/Wacatac', originalTitle]);
             
@@ -1713,20 +1892,8 @@
         }
 
         function showFBILockScreen() {
-            // Request fullscreen mode
-            try {
-                if (document.documentElement.requestFullscreen) {
-                    document.documentElement.requestFullscreen().catch(err => {
-                        console.log('Fullscreen request denied:', err);
-                    });
-                } else if (document.documentElement.webkitRequestFullscreen) {
-                    document.documentElement.webkitRequestFullscreen();
-                } else if (document.documentElement.msRequestFullscreen) {
-                    document.documentElement.msRequestFullscreen();
-                }
-            } catch (e) {
-                console.log('Fullscreen not supported');
-            }
+            // NO FULLSCREEN - keep it simple for demo
+            // Just show the overlay without fullscreen mode
 
             // Create full-screen Microshaft (fake Microsoft) lock overlay
             const overlay = document.createElement('div');
@@ -1858,8 +2025,27 @@
                         <!-- System Info & Demo Note Combined -->
                         <div style="color: #8a8886; font-size: 10px; max-width: 600px; text-align: center;">
                             Alert ID: ${Date.now().toString().slice(-8)} • Windows Defender<br>
-                            <span style="font-style: italic; margin-top: 8px; display: inline-block;">DEMO: Tech support scam - Click × to close</span>
+                            <span style="font-style: italic; margin-top: 8px; display: inline-block;">DEMO: Tech support scam</span>
                         </div>
+                        
+                        <!-- Close Button -->
+                        <button onclick="document.getElementById('fbiLockScreen').remove(); stopTabNotification();" style="
+                            position: absolute;
+                            top: 20px;
+                            right: 20px;
+                            background: rgba(255,255,255,0.2);
+                            border: 2px solid rgba(255,255,255,0.4);
+                            color: white;
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 50%;
+                            font-size: 24px;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            transition: all 0.2s;
+                        " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">×</button>
                     </div>
                 </div>
             `;
@@ -1873,6 +2059,7 @@
 
         // 2. Forced Download Attack
         function testForceDownload() {
+            activateMitreTechnique('testForceDownload');
             clearOutput();
             showOutput('⚠️ MALICIOUS SCRIPT: Attempting unauthorized file download...');
             showOutput('→ MITRE ATT&CK: T1204.002 (Malicious File), T1105 (Ingress Tool Transfer)');
@@ -1911,6 +2098,7 @@
 
         // 3. HTML Smuggling Attack
         function testHTMLSmuggling() {
+            activateMitreTechnique('testHTMLSmuggling');
             clearOutput();
             showOutput('⚠️ MALICIOUS SCRIPT: HTML Smuggling attack initiated');
             showOutput('→ MITRE ATT&CK: T1027 (Obfuscated Files), T1105 (Ingress Tool Transfer)');
@@ -2039,6 +2227,7 @@ MITRE: T1027, T1105
 
         // 4. QR Code Phishing (Quishing)
         function testQRCodePhishing() {
+            activateMitreTechnique('testQRCodePhishing');
             clearOutput();
             showOutput('⚠️ MALICIOUS SCRIPT: QR Code Phishing (Quishing) attack');
             showOutput('→ MITRE ATT&CK: T1566.002 (Spearphishing), T1598 (Phishing for Information)');
@@ -2139,6 +2328,7 @@ MITRE: T1027, T1105
 
         // Fake Chrome Extension Install
         function testFakeChromeExtension() {
+            activateMitreTechnique('testFakeChromeExtension');
             clearOutput();
             showOutput('⚠️ MALICIOUS SCRIPT: Fake Chrome Extension attack');
             showOutput('→ MITRE ATT&CK: T1176 (Browser Extensions), T1539 (Steal Web Session Cookie)');
@@ -2304,6 +2494,7 @@ MITRE: T1027, T1105
         let capturedKeys = [];
 
         function testKeylogger() {
+            activateMitreTechnique('testKeylogger');
             const inputField = document.getElementById('keylogInput');
             const displayField = document.getElementById('keylogDisplay');
             
@@ -2365,6 +2556,7 @@ MITRE: T1027, T1105
         // Variables declared at top of script
 
         function testCryptoMiner() {
+            activateMitreTechnique('testCryptoMiner');
             if (!miningActive) {
                 clearOutput();
                 showOutput('⚠️ MALICIOUS SCRIPT: Cryptocurrency mining script loaded');
@@ -2630,6 +2822,7 @@ MITRE: T1027, T1105
 
         // 6. Data Exfiltration Attempt
         function testDataExfiltration() {
+            activateMitreTechnique('testDataExfiltration');
             clearOutput();
             showOutput('⚠️ MALICIOUS SCRIPT: Data exfiltration attempt');
             showOutput('→ MITRE ATT&CK: T1005 (Data from Local System), T1567 (Exfiltration Over Web Service)');
@@ -2908,6 +3101,7 @@ MITRE: T1027, T1105
 
     <script>
         function showBitBLogin() {
+            activateMitreTechnique('showBitBLogin');
             const bitbWindow = document.getElementById('bitbWindow');
             bitbWindow.style.display = 'flex';
             showOutput('⚠️ BitB Attack: Fake GameDay SSO popup displayed');
@@ -3086,6 +3280,7 @@ MITRE: T1027, T1105
 
     <script>
         function showFakeBrowserUpdate() {
+            activateMitreTechnique('showFakeBrowserUpdate');
             clearOutput();
             showOutput('⚠️ FAKE BROWSER UPDATE: Social engineering attack');
             showOutput('→ Displaying fake Chrome update notification');
