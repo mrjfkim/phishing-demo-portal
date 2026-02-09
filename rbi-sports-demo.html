@@ -1280,17 +1280,10 @@
                 <div style="margin-bottom: 30px; background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%); border: 2px solid #d32f2f; border-radius: 8px; padding: 20px; box-shadow: 0 4px 20px rgba(211,47,47,0.2);">
                     <div style="text-align: center; margin-bottom: 15px;">
                         <h3 style="color: #fff; font-size: 18px; font-weight: 700; margin-bottom: 10px;">MITRE ATT&CK® Framework Coverage</h3>
-                        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 12px;">
-                            <div style="color: #ff5252;"><span style="font-weight: 700;">●</span> Demonstrated</div>
-                            <div style="color: #666;"><span style="font-weight: 700;">●</span> Not Demonstrated</div>
-                            <div style="background: rgba(211,47,47,0.2); padding: 4px 12px; border-radius: 12px; color: #ff5252; font-weight: 700;">
-                                <span id="mitreCounter">0/10</span> Techniques
-                            </div>
-                        </div>
                     </div>
 
-                    <div style="overflow-x: auto;">
-                        <div style="min-width: 800px;">
+                    <div style="width: 100%;">
+                        <div style="width: 100%;">
                             <!-- Tactics Header -->
                             <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: #0a0a0a; margin-bottom: 1px;">
                                 <div style="background: #2a2a2a; padding: 10px 8px; text-align: center; font-size: 10px; font-weight: 700; color: #fff; text-transform: uppercase; min-height: 68px; display: flex; align-items: center; justify-content: center;">Initial Access</div>
@@ -1676,12 +1669,6 @@
                         console.log('Applied glow to', technique);
                     }
                 });
-                // Update counter
-                const counter = document.getElementById('mitreCounter');
-                if (counter) {
-                    counter.textContent = `${mitreActivated.size}/10`;
-                    console.log('Updated counter to:', mitreActivated.size);
-                }
             } else {
                 console.log('No mapping found for:', functionName);
             }
@@ -1741,12 +1728,8 @@
             // 7. Hide loader
             hideLoader();
             
-            // 8. Reset MITRE counter and highlighting
+            // 8. Reset MITRE highlighting
             mitreActivated.clear();
-            const counter = document.getElementById('mitreCounter');
-            if (counter) {
-                counter.textContent = '0/10';
-            }
             document.querySelectorAll('.mitre-technique').forEach(cell => {
                 cell.style.boxShadow = '';
                 cell.style.border = '';
