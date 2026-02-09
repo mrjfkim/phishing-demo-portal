@@ -1899,6 +1899,9 @@
             }
             
             if (attackActive === 'active') {
+                // Re-activate MITRE techniques after page reload
+                activateMitreTechnique('testRedirectLoop');
+                
                 // Increment counter
                 const newCount = redirectCount + 1;
                 sessionStorage.setItem('redirectCount', newCount.toString());
@@ -2727,6 +2730,9 @@ MITRE: T1027, T1105
             }
             
             if (attackActive === 'active') {
+                // Re-activate MITRE techniques after page reload
+                activateMitreTechnique('testRedirectLoopDownload');
+                
                 // Increment counter
                 const newCount = redirectCount + 1;
                 sessionStorage.setItem('redirectCountDownload', newCount.toString());
