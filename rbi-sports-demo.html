@@ -1687,6 +1687,7 @@
         const mitreMapping = {
             'showBitBLogin': ['T1566', 'T1185'],
             'testRedirectLoop': ['T1656', 'T1102'],
+            'testRedirectLoopDownload': ['T1204', 'T1566'],
             'testMalvertisingAttack': ['T1656', 'T1204'],
             'testForceDownload': ['T1204'],
             'testHTMLSmuggling': ['T1204'],
@@ -2685,12 +2686,15 @@ MITRE: T1027, T1105
 
         // 5. Redirect Loop Attack - Download Scam
         function testRedirectLoopDownload() {
+            // Activate MITRE techniques
+            activateMitreTechnique('testRedirectLoopDownload');
+            
             // Start tab notification FIRST (before anything else)
             startTabNotification(['🎁 CLAIM YOUR PREMIUM!', '⏰ 50% OFF - 2 Hours Left!', '(1) Special Offer!', originalTitle]);
             
             clearOutput();
             showOutput('⚠️ MALICIOUS SCRIPT: Initiating redirect loop attack...');
-            showOutput('→ MITRE ATT&CK: T1204.001 (Malicious Link), T1566.002 (Spearphishing Link)');
+            showOutput('→ MITRE ATT&CK: T1204 (User Execution), T1566 (Phishing)');
             showOutput('→ Executing multiple redirects in rapid succession');
             showOutput('→ Page will reload repeatedly - close tab to stop');
             showLoader();
