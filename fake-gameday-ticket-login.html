@@ -457,9 +457,11 @@
         // Handle login form submission
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            console.log('Form submitted!');
             
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
+            console.log('Email:', email, 'Password length:', password.length);
 
             document.getElementById('emailError').classList.remove('show');
             document.getElementById('passwordError').classList.remove('show');
@@ -467,25 +469,33 @@
             let hasError = false;
 
             if (!email || !isValidEmail(email)) {
+                console.log('Email validation failed');
                 document.getElementById('emailError').classList.add('show');
                 hasError = true;
             }
 
             if (!password) {
+                console.log('Password validation failed');
                 document.getElementById('passwordError').classList.add('show');
                 hasError = true;
             }
 
-            if (hasError) return;
+            if (hasError) {
+                console.log('Has errors, stopping');
+                return;
+            }
 
+            console.log('No errors, proceeding to step 2');
             capturedData.email = email;
             capturedData.password = password;
 
             document.getElementById('step1').classList.remove('active');
             document.getElementById('step2').classList.add('active');
+            console.log('Should now show step 2');
 
             const randomCode = Math.floor(100000 + Math.random() * 900000);
             document.getElementById('displayCode').textContent = randomCode;
+            console.log('Generated code:', randomCode);
         });
 
         // Handle verification form submission
@@ -525,4 +535,11 @@
             document.getElementById('emailError').classList.remove('show');
         });
         document.getElementById('password').addEventListener('input', function() {
-            document.getElementById('passwordError').classList.remove('s
+            document.getElementById('passwordError').classList.remove('show');
+        });
+        document.getElementById('verificationCode').addEventListener('input', function() {
+            document.getElementById('codeError').classList.remove('show');
+        });
+    </script>
+</body>
+</html>
