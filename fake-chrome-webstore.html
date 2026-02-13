@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameDay Enhancer - Security Test Extension - Browser Web Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: #fff;
+            color: #202124;
+        }
+
+        /* Header */
+        .header {
+            background: #fff;
+            border-bottom: 1px solid #dadce0;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .browser-logo-small {
+            width: 32px;
+            height: 32px;
+        }
+
+        .store-title {
+            font-size: 22px;
+            color: #5f6368;
+            font-weight: 400;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-link {
+            color: #5f6368;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .header-link:hover {
+            background: #f1f3f4;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            font-size: 14px;
+            color: #5f6368;
+            margin-bottom: 24px;
+        }
+
+        .breadcrumbs a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 40px;
+        }
+
+        /* Left Column */
+        .left-column {
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .extension-icon {
+            width: 128px;
+            height: 128px;
+            margin-bottom: 24px;
+            border-radius: 16px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .extension-title {
+            font-size: 28px;
+            font-weight: 400;
+            color: #202124;
+            margin-bottom: 8px;
+        }
+
+        .extension-author {
+            font-size: 14px;
+            color: #5f6368;
+            margin-bottom: 16px;
+        }
+
+        .extension-author a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+
+        .extension-author a:hover {
+            text-decoration: underline;
+        }
+
+        .rating-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .stars {
+            color: #ffa000;
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+
+        .rating-text {
+            color: #5f6368;
+            font-size: 14px;
+        }
+
+        .install-button {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 16px;
+            transition: background 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .install-button:hover {
+            background: #1557b0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .info-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #e8eaed;
+            font-size: 14px;
+        }
+
+        .info-label {
+            color: #5f6368;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            color: #202124;
+            font-weight: 500;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #e8f0fe;
+            color: #1967d2;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+
+        /* Right Column */
+        .right-column {
+        }
+
+        .tab-nav {
+            display: flex;
+            gap: 32px;
+            border-bottom: 1px solid #dadce0;
+            margin-bottom: 32px;
+        }
+
+        .tab {
+            padding: 12px 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: #5f6368;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            color: #1a73e8;
+            border-bottom-color: #1a73e8;
+        }
+
+        .tab:hover {
+            color: #1a73e8;
+        }
+
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 400;
+            color: #202124;
+            margin-bottom: 16px;
+        }
+
+        .section-content {
+            color: #5f6368;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .screenshot {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #f1f3f4, #e8eaed);
+            border-radius: 8px;
+            border: 1px solid #dadce0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5f6368;
+            font-size: 14px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 12px 0;
+            padding-left: 32px;
+            position: relative;
+            color: #5f6368;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #1a73e8;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .warning-box {
+            background: #fef7e0;
+            border: 1px solid #f9ab00;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 24px 0;
+            display: flex;
+            gap: 12px;
+        }
+
+        .warning-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .warning-text {
+            font-size: 14px;
+            color: #5f6368;
+            line-height: 1.6;
+        }
+
+        .warning-text strong {
+            color: #202124;
+            font-weight: 500;
+        }
+
+        .permissions-list {
+            background: #f8f9fa;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .permission-item {
+            padding: 12px 0;
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            border-bottom: 1px solid #e8eaed;
+        }
+
+        .permission-item:last-child {
+            border-bottom: none;
+        }
+
+        .permission-icon {
+            color: #f9ab00;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .permission-text {
+            flex: 1;
+        }
+
+        .permission-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 4px;
+        }
+
+        .permission-desc {
+            font-size: 13px;
+            color: #5f6368;
+            line-height: 1.5;
+        }
+
+        .reviews-section {
+            margin-top: 32px;
+        }
+
+        .review-card {
+            background: #fff;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a73e8, #1557b0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 500;
+        }
+
+        .reviewer-info {
+            flex: 1;
+        }
+
+        .reviewer-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        .review-date {
+            font-size: 12px;
+            color: #5f6368;
+        }
+
+        .review-stars {
+            color: #ffa000;
+            font-size: 14px;
+        }
+
+        .review-text {
+            font-size: 14px;
+            color: #5f6368;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <!-- Browser Logo (4-segment circular) -->
+            <svg class="browser-logo-small" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <!-- Pink segment (top-right) -->
+                <circle cx="50" cy="50" r="48" fill="#e91e63" clip-path="url(#clipTopRightHeader)"/>
+                <clipPath id="clipTopRightHeader">
+                    <path d="M 50,50 L 98,50 A 48,48 0 0,0 50,2 Z"/>
+                </clipPath>
+                <!-- Cyan segment (top-left) -->
+                <circle cx="50" cy="50" r="48" fill="#00bcd4" clip-path="url(#clipTopLeftHeader)"/>
+                <clipPath id="clipTopLeftHeader">
+                    <path d="M 50,50 L 50,2 A 48,48 0 0,0 2,50 Z"/>
+                </clipPath>
+                <!-- Orange segment (bottom-left) -->
+                <circle cx="50" cy="50" r="48" fill="#ff9800" clip-path="url(#clipBottomLeftHeader)"/>
+                <clipPath id="clipBottomLeftHeader">
+                    <path d="M 50,50 L 2,50 A 48,48 0 0,0 50,98 Z"/>
+                </clipPath>
+                <!-- Purple segment (bottom-right) -->
+                <circle cx="50" cy="50" r="48" fill="#9c27b0" clip-path="url(#clipBottomRightHeader)"/>
+                <clipPath id="clipBottomRightHeader">
+                    <path d="M 50,50 L 50,98 A 48,48 0 0,0 98,50 Z"/>
+                </clipPath>
+                <!-- White center circle -->
+                <circle cx="50" cy="50" r="18" fill="#fff"/>
+            </svg>
+            <span class="store-title">Browser Web Store</span>
+        </div>
+        <div class="header-right">
+            <a href="#" class="header-link">Extensions</a>
+            <a href="#" class="header-link">Themes</a>
+            <a href="#" class="header-link">Apps</a>
+        </div>
+    </div>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <div class="breadcrumbs">
+            <a href="#">Home</a> › <a href="#">Extensions</a> › <a href="#">Productivity</a> › GameDay Enhancer
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Extension Icon -->
+                <img src="data:image/svg+xml,%3Csvg width='128' height='128' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='128' height='128' rx='16' fill='%23ff6600'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='64' fill='white'%3E🏈%3C/text%3E%3C/svg%3E" alt="GameDay Enhancer" class="extension-icon">
+
+                <h1 class="extension-title">GameDay Enhancer</h1>
+                <div class="extension-author">
+                    By <a href="#">GameDay Sports Inc.</a>
+                </div>
+
+                <!-- Rating -->
+                <div class="rating-section">
+                    <span class="stars">★★★★★</span>
+                    <span class="rating-text">4.8 (2,847 ratings)</span>
+                </div>
+
+                <!-- Install Button -->
+                <button class="install-button" onclick="downloadExtension()">Add to Browser</button>
+
+                <!-- Info Items -->
+                <div>
+                    <div class="info-item">
+                        <div class="info-label">Users</div>
+                        <div class="info-value">50,000+</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Category</div>
+                        <div class="info-value">Productivity</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Version</div>
+                        <div class="info-value">1.0.0</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Updated</div>
+                        <div class="info-value">February 12, 2026</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Size</div>
+                        <div class="info-value">8.5 KB</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Languages</div>
+                        <div class="info-value">English (United States)</div>
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                <div style="margin-top: 24px;">
+                    <span class="tag">Sports</span>
+                    <span class="tag">Productivity</span>
+                    <span class="tag">Entertainment</span>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- Tabs -->
+                <div class="tab-nav">
+                    <div class="tab active">Overview</div>
+                    <div class="tab">Reviews</div>
+                    <div class="tab">Support</div>
+                </div>
+
+                <!-- Warning Box -->
+                <div class="warning-box">
+                    <span class="warning-icon">⚠️</span>
+                    <div class="warning-text">
+                        <strong>Security Testing Extension</strong><br>
+                        This extension is designed for browser security training and demonstrations. It requests permissions to demonstrate malicious extension behavior patterns.
+                    </div>
+                </div>
+
+                <!-- Description Section -->
+                <div class="section">
+                    <h2 class="section-title">Overview</h2>
+                    <div class="section-content">
+                        <p style="margin-bottom: 16px;">
+                            GameDay Enhancer is a <strong>security testing tool</strong> designed to demonstrate how malicious browser extensions can request dangerous permissions. This extension is <strong>completely benign</strong> and used exclusively for security awareness training and remote browser isolation (RBI) demonstrations.
+                        </p>
+                        <p style="margin-bottom: 16px;">
+                            When installed, this extension demonstrates the types of permissions that malicious extensions might request, including access to cookies, browsing history, and website content. Security teams can use this to test browser security policies and train employees on extension risks.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Features Section -->
+                <div class="section">
+                    <h2 class="section-title">Features</h2>
+                    <ul class="feature-list">
+                        <li>Demonstrates malicious extension permission patterns</li>
+                        <li>Safe and benign behavior - no actual data collection</li>
+                        <li>Visual indicators when extension is active (orange border)</li>
+                        <li>Educational alerts explaining extension risks</li>
+                        <li>Perfect for security training and RBI testing</li>
+                        <li>Detailed permission explanations for awareness</li>
+                    </ul>
+                </div>
+
+                <!-- Screenshots Section -->
+                <div class="section">
+                    <h2 class="section-title">Screenshots</h2>
+                    <div class="screenshot-grid">
+                        <div class="screenshot">Extension Popup View</div>
+                        <div class="screenshot">Active Indicator</div>
+                        <div class="screenshot">Security Warning</div>
+                    </div>
+                </div>
+
+                <!-- Permissions Section -->
+                <div class="section">
+                    <h2 class="section-title">Permissions</h2>
+                    <div class="section-content">
+                        <p style="margin-bottom: 16px;">
+                            This extension requests the following permissions to demonstrate typical malicious extension behavior:
+                        </p>
+                    </div>
+                    <div class="permissions-list">
+                        <div class="permission-item">
+                            <span class="permission-icon">🌐</span>
+                            <div class="permission-text">
+                                <div class="permission-title">Read and change all your data on all websites</div>
+                                <div class="permission-desc">Demonstrates how malicious extensions can access website content, forms, and sensitive data.</div>
+                            </div>
+                        </div>
+                        <div class="permission-item">
+                            <span class="permission-icon">🍪</span>
+                            <div class="permission-text">
+                                <div class="permission-title">Read and modify cookies</div>
+                                <div class="permission-desc">Shows how extensions can steal session tokens and authentication cookies.</div>
+                            </div>
+                        </div>
+                        <div class="permission-item">
+                            <span class="permission-icon">📑</span>
+                            <div class="permission-text">
+                                <div class="permission-title">View your tabs and browsing activity</div>
+                                <div class="permission-desc">Demonstrates tracking capabilities - monitoring which websites you visit.</div>
+                            </div>
+                        </div>
+                        <div class="permission-item">
+                            <span class="permission-icon">💾</span>
+                            <div class="permission-text">
+                                <div class="permission-title">Store data on your device</div>
+                                <div class="permission-desc">Shows how extensions can save collected data for exfiltration.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reviews Section -->
+                <div class="section">
+                    <h2 class="section-title">Reviews</h2>
+                    <div class="reviews-section">
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">JS</div>
+                                <div class="reviewer-info">
+                                    <div class="reviewer-name">John Smith</div>
+                                    <div class="review-date">February 10, 2026</div>
+                                </div>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                            <div class="review-text">
+                                Excellent tool for security training! We use this in our company-wide security awareness program to demonstrate extension risks. The visual indicators make it easy to show employees how extensions can access sensitive data.
+                            </div>
+                        </div>
+
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">SK</div>
+                                <div class="reviewer-info">
+                                    <div class="reviewer-name">Sarah Kim</div>
+                                    <div class="review-date">February 8, 2026</div>
+                                </div>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                            <div class="review-text">
+                                Perfect for testing our RBI solution! This extension triggers all the right security alerts without actually being malicious. Highly recommend for security teams.
+                            </div>
+                        </div>
+
+                        <div class="review-card">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">MJ</div>
+                                <div class="reviewer-info">
+                                    <div class="reviewer-name">Mike Johnson</div>
+                                    <div class="review-date">February 5, 2026</div>
+                                </div>
+                                <div class="review-stars">★★★★☆</div>
+                            </div>
+                            <div class="review-text">
+                                Great educational tool. Makes it very clear why we need to be careful about extension permissions. Would give 5 stars if there were more examples of different attack vectors.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function downloadExtension() {
+            // Show alert explaining this is a demo
+            alert('🏈 GameDay Enhancer - Security Test Extension\n\n⚠️ DEMO DOWNLOAD\n\nIn a real attack scenario, clicking this button would download and attempt to install a malicious extension.\n\nIsland Enterprise Browser would:\n✅ Detect the dangerous permissions\n✅ Block the installation\n✅ Alert security team\n✅ Log the attempt\n\nThis demonstrates how RBI protects against malicious extensions even when they appear legitimate.\n\nTo actually test the extension:\n1. Download from your GitHub repository\n2. Enable Developer Mode in Browser\n3. Load unpacked extension\n4. Watch Island block it!');
+            
+            // In production, this would trigger download of .crx file:
+            // window.location.href = 'gameday-enhancer-extension.crx';
+        }
+    </script>
+</body>
+</html>
