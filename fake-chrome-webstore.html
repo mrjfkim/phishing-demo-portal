@@ -662,11 +662,8 @@
 
     <script>
         function downloadExtension() {
-            // Show alert explaining this is a demo
-            alert('🏈 GameDay Enhancer - Security Test Extension\n\n⚠️ DEMO DOWNLOAD\n\nIn a real attack scenario, clicking this button would download and attempt to install a malicious extension.\n\nIsland Enterprise Browser would:\n✅ Detect the dangerous permissions\n✅ Block the installation\n✅ Alert security team\n✅ Log the attempt\n\nThis demonstrates how RBI protects against malicious extensions even when they appear legitimate.\n\nTo actually test the extension:\n1. Download from your GitHub repository\n2. Enable Developer Mode in Browser\n3. Load unpacked extension\n4. Watch Island block it!');
-            
-            // In production, this would trigger download of .crx file:
-            // window.location.href = 'gameday-enhancer-extension.crx';
+            // Trigger download of extension from GitHub
+            window.location.href = 'https://mrjfkim.github.io/phishing-demo-portal/gameday-enhancer-extension.crx';
         }
     </script>
 </body>
