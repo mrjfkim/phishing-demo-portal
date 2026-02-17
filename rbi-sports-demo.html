@@ -1758,7 +1758,7 @@
             // CLEAR all previous highlights first
             document.querySelectorAll('.mitre-technique').forEach(cell => {
                 cell.style.boxShadow = '';
-                cell.style.border = '';
+                cell.style.border = '1px solid #444';
                 cell.style.transform = '';
                 cell.style.zIndex = '';
                 cell.style.background = '#000'; // Reset to black
@@ -1777,6 +1777,7 @@
                         // RED highlight with glow
                         cell.style.background = 'linear-gradient(135deg, #d32f2f, #b71c1c)';
                         cell.style.boxShadow = '0 0 30px 8px rgba(211, 47, 47, 0.8), inset 0 0 20px rgba(255, 82, 82, 0.3)';
+                        cell.style.border = '1px solid #ff5252';
                         cell.style.transform = 'scale(1.05)';
                         cell.style.zIndex = '10';
                         console.log('Applied RED glow to', technique);
@@ -1845,10 +1846,10 @@
             mitreActivated.clear();
             document.querySelectorAll('.mitre-technique').forEach(cell => {
                 cell.style.boxShadow = '';
-                cell.style.border = '';
+                cell.style.border = '1px solid #444';
                 cell.style.transform = '';
                 cell.style.zIndex = '';
-                cell.style.background = '#000'; // Reset to black
+                cell.style.background = '#000';
             });
             
             // 9. Show confirmation
