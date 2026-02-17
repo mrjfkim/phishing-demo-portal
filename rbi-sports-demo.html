@@ -1481,7 +1481,7 @@
                             🧩 Install GameDay Enhancer
                             <span style="position: absolute; top: -10px; right: -10px; background: linear-gradient(135deg, #00ff88, #00cc6a); color: #000; font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 12px; letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,255,136,0.4); border: 1px solid #00ff88; z-index: 10;">NEW</span>
                         </button>
-                        <div class="demo-info">Malicious Browser Extension<br>T1176 (Browser Extensions), T1539 (Steal Web Session Cookie)</div>
+                        <div class="demo-info">Real Chrome Web Store Extension - Policy Bypass<br>T1176 (Browser Extensions), T1204 (User Execution)</div>
                     </div>
                 </div>
                 
@@ -1744,7 +1744,7 @@
             'testForceDownload': ['T1204'],
             'testHTMLSmuggling': ['T1204'],
             'testQRCodePhishing': ['T1598'],
-            'testFakeBrowserExtension': ['T1176', 'T1539'],
+            'testFakeBrowserExtension': ['T1176', 'T1204'],
             'testCryptoMiner': ['T1496'],
             'testKeylogger': ['T1056.001'],
             'testDataExfiltration': ['T1539'],
@@ -2237,10 +2237,10 @@ MITRE: T1027, T1105
         function testFakeBrowserExtension() {
             activateMitreTechnique('testFakeBrowserExtension');
             clearOutput();
-            showOutput('⚠️ MALICIOUS SCRIPT: Fake Browser Extension attack');
-            showOutput('→ MITRE ATT&CK: T1176 (Browser Extensions), T1539 (Steal Web Session Cookie)');
-            showOutput('→ Displaying fake extension install prompt');
-            showOutput('→ Extensions have full browser permissions');
+            showOutput('⚠️ ATTACK DEMO: Real Chrome Web Store Extension - Policy Bypass');
+            showOutput('→ MITRE ATT&CK: T1176 (Browser Extensions), T1204 (User Execution)');
+            showOutput('→ Extension is APPROVED by Google on the real Chrome Web Store');
+            showOutput('→ Appears completely legitimate - sports scores widget');
             showLoader();
             
             // Start tab notification
@@ -2248,10 +2248,13 @@ MITRE: T1027, T1105
 
             setTimeout(() => {
                 hideLoader();
-                showOutput('✓ Malicious extension prompt displayed');
+                showOutput('✓ Opening real Chrome Web Store listing');
                 showOutput('→ Extension requests: Read/change all site data');
                 showOutput('→ Extension requests: Manage downloads');
-                showOutput('→ Extension requests: Access cookies');
+                showOutput('→ Extension requests: Access browsing activity');
+                showOutput('→ Island blocks based on POLICY - not just Chrome\'s review process');
+                showOutput('→ Even Google-approved extensions can be weaponized');
+                window.open('https://chromewebstore.google.com/detail/fllgepomgoimffnoiehcpmicpiclfoao', '_blank');
                 
                 // Create fake Browser extension install overlay
                 const overlay = document.createElement('div');
