@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | Salesforce</title>
+<link rel="icon" href="https://login.salesforce.com/favicon.ico" type="image/x-icon">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Salesforce Sans', Arial, Helvetica, sans-serif;
+    background: #f4f6f9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Main container ── */
+  .login-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 16px;
+  }
+
+  .login-card {
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.08);
+    width: 100%;
+    max-width: 400px;
+    padding: 40px 32px 32px;
+  }
+
+  /* ── Logo ── */
+  .logo-area {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .logo-area svg {
+    height: 35px;
+    width: auto;
+  }
+
+  .logo-area .logo-text {
+    display: block;
+    color: #032e61;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+    margin-top: 4px;
+  }
+
+  /* ── Form ── */
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 400;
+    color: #3e3e3c;
+    margin-bottom: 4px;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #c9c7c5;
+    border-radius: 4px;
+    outline: none;
+    color: #16325c;
+    transition: border-color .15s, box-shadow .15s;
+  }
+
+  .form-group input:focus {
+    border-color: #1b96ff;
+    box-shadow: 0 0 3px 0 #1b96ff;
+  }
+
+  .remember-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .remember-row input[type="checkbox"] {
+    margin-right: 6px;
+    accent-color: #0070d2;
+  }
+
+  .remember-row label {
+    font-size: 13px;
+    color: #3e3e3c;
+    cursor: pointer;
+  }
+
+  .login-btn {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background: #0070d2;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background .15s;
+  }
+
+  .login-btn:hover {
+    background: #005fb2;
+  }
+
+  .login-btn:active {
+    background: #004e91;
+  }
+
+  /* ── Links ── */
+  .links-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+
+  .links-row a {
+    font-size: 12px;
+    color: #0070d2;
+    text-decoration: none;
+  }
+
+  .links-row a:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Divider ── */
+  .or-divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    gap: 12px;
+  }
+
+  .or-divider hr {
+    flex: 1;
+    border: none;
+    border-top: 1px solid #d8dde6;
+  }
+
+  .or-divider span {
+    font-size: 12px;
+    color: #706e6b;
+    text-transform: lowercase;
+  }
+
+  /* ── Try Free ── */
+  .try-free {
+    text-align: center;
+    margin-top: 16px;
+  }
+
+  .try-free span {
+    font-size: 13px;
+    color: #706e6b;
+  }
+
+  .try-free a {
+    font-size: 13px;
+    color: #0070d2;
+    text-decoration: none;
+    margin-left: 4px;
+  }
+
+  .try-free a:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 16px;
+    font-size: 11px;
+    color: #706e6b;
+  }
+
+  .footer a {
+    color: #0070d2;
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+  }
+
+  /* ── PHISHED OVERLAY ── */
+  .phish-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0,0,0,.55);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn .3s ease;
+  }
+
+  .phish-overlay.active {
+    display: flex;
+  }
+
+  .phish-card {
+    background: #fff;
+    border-radius: 12px;
+    max-width: 540px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,.3);
+    animation: slideUp .4s ease;
+  }
+
+  .phish-header {
+    background: linear-gradient(135deg, #c23934 0%, #8b0000 100%);
+    color: #fff;
+    padding: 32px 32px 28px;
+    text-align: center;
+  }
+
+  .phish-header .shield-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+
+  .phish-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .phish-header p {
+    font-size: 14px;
+    opacity: .9;
+  }
+
+  .phish-body {
+    padding: 28px 32px 32px;
+  }
+
+  .phish-body h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #16325c;
+    margin-bottom: 12px;
+  }
+
+  .phish-body p {
+    font-size: 14px;
+    color: #3e3e3c;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .phish-body ul {
+    margin: 0 0 20px 20px;
+    font-size: 13px;
+    color: #3e3e3c;
+    line-height: 1.8;
+  }
+
+  .phish-body ul li::marker {
+    color: #c23934;
+  }
+
+  .credential-preview {
+    background: #fef0ef;
+    border: 1px solid #f3c4c2;
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #c23934;
+  }
+
+  .credential-preview strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #8b0000;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+  }
+
+  .credential-preview .value {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    word-break: break-all;
+  }
+
+  .phish-dismiss {
+    width: 100%;
+    padding: 12px;
+    background: #0070d2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .15s;
+  }
+
+  .phish-dismiss:hover {
+    background: #005fb2;
+  }
+
+  .banner-tag {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #ff5630;
+    color: #fff;
+    text-align: center;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 10000;
+    letter-spacing: .3px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0 }
+    to { opacity: 1 }
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0 }
+    to { transform: translateY(0); opacity: 1 }
+  }
+</style>
+</head>
+<body>
+
+<!-- Persistent demo banner so no one mistakes this for real -->
+<div class="banner-tag">⚠ PHISHING AWARENESS DEMO — This is NOT a real Salesforce login page ⚠</div>
+
+<div class="login-wrapper" style="padding-top: 60px;">
+  <div class="login-card">
+
+    <!-- Salesforce logo -->
+    <div class="logo-area">
+      <img src="https://login.salesforce.com/img/logo214.svg" alt="Salesforce" style="height:32px;width:auto;">
+    </div>
+
+    <!-- Login form -->
+    <form id="loginForm" autocomplete="off">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" autocomplete="off">
+      </div>
+      <div class="remember-row">
+        <input type="checkbox" id="remember" name="remember">
+        <label for="remember">Remember me</label>
+      </div>
+      <button type="submit" class="login-btn">Log In</button>
+    </form>
+
+    <div class="links-row">
+      <a href="#" onclick="return false;">Forgot Your Password?</a>
+      <a href="#" onclick="return false;">Use Custom Domain</a>
+    </div>
+
+    <div class="or-divider">
+      <hr><span>or</span><hr>
+    </div>
+
+    <div class="try-free">
+      <span>Not a customer?</span>
+      <a href="#" onclick="return false;">Try for Free</a>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  © 2026 Salesforce, Inc. All rights reserved. |
+  <a href="#" onclick="return false;">Privacy</a>
+</div>
+
+<!-- ── PHISHED OVERLAY ── -->
+<div class="phish-overlay" id="phishOverlay">
+  <div class="phish-card">
+    <div class="phish-header">
+      <div class="shield-icon">🛡️</div>
+      <h2>You've Been Phished!</h2>
+      <p>This is a phishing awareness demonstration</p>
+    </div>
+    <div class="phish-body">
+      <p>You entered your credentials into a fake login page. In a real attack, your username and password would now be compromised.</p>
+
+      <div class="credential-preview">
+        <strong>You entered:</strong>
+        <div class="value" id="capturedUser">—</div>
+        <div class="value" id="capturedPass">—</div>
+      </div>
+
+      <button class="phish-dismiss" id="dismissBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Nothing is sent anywhere — purely client-side demo
+  const form = document.getElementById('loginForm');
+  const overlay = document.getElementById('phishOverlay');
+  const capturedUser = document.getElementById('capturedUser');
+  const capturedPass = document.getElementById('capturedPass');
+  const dismissBtn = document.getElementById('dismissBtn');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value;
+
+    if (!user || !pass) return;
+
+    // Show what was captured (masked password)
+    capturedUser.textContent = 'Username: ' + user;
+    capturedPass.textContent = 'Password: ' + '•'.repeat(pass.length) + '  (' + pass.length + ' characters)';
+
+    // Show the phishing awareness overlay
+    overlay.classList.add('active');
+  });
+
+  dismissBtn.addEventListener('click', function() {
+    overlay.classList.remove('active');
+    form.reset();
+  });
+</script>
+
+</body>
+</html>
