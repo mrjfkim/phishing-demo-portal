@@ -230,8 +230,9 @@
     }
     .wall-thumb {
       width: 100%;
-      aspect-ratio: 16 / 10;
-      object-fit: cover;
+      aspect-ratio: 16 / 9;
+      object-fit: contain;
+      background: var(--card-bg);
       display: block;
       filter: brightness(0.9);
       transition: filter 0.3s;
@@ -345,10 +346,11 @@
     .featured-img {
       width: 350px;
       height: 220px;
-      object-fit: cover;
+      object-fit: contain;
       border-radius: 10px;
       border: 2px solid rgba(255,107,0,0.3);
       flex-shrink: 0;
+      background: var(--card-bg);
     }
     .featured-info { position: relative; z-index: 2; }
     .featured-info .fi-tag {
